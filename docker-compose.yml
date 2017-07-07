@@ -1,0 +1,71 @@
+version:  '3.2'
+services:
+  nginx:
+    build: ./dockerfiles/nginx/
+    container_name: nginx-server
+    ports:
+      - "80:80"
+    links:
+      - "php-fpm"
+    volumes:
+#网站目录
+      - ./app:/var/www/html
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
+#日志文件
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - redis-db
+    restart: always
+    expose:
+      - "80"
+      - "6379"
+      - "3306"
+      - "9000"
+    command: nginx -g 'daemon off;'
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+#很重要导入到处数据
+    volumes:
+      - ./data/mysql:/var/lib/mysql:rw
+      - ./dockerfiles/mysql/my.conf:/etc/my.conf:ro
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: zhaojun
+        MYSQL_DATABASE: package_v1
+        MYSQL_USER: zhaojun
+        MYSQL_PASSWORD: zhaojun
+  redis-db:
+    build: ./dockerfiles/redis
+    container_name: redis-db
+    restart: always
+    volumes:
+      - ./data/redis:/data
+  php-fpm:
+    build: ./dockerfiles/php/
+    container_name: php-fpm
+    restart: always
+    volumes:
+#网站目录
+      - ./app:/var/www/html:rw
+#配置文件
+      - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
+
+#挂载站点日志
+      - ./logs/php-fpm:/var/log/php-fpm:rw
+    depends_on:
+      - mysql-db
+      - redis-db
+    links:
+      - mysql-db
+      - redis-db
+    command: php-fpm
+##第一次迁移数据所需的镜像 version0.3 README手动迁移
+#  mysql-database:
+#    image: mysql:5.7
+#    volumes:
+#      - ./data/backup:/data/backup
+volumes:
+  wwwroot:
+    driver: local
