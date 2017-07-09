@@ -12,3 +12,4 @@
 /logs/nginx/*.log
 /logs/php-fpm/*.log
 /logs/redis/*.log
+docker-compose

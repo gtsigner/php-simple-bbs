@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,UAAW;EACT,UAAU,EAAE,GAAG;EACf,+BAAqB;IACnB,OAAO,EAAE,IAAI;IACb,UAAU,EAAE,IAAI;IAChB,UAAU,EAAE,gBAAgB",
+"sources": ["page-auth.scss"],
+"names": [],
+"file": "app.css"
+}

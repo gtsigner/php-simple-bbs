@@ -1,0 +1,15 @@
+{
+  "name": "101-BBS",
+  "version": "1.0.0",
+  "keywords": [
+    "101v BBs"
+  ],
+  "main": "app.js",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "vue": "^2.3.4",
+    "bootstrap": "^3.3.7",
+    "requirejs": "^2.3.3",
+    "require-css": "^0.1.10"
+  }
+}

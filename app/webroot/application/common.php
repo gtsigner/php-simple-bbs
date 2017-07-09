@@ -10,3 +10,13 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+function getSystemVersion()
+{
+
+}
+
+function getStaticVersion()
+{
+    return mt_rand(0, 10000) * mt_rand(0, 10000);
+}
