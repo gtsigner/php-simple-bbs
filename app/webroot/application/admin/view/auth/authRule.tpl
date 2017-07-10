@@ -1,4 +1,7 @@
 {extend name="base/common"}
-{block}
+{block name="body"}
+
+
+
 
 {/block}

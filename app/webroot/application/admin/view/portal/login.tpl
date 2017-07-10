@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="" class="control-label">验证码：</label>
                         <div class="input-group">
-                            <input type="password" name="password" class="form-control input-lg" value="">
+                            <input type="text" name="verify_code" class="form-control input-lg" value="">
                             <div class="input-group-addon" style="padding: 0">
                                 <img style="height: 40px;cursor: pointer"
                                      class="auth-verify-img"

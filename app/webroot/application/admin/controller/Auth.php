@@ -25,8 +25,9 @@ class Auth extends Base
         if ($this->mUser['admin']['is_root'] !== 1) {
             $this->_checkAuth();
         }
-        $tree = AuthCache::getAuthRulesTree(1);
+        $tree = AuthCache::getAuthRulesTree(1, $this->request->module());
         $this->mAuthMenu = $tree->DeepTree();
+
         $this->assign('_user', $this->mUser);
         $this->assign('_menu', $this->mAuthMenu);
     }
@@ -64,14 +65,21 @@ class Auth extends Base
 
     public function index()
     {
-        $rules = model("auth_rule")->where([])->select();
 
         return $this->fetch();
     }
 
     public function authRule()
     {
+        if ($this->request->isPost()) {
+            //json
 
 
+        } else {
+            $tree = AuthCache::getAuthRulesTree();
+            $menus = $tree->DeepTree();
+            $this->assign('data_list', $menus);
+            return $this->fetch();
+        }
     }
 }

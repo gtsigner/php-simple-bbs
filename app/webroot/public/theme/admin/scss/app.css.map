@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAAA,UAAW;EACT,UAAU,EAAE,GAAG;EACf,+BAAqB;IACnB,OAAO,EAAE,IAAI;IACb,UAAU,EAAE,IAAI;IAChB,UAAU,EAAE,gBAAgB",
-"sources": ["page-auth.scss"],
+"mappings": "AAAA,UAAW;EACT,UAAU,EAAE,GAAG;EACf,+BAAqB;IACnB,OAAO,EAAE,IAAI;IACb,UAAU,EAAE,IAAI;IAChB,UAAU,EAAE,gBAAgB;;ACHhC,eAAgB;EAEd,OAAO,EAAE,MAAM;;AAGjB,wBAAyB;EACvB,OAAO,EAAE,SAAS",
+"sources": ["page-auth.scss","app.scss"],
 "names": [],
 "file": "app.css"
 }

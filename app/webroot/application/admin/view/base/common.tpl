@@ -13,9 +13,13 @@
             paths: {
                 jquery: 'jquery/dist/jquery.min',
                 bootstrap: 'bootstrap/dist/js/bootstrap.min',
-                bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
+                vue: 'vue/dist/vue.min',
+                axios: 'axios/dist/axios.min',
+                layer: 'layer/build/layer',
                 //Css
-                appCss: '../theme/admin/scss/app'
+                appCss: '../theme/admin/scss/app',
+                bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
+                layerCss: 'layer/build/skin/default/layer'
             },
             map: {
                 '*': {
@@ -25,11 +29,15 @@
             shim: {
                 bootstrap: {
                     deps: ['jquery']
+                },
+                layer: {
+                    deps: ['jquery', 'css!layerCss']
                 }
             }
         });
         requirejs(['jquery', 'bootstrap'], function ($, bootstrap) {
             console.log($);
+            $.support.transition = true;
         });
     </script>
 </head>

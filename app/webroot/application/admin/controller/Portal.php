@@ -23,8 +23,9 @@ class Portal extends Base
     {
         Session::set("user_token", ['id' => 1, 'username' => 'admin']);
         if ($this->request->isPost()) {
-            $username = $this->request->post("username");
-            $password = $this->request->post('password');
+            $username = $this->request->post("username", null, "trim");
+            $password = $this->request->post('password', null, 'trim');
+
             $user = User::get([
                 'username' => $username,
                 'password' => Utils::encodeUserPassword($password, $username),

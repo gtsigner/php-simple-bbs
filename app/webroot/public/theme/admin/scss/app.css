@@ -5,4 +5,10 @@
     background: #eee;
     box-shadow: 2px 2px 2px #ddd; }
 
+.main-container {
+  padding: 0 20px; }
+
+.data-list-header-action {
+  padding: 10px 20px; }
+
 /*# sourceMappingURL=app.css.map */

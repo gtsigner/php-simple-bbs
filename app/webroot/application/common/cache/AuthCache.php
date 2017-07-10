@@ -21,7 +21,7 @@ class AuthCache
         if (!empty($module)) {
             $map['module'] = $module;
         }
-        $rules = AuthRule::where($map)->field("*,pid as parent")->select();
+        $rules = AuthRule::where($map)->field("*,pid as parent")->order('sort ASC')->select();
         $rules = collection($rules)->toArray();
         return $rules;
     }

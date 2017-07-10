@@ -10,6 +10,8 @@
     "vue": "^2.3.4",
     "bootstrap": "^3.3.7",
     "requirejs": "^2.3.3",
-    "require-css": "^0.1.10"
+    "require-css": "^0.1.10",
+    "axios": "^0.16.2",
+    "layer": "^3.0.3"
   }
 }
