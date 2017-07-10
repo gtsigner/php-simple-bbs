@@ -8,17 +8,15 @@
 namespace app\admin\controller;
 
 
-use function Couchbase\defaultDecoder;
-use think\Request;
-use think\Route;
+use app\common\cache\AuthCache;
 use think\Session;
 use app\common\core\Auth as ViewAuth;
-use think\View;
 
 class Auth extends Base
 {
     #region start
     protected $mUser = null;
+    protected $mAuthMenu = null;
 
     public function _initialize()
     {
@@ -27,7 +25,10 @@ class Auth extends Base
         if ($this->mUser['admin']['is_root'] !== 1) {
             $this->_checkAuth();
         }
-
+        $tree = AuthCache::getAuthRulesTree(1);
+        $this->mAuthMenu = $tree->DeepTree();
+        $this->assign('_user', $this->mUser);
+        $this->assign('_menu', $this->mAuthMenu);
     }
 
     private function _checkLogin()
@@ -55,6 +56,8 @@ class Auth extends Base
             default:
                 break;
         }
+
+
     }
 
     #endregion
@@ -68,6 +71,7 @@ class Auth extends Base
 
     public function authRule()
     {
+
 
     }
 }

@@ -47,4 +47,10 @@ class Portal extends Base
         $captcha = new Captcha((array)Config::get('captcha'));
         return $captcha->entry(1);
     }
+
+    public function logout()
+    {
+        Session::delete("user_token");
+        $this->success("注销成功", url('portal/login'));
+    }
 }

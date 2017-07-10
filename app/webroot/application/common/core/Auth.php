@@ -78,13 +78,14 @@ class Auth
             return self::$AUTH_CODES['denial'];
         }
 
-        //4.验证回调callback
+        //4.验证回调GroupAccess的callback
         $rc = new \ReflectionClass(self::class);
-        if ($rc->hasMethod($systemRule['callback'])) {
-            return call_user_func(array(self::class, $systemRule['callback']), $rule, $uid);
+        if ($rc->hasMethod($authGroupAccess['callback'])) {
+            return call_user_func(array(self::class, $authGroupAccess['callback']), $rule, $uid);
         }
+
         //5.验证方法
-        if (!empty($systemRule['method']) && Request::instance()->method() !== strtoupper($systemRule['method'])) {
+        if (!empty($authGroupAccess['method']) && Request::instance()->method() !== strtoupper($authGroupAccess['method'])) {
             return self::$AUTH_CODES['denial_method'];
         }
 

@@ -52,39 +52,30 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">权限管理 <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{:url('auth/authRule')}">权限菜单</a></li>
-                            <li><a href="{:url('auth/authGroup')}">权限分组</a></li>
-                            <li><a href="{:url('auth/authGroupAccess')}">用户权限</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">后台限制日志</a></li>
-                            <li><a href="#">前台用户限制日志</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
+                {volist name="_menu" id="vo"}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">{$vo.title} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {php}if(!array_key_exists('children',$vo)){ continue; }{/php}
+                                {volist name="vo.children" id="voc"}
+                                    <li><a href="{:url($voc['rule'])}">{$voc.title}</a></li>
+                                {/volist}
+                            </ul>
+                        </li>
+                    </ul>
+                {/volist}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Link</a></li>
+                    <li><a href="#">邮件</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">权限管理 <span class="caret"></span></a>
+                           aria-expanded="false">{$_user.username} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">个人资料</a></li>
+                            <li><a href="#">修改密码</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="{:url('portal/logout')}">注 销</a></li>
                         </ul>
                     </li>
                 </ul>
