@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="__STATIC__/requirejs/require.js"></script>
-    <script src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
+    <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
+    <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__THEME__/scss/app.css">
     <script>
         requirejs.config({
             baseUrl: '/static',
@@ -14,7 +16,6 @@
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
                 //Css
                 appCss: '../theme/admin/scss/app'
-
             },
             map: {
                 '*': {
@@ -23,14 +24,13 @@
             },
             shim: {
                 bootstrap: {
-                    deps: ['jquery', 'css!bootstrapCss', 'css!appCss']
+                    deps: ['jquery']
                 }
             }
         });
         requirejs(['jquery', 'bootstrap'], function ($, bootstrap) {
             console.log($);
         });
-
     </script>
 </head>
 <body>
@@ -47,7 +47,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Brand</a>
+                <a class="navbar-brand" href="#">后台管理</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -57,15 +57,14 @@
                     <li><a href="#">Link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Dropdown <span class="caret"></span></a>
+                           aria-expanded="false">权限管理 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="{:url('auth/authRule')}">权限菜单</a></li>
+                            <li><a href="{:url('auth/authGroup')}">权限分组</a></li>
+                            <li><a href="{:url('auth/authGroupAccess')}">用户权限</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li><a href="#">后台限制日志</a></li>
+                            <li><a href="#">前台用户限制日志</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -79,7 +78,7 @@
                     <li><a href="#">Link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Dropdown <span class="caret"></span></a>
+                           aria-expanded="false">权限管理 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Action</a></li>
                             <li><a href="#">Another action</a></li>

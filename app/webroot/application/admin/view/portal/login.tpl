@@ -21,14 +21,30 @@
                         <label for="" class="control-label">验证码：</label>
                         <div class="input-group">
                             <input type="password" name="password" class="form-control input-lg" value="">
-                            <div class="input-group-addon">
-                                <img class="auth-verify-img" src="{:url('portal/getVerify')}" alt="">
+                            <div class="input-group-addon" style="padding: 0">
+                                <img style="height: 40px;cursor: pointer"
+                                     class="auth-verify-img"
+                                     src="{:url('portal/getVerify')}"
+                                     alt="">
                             </div>
                         </div>
-
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block">登陆</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        require(['jquery'], function ($) {
+
+            //验证码
+            $('.auth-verify-img').click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                $this.attr('src', "{:url('portal/getVerify')}?v=" + Math.random());
+            });
+        });
+    </script>
 {/block}
