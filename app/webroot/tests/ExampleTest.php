@@ -10,11 +10,18 @@
 // +----------------------------------------------------------------------
 namespace tests;
 
+use app\common\cache\AuthCache;
+
 class ExampleTest extends TestCase
 {
 
     public function testBasicExample()
     {
         $this->visit('/')->see('ThinkPHP');
+    }
+
+    public function testGetRules()
+    {
+        AuthCache::getAuthRules(1);
     }
 }

@@ -28,6 +28,7 @@ class Auth
     {
     }
 
+
     /**
      * Email:zhaojunlike@gmail.com
      * @return Auth
