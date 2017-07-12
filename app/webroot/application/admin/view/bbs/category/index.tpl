@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label">排序(小号在前)</label>
-                                    <input type="number" name="sort" class="form-control" v-model="tmp_category.number">
+                                    <input type="number" name="sort" class="form-control" v-model="tmp_category.sort">
                                 </div>
 
                                 <div class="form-group">
@@ -34,7 +34,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" >关闭</button>
                             <button type="button" class="btn btn-primary" v-on:click="addCategory">确认新增</button>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                 data: {
                     data_list: [],
                     tmp_category: {
-                        title: '', number: 0, mark: ''
+                        title: '', sort: 0, mark: ''
                     }
                 },
                 methods: {

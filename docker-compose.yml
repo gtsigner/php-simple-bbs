@@ -1,7 +1,8 @@
-version:  '3.2'
+version:  '3.0'
 services:
   nginx:
     build: ./dockerfiles/nginx/
+#    image: nginx:1.13.2
     container_name: nginx-server
     ports:
       - "80:80"
@@ -9,18 +10,17 @@ services:
       - "php-fpm"
     volumes:
 #网站目录
-      - ./app:/var/www/html
+      - ./app:/app:rw
+      #nginx default config
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 #日志文件
-      - ./logs/nginx:/var/log/nginx
+      - ./logs/nginx:/var/log/nginx:rw
     depends_on:
       - redis-db
     restart: always
     expose:
       - "80"
-      - "6379"
-      - "3306"
-      - "9000"
     command: nginx -g 'daemon off;'
   mysql-db:
     image: mysql:5.6
@@ -51,7 +51,7 @@ services:
     restart: always
     volumes:
 #网站目录
-      - ./app:/var/www/html:rw
+      - ./app:/app:rw
 #配置文件
       - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
@@ -70,5 +70,4 @@ services:
 #    volumes:
 #      - ./data/backup:/data/backup
 volumes:
-  wwwroot:
-    driver: local
+  app-data:

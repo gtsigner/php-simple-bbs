@@ -12,5 +12,6 @@ use think\Controller;
 
 class Base extends Controller
 {
+    protected $page_limit = 18;
 
 }

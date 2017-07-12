@@ -13,4 +13,18 @@ use think\Model;
 class BbsPost extends Model
 {
 
+    public function category()
+    {
+        return $this->hasOne("bbs_category", 'id', 'category_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne("user", 'id', 'uid');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('BbsComment', 'post_id', 'id');
+    }
 }

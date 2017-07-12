@@ -17,11 +17,13 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "topthink/framework": "^5.0",
+    "topthink/framework": "^5.0.6",
     "topthink/think-captcha": "^1.0",
     "topthink/think-testing": "^1.0",
     "bluem/tree": "^1.5",
-    "oeynet/helper": "^0.1"
+    "oeynet/helper": "^0.1",
+    "oeynet/add-captcha": "^0.1.0",
+    "voku/anti-xss": "^2.1"
   },
   "autoload": {
     "psr-4": {

@@ -50,7 +50,7 @@ class Category extends Auth
             $category = new BbsCategory();
             $ret = $category->insert([
                 'title' => $this->request->request('title'),
-                'sort' => $this->request->request('sort', 0),
+                'sort' => $this->request->request('sort'),
                 'mark' => $this->request->request('mark'),
             ]);
             if ($ret) {
@@ -61,6 +61,10 @@ class Category extends Auth
         }
     }
 
+    /**
+     * api get
+     * Email:zhaojunlike@gmail.com
+     */
     public function getCategory()
     {
         $data = BbsCategory::where([])->order('sort ASC')->select();

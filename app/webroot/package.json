@@ -1,0 +1,17 @@
+{
+  "name": "webroot",
+  "version": "1.0.0",
+  "description": "安装前端依赖库\r ```text\r $bower install\r ```",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vuejs-paginate": "^1.1.0"
+  }
+}

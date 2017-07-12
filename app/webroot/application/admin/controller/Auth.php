@@ -74,7 +74,6 @@ class Auth extends Base
         if ($this->request->isPost()) {
             //json
 
-
         } else {
             $tree = AuthCache::getAuthRulesTree();
             $menus = $tree->DeepTree();

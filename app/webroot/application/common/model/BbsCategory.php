@@ -13,4 +13,8 @@ use think\Model;
 class BbsCategory extends Model
 {
 
+    public function posts()
+    {
+        return $this->hasMany("bbs_post", 'category_id');
+    }
 }

@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>-后台管理</title>
     <script src="__STATIC__/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
     <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="__THEME__/scss/app.css">
     <script>
+        var ThinkQuick = {
+            module: '',
+            controller: '',
+            action: '',
+        };
         requirejs.config({
             baseUrl: '/static',
             paths: {
@@ -19,7 +24,8 @@
                 //Css
                 appCss: '../theme/admin/scss/app',
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
-                layerCss: 'layer/build/skin/default/layer'
+                layerCss: 'layer/build/skin/default/layer',
+                vuePager: 'vuejs-paginate/dist/index'
             },
             map: {
                 '*': {

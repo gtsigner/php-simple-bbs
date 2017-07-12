@@ -12,8 +12,19 @@ use think\Model;
 
 class User extends Model
 {
+
     public function admin()
     {
         return $this->hasOne("admin", 'uid');
+    }
+
+    public function authGroup()
+    {
+
+    }
+
+    public function headPic()
+    {
+        return $this->hasOne('bbs_picture', 'id', 'head_pic_id');
     }
 }
