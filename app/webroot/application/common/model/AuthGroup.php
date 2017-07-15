@@ -13,4 +13,14 @@ use think\Model;
 class AuthGroup extends Model
 {
 
+    //获取access
+    public function access()
+    {
+        return $this->hasMany("auth_group_access", 'group_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany("auth_user_group", 'group_id', 'id');
+    }
 }

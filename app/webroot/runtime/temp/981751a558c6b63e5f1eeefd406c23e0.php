@@ -1,11 +1,11 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:65:"/app/webroot/public/../application/index/view/bbs/post/detail.tpl";i:1499858302;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1499843957;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:65:"/app/webroot/public/../application/index/view/bbs/post/detail.tpl";i:1500117245;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500116989;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <title>-首页</title>
+    <meta name="keywords" content="<?php echo (isset($_rule['title']) && ($_rule['title'] !== '')?$_rule['title']:config('WEB_SITE_KEYWORDS')); ?>">
+    <meta name="description" content="<?php echo (isset($_rule['title']) && ($_rule['title'] !== '')?$_rule['title']:config('WEB_SITE_DESC')); ?>">
+    <title><?php echo (isset($_rule['title']) && ($_rule['title'] !== '')?$_rule['title']:config('WEB_SITE_TITLE')); ?>-首页</title>
 
     <script src="__STATIC__/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v=<?php echo getStaticVersion(); ?>"></script>
@@ -24,9 +24,11 @@
                 appCss: '../theme/admin/scss/app',
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
                 layerCss: 'layer/build/skin/default/layer',
-                vuePager: 'vuejs-paginate/dist/index',
                 wangEditor: 'wangEditor/release/wangEditor.min',
-                wangEditorCss: 'wangEditor/release/wangEditor.min'
+                wangEditorCss: 'wangEditor/release/wangEditor.min',
+                animateCss: 'animate.css/animate.min',
+                vuePager: 'vuejs-paginate/dist/index',
+                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min'
             },
             map: {
                 '*': {
@@ -35,7 +37,7 @@
             },
             shim: {
                 bootstrap: {
-                    deps: ['jquery']
+                    deps: ['jquery', 'css!animateCss']
                 },
                 layer: {
                     deps: ['jquery', 'css!layerCss']
@@ -52,15 +54,16 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container main-box">
     
         <div class="row header-adv show">
-            <img style="width:100%;height: 100%" src="http://imgad0.pconline.com.cn/ivy/image/20175/26/14957632245480.jpg?IVY_LEVEL_0?457727_329033" alt="">
+            <img style="width:100%;height: 100%"
+                 src="http://imgad0.pconline.com.cn/ivy/image/20175/26/14957632245480.jpg?IVY_LEVEL_0?457727_329033"
+                 alt="">
         </div>
         <div class="row system-total">
             <ul class="list-inline">
                 <li class="item">游客人数：<span><?php echo $_total['current_viewer']; ?></span></li>
-                <li>登陆次数：<span><?php echo $_total['login_count']; ?></span></li>
                 <li>在线人数： <span><?php echo $_total['current_online']; ?></span></li>
                 <li>会员总数：<span><?php echo $_total['user_count']; ?></span></li>
                 <li>今日发帖：<span><?php echo $_total['today_post_count']; ?></span></li>
@@ -108,7 +111,6 @@
                                        aria-haspopup="true" aria-expanded="false"><?php echo $vo['title']; ?> <span
                                                 class="caret"></span></a>
                                     <ul class="dropdown-menu">
-
                                         <?php if(is_array($vo['children']) || $vo['children'] instanceof \think\Collection || $vo['children'] instanceof \think\Paginator): $i = 0; $__LIST__ = $vo['children'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voc): $mod = ($i % 2 );++$i;?>
                                             <li><a href="<?php echo url($voc['rule']); ?>"><?php echo $voc['title']; ?></a></li>
                                         <?php endforeach; endif; else: echo "" ;endif; ?>
@@ -118,30 +120,38 @@
                         <?php endif; endforeach; endif; else: echo "" ;endif; ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="<?php echo url('index/user.message/index'); ?>">站内信</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
-                               aria-expanded="false"><?php echo $_user['username']; ?> <span class="caret"></span></a>
-                            <?php if($_user['id'] == '-1'): ?>
-                                <ul class="dropdown-menu">
-                                    <li><a href="<?php echo url('index/portal/login'); ?>">登陆</a></li>
-                                    <li><a href="<?php echo url('index/portal/reg'); ?>">注册</a></li>
-                                </ul>
+                               aria-expanded="false"
+                               style="padding: 5px;">
+                                <img style="height: 40px;width: 40px;overflow: hidden;border-radius: 100%;"
+                                     src="<?php echo (getRealHeadPath($_user) ?: '/theme/common/images/header.png'); ?>"
+                                     alt="">
+                                <?php echo (isset($_user['username']) && ($_user['username'] !== '')?$_user['username']:'游客请登录'); ?>
+                                <span class="caret"></span>
+                            </a>
+                            <?php if(empty($_user['id']) || (($_user['id'] instanceof \think\Collection || $_user['id'] instanceof \think\Paginator ) && $_user['id']->isEmpty())): ?>
+                            <ul class="dropdown-menu user-drop-menu">
+                                <li><a href="<?php echo url('index/portal/login'); ?>">登陆</a></li>
+                                <li><a href="<?php echo url('index/portal/reg'); ?>">注册</a></li>
+                            </ul>
                             <?php else: ?>
-                                <ul class="dropdown-menu">
-                                    <li><a href="<?php echo url('index/user.profile/index'); ?>">个人资料</a></li>
-                                    <li><a href="<?php echo url('index/user.profile/resetPwd'); ?>">修改密码</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="<?php echo url('portal/logout'); ?>">注 销</a></li>
-                                </ul>
+                            <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
+                                <li><a class="text-center text-success">欢迎您，<?php echo $_user['nickname']; ?></a></li>
+                                <li><a>积分: <span class="text-success"><?php echo $_user['score']; ?></span></a></li>
+                                <li><a href="<?php echo url('index/user.profile/index'); ?>">个人资料</a></li>
+                                <li><a href="<?php echo url('index/user.attach/index'); ?>">我的附件</a></li>
+                                <li><a href="<?php echo url('index/user.profile/resetPwd'); ?>">修改密码</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="<?php echo url('portal/logout'); ?>">注销登陆</a></li>
+                            </ul>
                             <?php endif; ?>
-
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-right" method="post" action="<?php echo url('index/bbs.post/search'); ?>">
+                    <form class="navbar-form navbar-right" method="get" action="<?php echo url('index/index'); ?>">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="关键词">
+                            <input type="text" class="form-control" placeholder="关键词" name="keywords">
                         </div>
                         <button type="submit" class="btn btn-primary">搜贴</button>
                     </form>
@@ -177,7 +187,8 @@
                         帖子编号：<span><?php echo $data['id']; ?></span>
                     </li>
                     <li>
-                        作者：<span><a href="<?php echo url('user.user/show',['user_id'=>$data->user->id]); ?>"><?php echo $data['user']['nickname']; ?></a></span>
+                        <!-- href="<?php echo url('user.user/show',['user_id'=>$data['user']['id']]); ?>"-->
+                        作者：<span><a><?php echo (isset($data['user']['nickname']) && ($data['user']['nickname'] !== '')?$data['user']['nickname']:'已删除'); ?></a></span>
                     </li>
                     <li>
                         发表时间：<span><?php echo $data['create_time']; ?></a></span>
@@ -193,18 +204,104 @@
                      style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
                     <?php echo $data['content']; ?>
                 </div>
-                <div class="comments">
-                    <?php if(is_array($data['comments']) || $data['comments'] instanceof \think\Collection || $data['comments'] instanceof \think\Paginator): $i = 0; $__LIST__ = $data['comments'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <?php echo $vo['content']; ?>,
-                        <a href=""><?php echo $vo['user']['nickname']; ?></a>
-                        <img src="<?php echo $vo['user']['headPic']; ?>" alt="">
-                    <?php endforeach; endif; else: echo "" ;endif; ?>
-
-                </div>
             </div>
-
         </div>
     </div>
+    <div class="comments">
+        <?php if(is_array($comments) || $comments instanceof \think\Collection || $comments instanceof \think\Paginator): $i = 0; $__LIST__ = $comments;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+            <div class="well comment-item no-padding">
+                <div class="well-header">
+                    <div class="row">
+                        <div class="col-xs-2" style="width: 60px;">
+                            <img style="height: 60px;width: 60px;border-radius: 5px;"
+                                 src="<?php echo (getRealHeadPath($vo['user']) ?: '/theme/common/images/header.png'); ?>" alt="">
+                        </div>
+                        <div class="col-xs-10 user-msg-box">
+                            <p><h4><?php echo $vo['user']['nickname']; ?></h4></p>
+                            <p style="color: #606060;">
+                                <span>离线</span>
+                                <small>|</small>
+                                论坛元老
+                                <small>|</small>
+                                发表时间
+                                <small class="time"><?php echo $vo['create_time']; ?></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="well-content">
+                    <?php echo $vo['content']; ?>
+                </div>
+            </div>
+        <?php endforeach; endif; else: echo "" ;endif; ?>
+    </div>
+    <div class="comments-pager text-center">
+        <?php echo $comments_page; ?>
+    </div>
+    <!--评论-->
+    <?php if(empty($_user) || (($_user instanceof \think\Collection || $_user instanceof \think\Paginator ) && $_user->isEmpty())): ?>
+        <div class="row post-box well animated animated-quick slideInUp">
+            <div class="row text-center">
+                <h1>想回复帖子,请您先 <a href="<?php echo url('portal/login'); ?>">登陆</a> 系统!!!</h1>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="post-box  animated animated-quick slideInUp">
+            <form id="commentForm" action="<?php echo url('bbs.post/comment'); ?>" method="post">
+                <input type="hidden" name="post_id" value="<?php echo $data['id']; ?>">
+                <div class="form-group">
+                    <div id="postContent"></div>
+                    <textarea name="content" id="content" class="hidden"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="row post-verify-box">
+                        <div class="col-xs-2">
+                            <img style="cursor: pointer;"
+                                 class="post-verify-img"
+                                 src="<?php echo url('portal/getPostVerify'); ?>" alt="">
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" name="verify_code" class="form-control input-lg"
+                                   value=""
+                                   placeholder="请输入验证码结果">
+                        </div>
+                        <div class="col-xs-3">
+                            <button type="submit" class="btn btn-primary btn-lg">确认回复</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    require(['wangEditor', 'jquery', 'layer'], function (wangEditor, $, layer) {
+                        var editor = new wangEditor('#postContent');
+                        editor.create();
+                        editor.txt.html('')
+                        //验证码
+                        $('.post-verify-img').click(function (e) {
+                            e.preventDefault();
+                            var $this = $(this);
+                            $this.attr('src', "<?php echo url('portal/getPostVerify'); ?>?v=" + Math.random());
+                        });
+                        //
+                        $('#commentForm').submit(function (e) {
+                            e.preventDefault();
+                            var $this = $(this);
+                            $("#content").html(editor.txt.html());
+                            $.post($this.attr('action'), $this.serialize(), function (ret) {
+                                layer.alert(ret.msg);
+                                $(".post-verify-img").trigger('click');
+                                if (1 === ret.code) {
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 1300);
+                                    //$('#error_msg').html(ret.msg);
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </form>
+        </div>
+    <?php endif; ?>
     <script>
         require(['jquery', 'layer', 'wangEditor'], function ($, layer, wangEditor) {
 

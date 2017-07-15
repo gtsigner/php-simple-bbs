@@ -12,15 +12,28 @@ use Oeynet\Helper\TreeHelper;
  */
 class AuthCache
 {
+    private static $instance = null;
+
+    static public function Instance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     static public function getAuthRules($auth_type = null, $module = null)
     {
-        $map = [];
+        $map = [
+            'status' => 1
+        ];
         if (!empty($auth_type)) {
             $map['auth_type'] = $auth_type;
         }
         if (!empty($module)) {
             $map['module'] = $module;
         }
+
         $rules = AuthRule::where($map)->field("*,pid as parent")->order('sort ASC')->select();
         $rules = collection($rules)->toArray();
         return $rules;

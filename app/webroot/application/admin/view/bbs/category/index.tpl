@@ -2,40 +2,40 @@
 {block name="body"}
     <div class="container-fluid" id="index-app">
         <div class="row data-list-header-action">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCategoryModal">新增栏目
+            <button type="button" class="btn btn-success" data-toggle="modal" v-on:click="addShow">新增
             </button>
         </div>
         <div class="row">
             <!--增加modal-->
-            <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
+            <div class="modal fade" id="addEditModel" tabindex="-1" role="dialog"
                  aria-labelledby="myLargeModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">增加栏目</h4>
+                            <h4 class="modal-title" v-html="tmp_model.modal_title"></h4>
                         </div>
                         <div class="modal-body">
-                            <form action="{:url('bbs.category/addCategory')}" method="post">
+                            <form action="{:url('system.config/addFriendLinks')}" method="post">
+                                <input type="hidden" name="id" v-model="tmp_model.id">
                                 <div class="form-group">
-                                    <label for="" class="control-label">栏目标题</label>
-                                    <input type="text" name="title" class="form-control" v-model="tmp_category.title">
+                                    <label for="" class="control-label">标题</label>
+                                    <input type="text" name="title" class="form-control" v-model="tmp_model.title">
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label">排序(小号在前)</label>
-                                    <input type="number" name="sort" class="form-control" v-model="tmp_category.sort">
+                                    <input type="number" name="sort" class="form-control" v-model="tmp_model.sort">
                                 </div>
-
                                 <div class="form-group">
                                     <label for="" class="control-label">备注</label>
-                                    <textarea name="mark" class="form-control" v-model="tmp_category.mark"></textarea>
+                                    <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" >关闭</button>
-                            <button type="button" class="btn btn-primary" v-on:click="addCategory">确认新增</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" v-on:click="sureAddEdit">确认</button>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                     <td><span v-html="vo.title"></span></td>
                     <td><span v-html="vo.status"></span></td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-primary">编辑</button>
+                        <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑</button>
                         <button type="button" class="btn btn-sm btn-danger" v-on:click="deleteCategory(vo.id)">删除
                         </button>
                     </td>
@@ -73,12 +73,16 @@
                 el: "#index-app",
                 data: {
                     data_list: [],
-                    tmp_category: {
-                        title: '', sort: 0, mark: ''
+                    tmp_model: {
+                        modal_title: '新增',
+                        modal_method: 'add',
+                        title: '',
+                        sort: 0,
+                        mark: ''
                     }
                 },
                 methods: {
-                    getDataList: function () {
+                    loadData: function () {
                         var self = this;
                         self.data_list = [];
                         axios.get("{:url('bbs.category/getCategory')}").then(function (response) {
@@ -92,16 +96,31 @@
                     deleteCategory: function (id) {
                         var self = this;
                         layer.confirm("确认删除此栏目么(要求栏目下不可有帖子)",{}, function () {
-                            axios.post("{:url('bbs.category/delete')}",{id:id}).then(function (response) {
-                                console.log(response);
-                                layer.msg(response.data.msg);
-                                self.getDataList();
-                            }).then(function (error) {
-
+                            $.post("{:url('bbs.category/delete')}",{id:id}, function (ret) {
+                                layer.msg(ret.msg);
+                                self.loadData();
                             });
                         }, function () {
                             layer.msg("用户删除取消");
                         })
+                    },
+                    addShow: function () {
+                        this.tmp_model.modal_title = "新增";
+                        this.tmp_model.method = "add";
+                        this.tmp_model.id = null;
+                        this.tmp_model.title = "";
+                        this.tmp_model.sort = 0;
+                        this.tmp_model.mark = "";
+
+                        $('#addEditModel').modal('toggle');
+
+                    },
+                    edit: function (vo) {
+                        //写入模型
+                        this.tmp_model = vo;
+                        this.tmp_model.modal_title = "编辑";
+                        this.tmp_model.method = "edit";
+                        $('#addEditModel').modal('toggle');
                     },
                     addCategory: function () {
                         var self = this;
@@ -110,10 +129,18 @@
                             $('#addCategoryModal').modal('toggle');
                             layer.msg(ret.msg);
                         });
+                    },
+                    sureAddEdit: function () {
+                        var self = this;
+                        $.post("{:url('bbs.category/addEdit')}", self.tmp_model, function (ret) {
+                            $('#addEditModel').modal('toggle');
+                            self.loadData();
+                            layer.msg(ret.msg);
+                        });
                     }
                 },
                 mounted: function () {
-                    this.getDataList();
+                    this.loadData();
                 }
             })
 

@@ -13,8 +13,13 @@ use think\Model;
 class AuthGroupAccess extends Model
 {
 
-    public function group()
+    public function authGroups()
     {
-        return $this->hasOne('group', 'group_id');
+        return $this->hasOne('group', 'id', 'group_id');
+    }
+
+    public function authRules()
+    {
+        return $this->hasOne('auth_rule', 'id', 'auth_id');
     }
 }

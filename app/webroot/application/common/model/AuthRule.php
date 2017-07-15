@@ -12,4 +12,13 @@ use think\Model;
 class AuthRule extends Model
 {
 
+    public function authGroups()
+    {
+
+    }
+
+    public function authUsers()
+    {
+
+    }
 }

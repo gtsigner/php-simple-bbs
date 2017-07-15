@@ -8,3 +8,13 @@
 .data-list-header-action {
   padding: 10px 20px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.online-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

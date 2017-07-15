@@ -16,7 +16,24 @@ function getSystemVersion()
 
 }
 
+function getRealHeadPath($path)
+{
+    if (!isset($path['headPic']['path'])) {
+        return null;
+    }
+    return "/upload/head/{$path['headPic']['path']}";
+}
+
 function getStaticVersion()
 {
     return mt_rand(0, 10000) * mt_rand(0, 10000);
+}
+
+function checkDateDefault($date)
+{
+    if ($date === '1970-01-01 08:00:00') {
+        return null;
+    } else {
+        return $date;
+    }
 }

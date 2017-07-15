@@ -1,7 +1,28 @@
+.animated.animated-quick {
+  animation-duration: 0.3s;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.well {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
 .system-total {
   height: 30px;
   line-height: 30px;
-  background: #eee;
   .list-inline {
     li {
       padding: 0 30px;
@@ -15,6 +36,20 @@
 
 .row {
   margin: 0;
+}
+
+.main-box {
+  background: #fff;
+  padding: 0;
+  .navbar-default {
+    border-radius: 0;
+    border: none;
+
+  }
+}
+
+body {
+  background: #eee;
 }
 
 .navbar-brand {
@@ -86,9 +121,15 @@
   }
 }
 
+.overflow-title-els {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  overflow: hidden;
+}
+
 .category-list {
   padding: 5px;
-  border: 1px solid #eee;
   .category-item {
     padding: 0;
     a {
@@ -120,3 +161,40 @@
     }
   }
 }
+
+.comments {
+  background: #eee;
+  padding: 10px 0;
+  .comment-item {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 0 5px;
+    .well-header {
+      padding: 15px 10px;
+    }
+    .well-content {
+      min-height: 60px;
+      padding: 15px 40px;
+    }
+    .user-msg-box {
+      padding: 0 10px;
+      margin-left: 20px;
+    }
+    small {
+
+    }
+  }
+}
+
+.well {
+  .well-header {
+    word-wrap: break-word;
+    border-bottom: 1px dashed #dddddd;
+    margin-bottom: 10px;
+  }
+  .well-content {
+    padding: 5px;
+  }
+}
+

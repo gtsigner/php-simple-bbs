@@ -23,6 +23,7 @@ class Auth
         'success' => 0,
         'denial_method' => 4,
     ];
+    private $currentRule = [];
 
     private function __construct()
     {
@@ -41,23 +42,38 @@ class Auth
         return self::$_instance;
     }
 
+    public function getRule()
+    {
+        return $this->currentRule;
+    }
+
     /**
      * Email:zhaojunlike@gmail.com
      * @param $rule
      * @param $uid
      * @return mixed
      */
-    public function checkAuth($rule, $uid)
+    public function checkAuth($rule, $user)
     {
+
+        $uid = $user['id'];
         $rule = implode("/", $rule);
         $rule = strtolower($rule);
         //1.检测系统是否配置规则
         $systemRule = model('auth_rule')->where(['rule' => $rule])->find();
-        if (!$systemRule) {
+        if (!$systemRule && !isset($user['admin']['is_root']) && $user['admin']['is_root'] !== 1) {
             return self::$AUTH_CODES['denial'];
+        }
+        $this->currentRule = $systemRule;
+        //如果是管理员
+        if (isset($user['admin']['is_root']) && $user['admin']['is_root'] === 1) {
+            return self::$AUTH_CODES['success'];
         }
 
         //2.检查用户组
+        $systemRule->
+
+
         $authGroupAccess = AuthGroupAccess::get(['uid' => $uid]);
         if (!$authGroupAccess) {
             return self::$AUTH_CODES['denial'];

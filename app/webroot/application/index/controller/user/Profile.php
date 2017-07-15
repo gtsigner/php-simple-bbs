@@ -8,6 +8,7 @@
 namespace app\index\controller\user;
 
 
+use app\common\model\User;
 use app\common\service\UserService;
 use app\index\controller\Auth;
 
@@ -21,6 +22,15 @@ class Profile extends Auth
 
         }
         return $this->fetch();
+    }
+
+    public function upProfile()
+    {
+        $user = User::get(['id' => $this->mUser['id']]);
+        $user->save([
+            'nickname' => input('nickname')
+        ]);
+        $this->success("更新成功");
     }
 
     public function resetPwd()

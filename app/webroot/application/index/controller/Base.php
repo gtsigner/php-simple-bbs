@@ -19,7 +19,7 @@ use think\Controller;
 
 class Base extends Controller
 {
-    protected $page_limit = 5;
+    protected $page_limit = 50;
     protected $mUser = null;
     protected $mAuthMenu = null;
     protected $friendLinks = [];
@@ -37,7 +37,7 @@ class Base extends Controller
             'today_post_count' => 123,
             'post_count' => 123123,
         ];
-
+        $this->page_limit = Config::get('WEB_INDEX_PAGE_LIMIT');
         $this->assign('_total', $total);
         $this->initFriendLinks();
         $this->initCategory();

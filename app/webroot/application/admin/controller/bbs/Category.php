@@ -70,4 +70,28 @@ class Category extends Auth
         $data = BbsCategory::where([])->order('sort ASC')->select();
         $this->result($data, 200, "success", "JSON");
     }
+
+    public function addEdit()
+    {
+        if ($this->request->isPost()) {
+            //填加或者修改
+            $method = $this->request->request('method');
+            $ret = false;
+            if ($method === 'add') {
+                $link = new  BbsCategory($_POST);
+                $ret = $link->allowField(true)->save();
+            }
+            if ($method === 'edit') {
+                $link = BbsCategory::get($this->request->request('id'));
+                $ret = $link->data($_POST)->allowField(true)->save();
+            }
+            if (false === $ret) {
+                $this->result(null, 500, '操作失败', "JSON");
+            } else {
+                $this->result(null, 200, '操作成功', "JSON");
+            }
+        } else {
+            return $this->fetch();
+        }
+    }
 }

@@ -1,7 +1,23 @@
+.animated.animated-quick {
+  animation-duration: 0.3s; }
+
+.cursor-pointer {
+  cursor: pointer; }
+
+.no-padding {
+  padding: 0; }
+
+.no-margin {
+  margin: 0; }
+
+.well {
+  border-radius: 0;
+  border-left: none;
+  border-right: none; }
+
 .system-total {
   height: 30px;
-  line-height: 30px;
-  background: #eee; }
+  line-height: 30px; }
   .system-total .list-inline li {
     padding: 0 30px;
     text-align: center; }
@@ -10,6 +26,16 @@
 
 .row {
   margin: 0; }
+
+.main-box {
+  background: #fff;
+  padding: 0; }
+  .main-box .navbar-default {
+    border-radius: 0;
+    border: none; }
+
+body {
+  background: #eee; }
 
 .navbar-brand {
   padding: 5px;
@@ -57,9 +83,14 @@
   overflow: hidden;
   display: block; }
 
+.overflow-title-els {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  overflow: hidden; }
+
 .category-list {
-  padding: 5px;
-  border: 1px solid #eee; }
+  padding: 5px; }
   .category-list .category-item {
     padding: 0; }
     .category-list .category-item a {
@@ -79,5 +110,29 @@
   padding: 20px; }
   .post-detail .detail-box .post-title {
     margin: 10px 20px; }
+
+.comments {
+  background: #eee;
+  padding: 10px 0; }
+  .comments .comment-item {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 0 5px; }
+    .comments .comment-item .well-header {
+      padding: 15px 10px; }
+    .comments .comment-item .well-content {
+      min-height: 60px;
+      padding: 15px 40px; }
+    .comments .comment-item .user-msg-box {
+      padding: 0 10px;
+      margin-left: 20px; }
+
+.well .well-header {
+  word-wrap: break-word;
+  border-bottom: 1px dashed #dddddd;
+  margin-bottom: 10px; }
+.well .well-content {
+  padding: 5px; }
 
 /*# sourceMappingURL=app.css.map */

@@ -9,13 +9,13 @@ namespace app\index\controller;
 
 
 use app\common\cache\AuthCache;
+use app\common\model\User;
 use think\Session;
 use app\common\core\Auth as ViewAuth;
 
 class Auth extends Base
 {
     #region start
-
 
     public function _initialize()
     {
@@ -24,10 +24,17 @@ class Auth extends Base
         if (!$token) {
             //$this->error("请先登陆系统后操作", url("portal/login"));
             //使用游客权限登陆
-            $token = [
-                'id' => -1,
-                'username' => '游客',
-            ];
+//            $token = [
+//                'id' => -1,
+//                'username' => '游客',
+//            ];
+        } else {
+            //更新一下
+            $token = User::where(['id' => $token['id']])
+                ->with('headPic')
+                ->with('admin')
+                ->find();
+            Session::set('user_token', $token);
         }
         $this->mUser = $token;
 
@@ -90,4 +97,5 @@ class Auth extends Base
             return $this->fetch();
         }
     }
+
 }

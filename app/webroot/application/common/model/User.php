@@ -20,7 +20,7 @@ class User extends Model
 
     public function authGroup()
     {
-
+        return $this->hasMany('auth_user_group', 'uid', 'id');
     }
 
     public function headPic()

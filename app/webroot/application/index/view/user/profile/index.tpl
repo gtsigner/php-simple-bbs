@@ -4,43 +4,33 @@
     <div class="container page-auth">
         <div class="row">
             <div class="col-xs-4 col-xs-offset-4 auth-form-container">
-                <h3 class="auth-title text-center">重置密码</h3>
-                <form action="{:url()}" method="post" class="form">
-                    <div class="form-group">
-                        <label for="" class="control-label">旧密码：</label>
-                        <input type="text" name="old_password" class="form-control input-lg" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="control-label">新密码：</label>
-                        <input type="password" name="password" class="form-control input-lg" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="control-label">重复密码：</label>
-                        <input type="password" name="re_password" class="form-control input-lg" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="control-label">验证码：</label>
-                        <div class="input-group">
-                            <div class="input-group-addon" style="padding: 0">
-                                <img style="height: 40px;cursor: pointer"
-                                     class="auth-verify-img"
-                                     src="{:url('portal/getVerify')}"
-                                     alt="">
-                            </div>
-                            <input type="text" name="verify_code" class="form-control input-lg" value="">
+                <h3 class="auth-title text-center">个人资料</h3>
+                <form action="{:url('user.profile/upProfile')}" method="post" class="form">
+                    <div class="form-group text-center">
+                        <label for=""></label>
+                        <div>
+                            <img style="height: 140px;width: 140px;cursor: pointer;margin-bottom: 10px;border-radius: 100%;"
+                                 id="user-head-img"
+                                 draggable="false"
+                                 src="{$_user|getRealHeadPath|default='/theme/common/images/header.png'}"
+                                 alt="">
+                            <br>
+                            <button type="button" class="btn btn-primary btn-sm" id="uploadBtn">上传新头像</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <p class="text-right"><a href="{:url('portal/findPwd')}">忘记密码？</a></p>
-                        <button type="submit" class="btn btn-lg btn-danger btn-block">确认修改密码</button>
+                        <label for="">用户昵称</label>
+                        <input type="text" class="form-control" name="nickname" value="{$_user.nickname}">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-lg btn-danger btn-block">确认修改</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        require(['jquery', 'layer'], function ($, layer) {
-
+        require(['jquery', 'layer', 'ajaxUploader'], function ($, layer, AjaxUploader) {
             //验证码
             $('.auth-verify-img').click(function (e) {
                 e.preventDefault();
@@ -60,11 +50,38 @@
                             if (ret.data.url) {
                                 window.location = ret.data.url;
                             } else {
-                                window.location = "{:url('index/index/index')}";
+                                window.location.reload();
                             }
                         }, 2000);
                     }
                 });
+            });
+
+            //Ajax
+            var uploader = new AjaxUploader.SimpleUpload({
+                button: 'uploadBtn', // file upload button
+                url: '{:url('api/uploader/upHeadImg')}', // server side handler
+                name: 'up_file', // upload parameter name
+                progressUrl: 'uploadProgress.php', // enables cross-browser progress support (more info below)
+                responseType: 'json',
+                multiple: false,
+                //allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                maxSize: 2048 * 10, // kilobytes
+                hoverClass: 'ui-state-hover',
+                focusClass: 'ui-state-focus',
+                disabledClass: 'btn-disabled btn-danger',
+                onError: function (filename, type) {
+                    console.log(filename);
+                },
+                onSubmit: function (filename, extension) {
+                    $("#uploadBtn").html("上传中,请稍后...........");
+                },
+                onComplete: function (filename, response) {
+                    $("#uploadBtn").html("修改新头像");
+                    $("#user-head-img").attr('src', response.data.path);
+                    layer.msg(response.msg);
+                    // do something with response...
+                }
             });
         });
     </script>

@@ -16,6 +16,12 @@ return [
     'captcha' => [
         'codeSet' => '0123456789',
     ],
+    'storage_path' => [
+        'base' => ROOT_PATH . 'storage',
+        'file' => ROOT_PATH . 'storage' . DS . 'files',
+        'picture' => ROOT_PATH . 'storage' . DS . 'picture',
+        'head_path' => ROOT_PATH . 'public' . DS . 'upload/head',
+    ],
     // 应用命名空间
     'app_namespace' => 'app',
     // 应用调试模式

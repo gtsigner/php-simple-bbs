@@ -5,7 +5,7 @@
  * Time: 7:15 PM
  */
 
-namespace app\admin\controller\bbs;
+namespace app\admin\controller\user;
 
 
 use app\admin\controller\Auth;

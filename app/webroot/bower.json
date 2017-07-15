@@ -13,6 +13,7 @@
     "require-css": "^0.1.10",
     "axios": "^0.16.2",
     "layer": "^3.0.3",
-    "wangEditor": "^3.0.3"
+    "wangEditor": "^3.0.3",
+    "animate.css": "^3.5.2"
   }
 }

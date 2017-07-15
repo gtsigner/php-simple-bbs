@@ -9,6 +9,7 @@ namespace app\admin\controller\bbs;
 
 
 use app\admin\controller\Auth;
+use app\common\model\BbsPost;
 use function foo\func;
 
 class Post extends Auth
@@ -19,9 +20,21 @@ class Post extends Auth
         return $this->fetch();
     }
 
+    public function changeStatus($id)
+    {
+        $post = BbsPost::get(['id' => $id]);
+        $post['status'] = $post['status'] == 1 ? 0 : 1;
+        $post->save();
+        $this->success("调整状态成功");
+    }
+
     public function getList()
     {
         $map = [];
+        $category = input('search.category', 0, 'intval');
+        if ($category > 0) {
+            $map['category_id'] = $category;
+        }
         $dataList = model('bbs_post')
             ->where($map)
             ->withCount(['comments' => function ($query) {
@@ -37,10 +50,25 @@ class Post extends Auth
         $this->result($data, 200, 'success', "JSON");
     }
 
-    public function delete($id)
+    public function addEdit()
+    {
+        if ($this->request->request("method") === 'edit') {
+            $post = BbsPost::get($this->request->request('id'));
+            if (!$post) {
+                $this->error("对不起,此贴不存在");
+            }
+            $post['category_id'] = $this->request->request('category_id', 0, 'intval');
+            $post['sort'] = $this->request->request('sort', 0, 'intval');
+            $post->save();
+            $this->success("保存成功");
+        }
+    }
+
+    public function del($id)
     {
         $map = [];
         if (is_array($id)) {
+            $map['id'] = $id;
         } else {
             $map['id'] = $id;
         }

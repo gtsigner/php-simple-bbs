@@ -2,9 +2,9 @@
 {block name="body"}
     <div class="container-fluid" id="user-list-app">
         <div class="row data-list-header-action">
-            <button type="button" class="btn btn-success" v-on:click="add">新增用户
+            <button type="button" class="btn btn-success hidden" v-on:click="add">新增用户
             </button>
-            <button type="button" class="btn btn-danger">批量删除</button>
+            <button type="button" class="btn btn-danger hidden">批量删除</button>
         </div>
         <div class="row">
             <!--增加modal-->
@@ -18,11 +18,11 @@
                             <h4 class="modal-title" v-html="tmp_model.modal_title">新增用户</h4>
                         </div>
                         <div class="modal-body">
-                            <form action="{:url('user.user/addUser')}" method="post">
+                            <form method="post">
                                 <div class="form-group">
                                     <label for="" class="control-label">用户名</label>
-                                    <input type="text" name="username" class="form-control"
-                                           v-model="tmp_model.username">
+                                    <input type="text" name="username" class="form-control disabled"
+                                           v-model="tmp_model.username" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label">昵称</label>
@@ -52,13 +52,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" v-on:click="addUser">确认新增</button>
+                            <button type="button" class="btn btn-primary" v-on:click="addEditUser">确认</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <table class="table-bordered table table-responsive table-hover">
+            <table class="table-bordered table table-responsive table-hover text-center">
                 <thead>
                 <tr>
                     <th><input type="checkbox" name="check-all" class="checkbox check-all"></th>
@@ -83,9 +83,10 @@
                     <td><span v-html="vo.level_score"></span></td>
                     <td><span v-html="vo.experience"></span></td>
                     <td><span v-html="vo.level"></span></td>
-                    <td>
-                        <label class="label label-default" v-html="vo.status"
-                               v-on:click="statusUser(vo.id)"></label>
+                    <td><label class="label cursor-pointer"
+                               :class="vo.status===1?'label-success':'label-danger'"
+                               v-on:click="changeStatus(vo)"
+                               v-html="vo.status===1?'开启':'关闭'"></label></td>
                     </td>
                     <td>
                         <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑
@@ -143,9 +144,12 @@
                             pageNum = this.pagination.current_page;
                         }
                         console.log(pageNum);
+                        var search = {
+                            status: "{:input('status',-1,'intval')}"
+                        };
                         var self = this;
                         self.data_list = [];
-                        $.post("{:url('user.user/getUserList')}",{page:pageNum}, function (rep) {
+                        $.post("{:url('user.user/getUserList')}",{page:pageNum,status:search.status}, function (rep) {
                             rep.data.data_list.data.forEach(function (item) {
                                 self.data_list.push(item);
                             });
@@ -173,6 +177,14 @@
                     statusUser: function (id) {
 
                     },
+                    changeStatus: function (vo) {
+                        var self = this;
+                        $.post("{:url('user.user/changeStatus')}",{id:vo.id}, function (ret) {
+                            if (ret.code === 1) {
+                                vo.status = vo.status === 1 ? 0 : 1;
+                            }
+                        });
+                    },
                     deleteUser: function (id) {
                         var self = this;
                         layer.confirm("确认删除用户?", function () {
@@ -181,13 +193,13 @@
                                 self.loadData();
                             });
                         }, function () {
-                            layer.msg("用户删除取消");
+                            layer.msg("操作取消");
                         })
                     },
-                    addUser: function () {
+                    addEditUser: function () {
                         var self = this;
-                        layer.confirm("确认添加此用户?", function () {
-                            $.post("{:url('user.user/addUser')}", self.tmp_model, function (ret) {
+                        layer.confirm("确认操作此数据?", function () {
+                            $.post("{:url('user.user/addEditUser')}", self.tmp_model, function (ret) {
                                 layer.msg(ret.msg);
                                 if (ret.code === 200) {
                                     self.loadData(1);
@@ -195,7 +207,7 @@
                                 }
                             });
                         }, function () {
-                            layer.msg("用户新增取消");
+                            layer.msg("操作取消");
                         })
                     }
                 },

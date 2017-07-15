@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <title>-首页</title>
+    <meta name="keywords" content="{$_rule.title|default=config('WEB_SITE_KEYWORDS')}">
+    <meta name="description" content="{$_rule.title|default=config('WEB_SITE_DESC')}">
+    <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页</title>
 
     <script src="__STATIC__/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
@@ -23,9 +23,11 @@
                 appCss: '../theme/admin/scss/app',
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
                 layerCss: 'layer/build/skin/default/layer',
-                vuePager: 'vuejs-paginate/dist/index',
                 wangEditor: 'wangEditor/release/wangEditor.min',
-                wangEditorCss: 'wangEditor/release/wangEditor.min'
+                wangEditorCss: 'wangEditor/release/wangEditor.min',
+                animateCss: 'animate.css/animate.min',
+                vuePager: 'vuejs-paginate/dist/index',
+                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min'
             },
             map: {
                 '*': {
@@ -34,7 +36,7 @@
             },
             shim: {
                 bootstrap: {
-                    deps: ['jquery']
+                    deps: ['jquery', 'css!animateCss']
                 },
                 layer: {
                     deps: ['jquery', 'css!layerCss']
@@ -51,15 +53,16 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container main-box">
     {block name='adv'}
         <div class="row header-adv show">
-            <img style="width:100%;height: 100%" src="http://imgad0.pconline.com.cn/ivy/image/20175/26/14957632245480.jpg?IVY_LEVEL_0?457727_329033" alt="">
+            <img style="width:100%;height: 100%"
+                 src="http://imgad0.pconline.com.cn/ivy/image/20175/26/14957632245480.jpg?IVY_LEVEL_0?457727_329033"
+                 alt="">
         </div>
         <div class="row system-total">
             <ul class="list-inline">
                 <li class="item">游客人数：<span>{$_total.current_viewer}</span></li>
-                <li>登陆次数：<span>{$_total.login_count}</span></li>
                 <li>在线人数： <span>{$_total.current_online}</span></li>
                 <li>会员总数：<span>{$_total.user_count}</span></li>
                 <li>今日发帖：<span>{$_total.today_post_count}</span></li>
@@ -108,7 +111,6 @@
                                        aria-haspopup="true" aria-expanded="false">{$vo.title} <span
                                                 class="caret"></span></a>
                                     <ul class="dropdown-menu">
-
                                         {volist name="vo.children" id="voc"}
                                             <li><a href="{:url($voc['rule'])}">{$voc.title}</a></li>
                                         {/volist}
@@ -119,30 +121,38 @@
                         {/volist}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{:url('index/user.message/index')}">站内信</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
-                               aria-expanded="false">{$_user.username} <span class="caret"></span></a>
-                            {eq name="_user.id" value="-1"}
-                                <ul class="dropdown-menu">
-                                    <li><a href="{:url('index/portal/login')}">登陆</a></li>
-                                    <li><a href="{:url('index/portal/reg')}">注册</a></li>
-                                </ul>
+                               aria-expanded="false"
+                               style="padding: 5px;">
+                                <img style="height: 40px;width: 40px;overflow: hidden;border-radius: 100%;"
+                                     src="{$_user|getRealHeadPath|default='/theme/common/images/header.png'}"
+                                     alt="">
+                                {$_user.username|default='游客请登录'}
+                                <span class="caret"></span>
+                            </a>
+                            {empty name="_user.id"}
+                            <ul class="dropdown-menu user-drop-menu">
+                                <li><a href="{:url('index/portal/login')}">登陆</a></li>
+                                <li><a href="{:url('index/portal/reg')}">注册</a></li>
+                            </ul>
                             {else/}
-                                <ul class="dropdown-menu">
-                                    <li><a href="{:url('index/user.profile/index')}">个人资料</a></li>
-                                    <li><a href="{:url('index/user.profile/resetPwd')}">修改密码</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="{:url('portal/logout')}">注 销</a></li>
-                                </ul>
-                            {/eq}
-
+                            <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
+                                <li><a class="text-center text-success">欢迎您，{$_user.nickname}</a></li>
+                                <li><a>积分: <span class="text-success">{$_user.score}</span></a></li>
+                                <li><a href="{:url('index/user.profile/index')}">个人资料</a></li>
+                                <li><a href="{:url('index/user.attach/index')}">我的附件</a></li>
+                                <li><a href="{:url('index/user.profile/resetPwd')}">修改密码</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{:url('portal/logout')}">注销登陆</a></li>
+                            </ul>
+                            {/empty}
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-right" method="post" action="{:url('index/bbs.post/search')}">
+                    <form class="navbar-form navbar-right" method="get" action="{:url('index/index')}">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="关键词">
+                            <input type="text" class="form-control" placeholder="关键词" name="keywords">
                         </div>
                         <button type="submit" class="btn btn-primary">搜贴</button>
                     </form>

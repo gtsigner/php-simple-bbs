@@ -4,19 +4,27 @@
         <div class="col-xs-8">
             {$page}
         </div>
-        <div class="col-xs-4">
-            <ul class="list-inline pagination">
-                <li>作者</li>
-                <li>回复</li>
-                <li>访问量</li>
-                <li>发表时间</li>
-                <li>推荐</li>
-            </ul>
-        </div>
     </div>
     <div class="row post-list-box">
-        <table class="table">
+        <table class="table table-hover text-center">
+            <thead class="">
+            <tr>
+                <td><label for="">ID</label></td>
+                <td class="text-left"><label for="">标题</label></td>
+                <td><label for="">栏目</label></td>
+                <td><label for="">作者</label></td>
+                <td><label for="">回复量</label></td>
+                <td><label for="">访问量</label></td>
+                <td><label for="">更新时间</label></td>
+                <td><label for="">推荐</label></td>
+            </tr>
+            </thead>
             <tbody>
+            {eq name="data_list|count" value="0"}
+                <tr>
+                    <td class="text-center text-danger" colspan="20">对不起,该栏目还没有任何帖子信息</td>
+                </tr>
+            {/eq}
             {volist name="data_list" id="vo"}
                 <tr class="text-center">
                     <td style="width: 80px">{$vo.id}</td>
@@ -26,15 +34,16 @@
                         </p>
                     </td>
                     <td>
-                        <span></span>
-                        <span></span>
+                        <a href="{:url('index/index/index',['category'=>$vo['category']['id']])}">{$vo.category.title|default='<span class="text-danger">已删除</span>'}</a>
                     </td>
-                    <td>{$vo.sort}</td>
-                    <td>{$vo.id}</td>
-                    <td>{$vo.id}</td>
-                    <td>{$vo.id}</td>
-                    <td>{$vo.id}</td>
-                    <td>{$vo.id}</td>
+                    <td>
+                        <p class="no-padding no-margin">{$vo.user.username|default='已删除'}</p>
+                        <p class="no-padding no-margin">{$vo.create_time}</p>
+                    </td>
+                    <td>{$vo.comments|count}</td>
+                    <td>{$vo.view_count}</td>
+                    <td>{$vo.update_time|checkDateDefault|default='未有更新'}</td>
+                    <td>{$vo.recommend_count}</td>
                 </tr>
             {/volist}
             </tbody>
@@ -48,13 +57,19 @@
 
         </div>
     </div>
-    <div class="row post-box">
-        <div class="row">
-            <form id="postForm" action="{:url('bbs.post/post')}" method="post">
-                <input type="hidden" name="category_id" value="{$category.id}">
-                <h4>发表新帖（<a href="">{$category.title}</a>）：</h4>
-                <br>
-                <div class="form-group">
+    {empty name="_user"}
+        <div class="row post-box well animated animated-quick slideInUp">
+            <div class="row text-center">
+                <h1>想发帖,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
+            </div>
+        </div>
+    {else/}
+        <div class="row post-box well animated animated-quick slideInUp">
+            <div class="row">
+                <form id="postForm" action="{:url('bbs.post/post')}" method="post">
+                    <input type="hidden" name="category_id" value="{$category.id}">
+                    <h4>发表新帖（<a href="">{$category.title}</a>）：</h4>
+                    <br>
 
                     <div class="form-group">
                         <input type="text" name="title" value="" placeholder="填写帖子标题" class="form-control">
@@ -80,7 +95,6 @@
                             </div>
                         </div>
                     </div>
-
                     <script>
                         require(['wangEditor', 'jquery', 'layer'], function (wangEditor, $, layer) {
                             var editor = new wangEditor('#postContent');
@@ -110,8 +124,9 @@
                             });
                         });
                     </script>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    {/empty}
+
 {/block}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>-后台管理</title>
+    <title>{$_rule.title|default='首页'}-后台管理</title>
     <script src="__STATIC__/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
     <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
@@ -25,7 +25,8 @@
                 appCss: '../theme/admin/scss/app',
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
                 layerCss: 'layer/build/skin/default/layer',
-                vuePager: 'vuejs-paginate/dist/index'
+                vuePager: 'vuejs-paginate/dist/index',
+                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min'
             },
             map: {
                 '*': {
@@ -61,7 +62,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">后台管理</a>
+                <a class="navbar-brand" href="#">{:config('WEB_SITE_TITLE')}-后台管理</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,7 +70,8 @@
                 {volist name="_menu" id="vo"}
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                            <a href="#"
+                               class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">{$vo.title} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 {php}if(!array_key_exists('children',$vo)){ continue; }{/php}
@@ -82,6 +84,7 @@
                 {/volist}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">邮件</a></li>
+                    <li><a href="{:url('index/index/index')}" target="_blank">前台</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">{$_user.username} <span class="caret"></span></a>
