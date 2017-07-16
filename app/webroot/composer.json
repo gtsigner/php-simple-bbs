@@ -1,18 +1,18 @@
 {
-  "name": "topthink/think",
-  "description": "the new thinkphp framework",
+  "name": "oeynet/simple-bbs",
+  "description": "new simple bbs",
   "type": "project",
   "keywords": [
-    "framework",
-    "thinkphp",
-    "ORM"
+    "bbs",
+    "forum",
+    "project"
   ],
-  "homepage": "http://thinkphp.cn/",
+  "homepage": "http://bbs.oeynet.com/",
   "license": "Apache-2.0",
   "authors": [
     {
-      "name": "liu21st",
-      "email": "liu21st@gmail.com"
+      "name": "zhaojunlike",
+      "email": "zhaojunlike@gmail.com"
     }
   ],
   "require": {

@@ -31,6 +31,86 @@ $  docker run -it --link mysql-db:mysql --network client101vbbs_default -v `pwd`
 - mysql-db
 - redis
 
+## 项目依赖
+-  加法验证码直接改的TP的 https://github.com/zhaojunlike/tp5-add-captcha.git
+-  助手类 https://github.com/zhaojunlike/php-helper-class
+
+####Bower
+```json
+{
+  "name": "101-bbs-front",
+  "version": "1.0.0",
+  "keywords": [
+    "101v BBs"
+  ],
+  "main": "app.js",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "vue": "^2.3.4",
+    "bootstrap": "^3.3.7",
+    "requirejs": "^2.3.3",
+    "require-css": "^0.1.10",
+    "axios": "^0.16.2",
+    "layer": "^3.0.3",
+    "wangEditor": "^3.0.3",
+    "animate.css": "^3.5.2"
+  }
+}
+```
+
+####Composer
+```json
+{
+  "name": "oeynet/simple-bbs",
+  "description": "new simple bbs",
+  "type": "project",
+  "keywords": [
+    "bbs",
+    "forum",
+    "project"
+  ],
+  "homepage": "http://bbs.oeynet.com/",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "zhaojunlike",
+      "email": "zhaojunlike@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "topthink/framework": "^5.0.6",
+    "topthink/think-captcha": "^1.0",
+    "topthink/think-testing": "^1.0",
+    "bluem/tree": "^1.5",
+    "oeynet/helper": "^0.1",
+    "oeynet/add-captcha": "^0.2.0",
+    "voku/anti-xss": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "tests\\": "tests"
+    },
+    "files": [
+    ]
+  },
+  "extra": {
+    "think-path": "thinkphp"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}
+
+```
+
+
 ## Tp5踩过的坑
 - 1.模型关联
 - 2.模型验证,控制器验证
