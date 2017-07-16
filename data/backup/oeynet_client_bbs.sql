@@ -3,8 +3,6 @@ Navicat MySQL Data Transfer
 
 Source Server         : docker-mysql-db
 Source Server Version : 50636
-Source Host           : 192.168.99.100:3306
-Source Database       : oeynet_client_bbs
 
 Target Server Type    : MYSQL
 Target Server Version : 50636
