@@ -2,7 +2,7 @@
 /.idea
 #数据库文件
 
-#/data/mysql/*
+/data/mysql/*
 /data/redis/*
 /data/backup/*
 !/data/backup/data-default.sql
