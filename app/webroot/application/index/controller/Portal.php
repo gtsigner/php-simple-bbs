@@ -10,8 +10,8 @@ namespace app\index\controller;
 
 use app\common\model\User;
 use app\common\tools\Utils;
+use oeynet\addCaptcha\CaptchaHelper;
 use think\captcha\Captcha;
-use think\captcha\CaptchaHelper;
 use think\Config;
 use think\Hook;
 use think\Session;

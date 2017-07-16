@@ -10,11 +10,9 @@ namespace app\admin\controller;
 
 use app\common\model\User;
 use app\common\tools\Utils;
+use oeynet\addCaptcha\CaptchaHelper;
 use think\captcha\Captcha;
-use think\captcha\CaptchaHelper;
 use think\Config;
-use think\Db;
-use think\Request;
 use think\Session;
 
 class Portal extends Base
