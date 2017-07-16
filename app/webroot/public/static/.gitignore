@@ -1,4 +1,6 @@
 *
 !.gitignore
-!/vuejs-paginate/dist/*
+!/vuejs-paginate
+!/vuejs-paginate/*
+!/AjaxUploader
 !/AjaxUploader/*
