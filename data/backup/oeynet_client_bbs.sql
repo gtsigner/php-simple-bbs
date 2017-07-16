@@ -12,6 +12,7 @@ Date: 2017-07-16 16:41:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8;
 
 -- ----------------------------
 -- Table structure for oeynet_admin

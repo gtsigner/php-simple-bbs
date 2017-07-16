@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500117199;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500200008;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500217388;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500217388;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

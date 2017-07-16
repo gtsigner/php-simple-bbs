@@ -26,10 +26,11 @@ services:
 #很重要导入到处数据
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
-      - ./dockerfiles/mysql/my.conf:/etc/my.conf:ro
+      - ./logs/mysql:/var/lib/mysql-logs:rw
+      - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d:ro
     restart: always
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
         MYSQL_DATABASE: oeynet_client_bbs
@@ -37,8 +38,8 @@ services:
         MYSQL_PASSWORD: zhaojun
   redis-db:
     build: ./dockerfiles/redis
-    ports:
-      - "6379:6379"
+#    ports:
+#      - "6379:6379"
     restart: always
     volumes:
       - ./data/redis:/data
