@@ -23,7 +23,7 @@ eb94c90c4aae        30goinghome_default   bridge              local
 
 //启动一个迁移数据容器
 ```shell
-$ docker run -it --link mysql-db:mysql --network 30goinghome_default -v `pwd`/data/backup:/data/backup:ro --rm mysql:5.7 sh -c 'exec mysql -h"mysql" -P"3306" -uroot -p"zhaojun" package_v1</data/backup/data-default.sql'
+$  docker run -it --link mysql-db:mysql --network client101vbbs_default -v `pwd`/data/backup:/data/backup:ro --rm mysql:5.7 sh -c 'exec mysql -h"mysql" -P"3306" -uroot -p"zhaojun" oeynet_client_bbs<./data/backup/oeynet_client_bbs.sql'
 ```
 
 
