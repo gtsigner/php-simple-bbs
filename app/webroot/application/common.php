@@ -16,6 +16,22 @@ function getSystemVersion()
 
 }
 
+function getUserLevel($user)
+{
+//    $userLevel = \app\common\model\UserLevel::all();
+//    $current = $userLevel[0];
+//    foreach ($userLevel as $index => $level) {
+//        if ($level->score >= $user['score']) {
+//            $current = $userLevel[$index - 1];
+//            break;
+//        }
+//    }
+//    dump($current);
+//    exit();
+    $level = \app\common\model\UserLevel::where("score", "<=", $user['score'])->order('level DESC')->find();
+    return $level['name'];
+}
+
 function getRealHeadPath($path)
 {
     if (!isset($path['headPic']['path'])) {

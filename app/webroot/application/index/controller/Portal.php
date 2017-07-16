@@ -13,6 +13,7 @@ use app\common\tools\Utils;
 use think\captcha\Captcha;
 use think\captcha\CaptchaHelper;
 use think\Config;
+use think\Hook;
 use think\Session;
 
 class Portal extends Base
@@ -39,6 +40,9 @@ class Portal extends Base
             //初始化admin
             $user->admin;
             $user->headPic;
+            //钩子
+            Hook::listen("user_login", $user);
+
             Session::set('user_token', $user->toArray());
             if (!is_null($user->admin) && $user->admin->is_root > 0) {
                 $this->result(['url' => url('admin/index/index')], 200, '管理员,欢迎您回来,正在跳转到后台管理!', "JSON");
@@ -74,13 +78,18 @@ class Portal extends Base
             $user = new User($data);
             //用户
             $ret = $user->validate("user.add")->save($data);
+            if (false === $ret) {
+                $this->result([], 500, "对不起,注册失败. <span class='text-danger'>" . $user->getError() . "!!!</span>", "JSON");
+            }
+
             //用户组
             $user->authGroup()->save(['group_id' => \config('SYSTEM_USER_SIGNUP_GROUP_ID')]);
-
+            //钩子
             if (false !== $ret) {
+                Hook::listen("user_reg", $user);
                 $this->result([], 200, '恭喜您,注册成功!', "JSON");
             } else {
-                $this->result([], 500, "对不起,注册失败. <span class='text-danger'>" . model('user')->getError() . "!!!</span>", "JSON");
+                $this->result([], 500, "对不起,注册失败. <span class='text-danger'>" . $user->getError() . "!!!</span>", "JSON");
             }
         } else {
             return $this->fetch();
@@ -107,6 +116,8 @@ class Portal extends Base
 
     public function logout()
     {
+        //钩子
+        Hook::listen("user_logout", $this->mUser);
         Session::delete("user_token");
         $this->success("注销成功", url('portal/login'));
     }

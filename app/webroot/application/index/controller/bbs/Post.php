@@ -14,6 +14,7 @@ use app\common\model\BbsPost;
 use app\common\model\User;
 use app\index\controller\Auth;
 use think\captcha\CaptchaHelper;
+use think\Hook;
 use voku\helper\AntiXSS;
 
 class Post extends Auth
@@ -48,6 +49,9 @@ class Post extends Auth
                 'create_time' => time(),
                 'status' => \think\Config::get('BBS_AUTH_STATUS_TRUE')
             ]);
+            //发帖钩子
+            Hook::listen("user_bbs_comment", $this->mUser, $post);
+
             if ($ret) {
                 $this->success("发帖成功");
             } else {
@@ -81,6 +85,10 @@ class Post extends Auth
                 'create_time' => time(),
                 'status' => \think\Config::get('BBS_AUTH_COMMENT_STATUS_TRUE'),
             ]);
+
+            //评论钩子
+            Hook::listen("user_bbs_comment", $this->mUser, $comment);
+
             if ($ret) {
                 $this->success("回帖成功");
             } else {
@@ -95,6 +103,8 @@ class Post extends Auth
         $cacheKey = "looked_{$id}_{$this->mUser['id']}";
 
         $data = BbsPost::get($id);
+
+        Hook::listen("user_bbs_view", $this->mUser, $data);
 
         if (!cookie($cacheKey)) {
             $data->setInc('view_count', 1);

@@ -9,6 +9,7 @@ namespace app\common\service;
 
 
 use app\common\model\User;
+use app\common\model\UserScoreLog;
 use app\common\tools\Utils;
 use function foo\func;
 
@@ -49,5 +50,35 @@ class UserService
         $log = self::$errLogs;
         self::$errLogs = '';
         return $log;
+    }
+
+
+    static public function IncUserScore($uid, $msg, $count)
+    {
+        model('user')->where(['id' => $uid])->setInc('score', $count);
+        model('user')->where(['id' => $uid])->setInc('experience', $count);
+        $log = new UserScoreLog([
+            'uid' => $uid,
+            'msg' => $msg,
+            'count' => $count,
+            'use_type' => 1,
+            'ip' => request()->ip(),
+            'create_time' => time()
+        ]);
+        $log->save();
+    }
+
+    static public function DecUserScore($uid, $msg, $count)
+    {
+        model('user')->where(['id' => $uid])->setDec('score', $count);
+        $log = new UserScoreLog([
+            'uid' => $uid,
+            'msg' => $msg,
+            'count' => $count,
+            'use_type' => 1,
+            'ip' => request()->ip(),
+            'create_time' => time()
+        ]);
+        $log->save();
     }
 }

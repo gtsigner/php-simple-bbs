@@ -64,6 +64,20 @@ services:
       - mysql-db
       - redis-db
     command: php-fpm
+  composer:
+    image: composer:1.4.2
+    volumes:
+    #网站目录
+      - ./app:/app:rw
+    working_dir: /app/webroot
+    command: composer install
+  bower:
+    image: digitallyseamless/nodejs-bower-grunt
+    volumes:
+    #网站目录
+      - ./app:/app:rw
+    working_dir: /app/webroot
+    command: bower install
 ##第一次迁移数据所需的镜像 version0.3 README手动迁移
 #  mysql-database:
 #    image: mysql:5.7

@@ -44,7 +44,7 @@
                             <p style="color: #606060;">
                                 <span>离线</span>
                                 <small>|</small>
-                                论坛元老
+                                {$vo.user|getUserLevel}
                                 <small>|</small>
                                 发表时间
                                 <small class="time">{$vo.create_time}</small>

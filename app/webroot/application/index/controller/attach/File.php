@@ -11,6 +11,7 @@ namespace app\index\controller\attach;
 use app\common\model\BbsAttachBuy;
 use app\common\model\BbsFile;
 use app\common\model\User;
+use app\common\service\UserService;
 use app\index\controller\Auth;
 
 class File extends Auth
@@ -79,7 +80,7 @@ class File extends Auth
                 $this->error('对不起,您的积分不足');
             }
             //扣分
-            $user->setDec('score', $attach['need_score']);
+            UserService::DecUserScore($user['id'], "兑换附件，扣除积分", $attach['need_score']);
             //添加
             $buy = new BbsAttachBuy();
             $buy['uid'] = $this->mUser['id'];

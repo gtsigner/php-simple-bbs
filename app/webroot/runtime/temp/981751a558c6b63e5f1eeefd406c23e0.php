@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:65:"/app/webroot/public/../application/index/view/bbs/post/detail.tpl";i:1500175882;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500169802;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:65:"/app/webroot/public/../application/index/view/bbs/post/detail.tpl";i:1500190214;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500169802;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -221,7 +221,7 @@
                             <p style="color: #606060;">
                                 <span>离线</span>
                                 <small>|</small>
-                                论坛元老
+                                <?php echo getUserLevel($vo['user']); ?>
                                 <small>|</small>
                                 发表时间
                                 <small class="time"><?php echo $vo['create_time']; ?></small>
