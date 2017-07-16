@@ -22,7 +22,7 @@
     "topthink/think-testing": "^1.0",
     "bluem/tree": "^1.5",
     "oeynet/helper": "^0.1",
-    "oeynet/add-captcha": "^0.1.0",
+    "oeynet/add-captcha": "^0.2.0",
     "voku/anti-xss": "^2.1"
   },
   "autoload": {
