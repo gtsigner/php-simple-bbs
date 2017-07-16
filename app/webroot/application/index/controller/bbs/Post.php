@@ -8,7 +8,6 @@
 namespace app\index\controller\bbs;
 
 
-use app\admin\controller\system\Config;
 use app\common\model\BbsCategory;
 use app\common\model\BbsComment;
 use app\common\model\BbsPost;

@@ -94,8 +94,11 @@
                     <td><span v-html="vo.id"></span></td>
                     <td><span v-html="vo.sort"></span></td>
                     <td><span v-html="vo.title"></span></td>
-                    <td><a target="_blank" :href="'{:url('bbs.post/postList')}?category='+vo.category.id">
-                            <span v-html="vo.category.title"></span></a></td>
+                    <td><a target="_blank" v-if="vo.category"
+                           :href="'{:url('bbs.post/postList')}?category='+vo.category.id">
+                            <span v-html="vo.category.title"></span></a>
+                        <span v-else="vo.category">已删除</span>
+                    </td>
                     <td><span v-if="vo.user" v-html="vo.user.nickname"></span></td>
                     <td><span v-html="vo.create_time"></span></td>
                     <td><span v-html="vo.comments_count"></span></td>

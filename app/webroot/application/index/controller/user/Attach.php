@@ -18,12 +18,13 @@ class Attach extends Auth
     public function index()
     {
         $map = [
-            'uid' => $this->mUser['id']
+            'uid' => $this->mUser['id'],
         ];
         $bbsFiles = BbsAttachBuy::where($map)
             ->with('file')
             ->order('create_time DESC')
             ->paginate($this->page_limit);
+
         $this->assign('page', $bbsFiles->render());
         $this->assign('data_list', $bbsFiles);
         return $this->fetch();

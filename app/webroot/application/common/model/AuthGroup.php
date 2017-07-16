@@ -14,7 +14,7 @@ class AuthGroup extends Model
 {
 
     //获取access
-    public function access()
+    public function accesses()
     {
         return $this->hasMany("auth_group_access", 'group_id', 'id');
     }
@@ -22,5 +22,11 @@ class AuthGroup extends Model
     public function users()
     {
         return $this->hasMany("auth_user_group", 'group_id', 'id');
+    }
+
+    public function getRules($module)
+    {
+        $rules = explode(',', $this->rules);
+        return AuthRule::all($rules);
     }
 }

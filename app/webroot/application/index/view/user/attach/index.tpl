@@ -18,6 +18,7 @@
                 <td><label>附件描述</label></td>
                 <td><label>文件大小</label></td>
                 <td><label>兑换时间</label></td>
+                <td><label>文件更新时间</label></td>
                 <td><label>消费积分</label></td>
                 <td><label>操作</label></td>
             </tr>
@@ -38,12 +39,20 @@
                     <td>
                         <span>{$vo.file.desc|default='已删除'}</span>
                     </td>
+                    <td>
+                        <span>{$vo.file.size|default='已删除'}</span>
+                    </td>
                     <td>{$vo.create_time}</td>
                     <td>{$vo.file.update_time|checkDateDefault|default='无'}</td>
                     <td>{$vo.pay_amount}</td>
-                    <td><a class="download-btn cursor-pointer"
-                           data-score="{$vo.file.need_score}"
-                           data-href="{:url('attach.file/download',['id'=>$vo->file->id])}">点击下载</a></td>
+                    <td>{empty name="vo.file"}
+                            <span>已删除</span>
+                        {else/}
+                            <a class="download-btn cursor-pointer"
+                               data-score="{$vo.file.need_score}"
+                               data-href="{:url('attach.file/download',['id'=>$vo['file']['id']])}">点击下载</a>
+                        {/empty}
+                    </td>
                 </tr>
             {/volist}
             </tbody>

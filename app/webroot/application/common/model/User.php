@@ -23,6 +23,11 @@ class User extends Model
         return $this->hasMany('auth_user_group', 'uid', 'id');
     }
 
+    public function userGroup()
+    {
+        return $this->belongsToMany('auth_group', '\\app\\common\\model\\AuthUserGroup', 'group_id', 'uid');
+    }
+
     public function headPic()
     {
         return $this->hasOne('bbs_picture', 'id', 'head_pic_id');

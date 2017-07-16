@@ -11,6 +11,7 @@ namespace app\index\controller\user;
 use app\common\model\User;
 use app\common\service\UserService;
 use app\index\controller\Auth;
+use think\Session;
 
 class Profile extends Auth
 {
@@ -30,6 +31,8 @@ class Profile extends Auth
         $user->save([
             'nickname' => input('nickname')
         ]);
+        //updateToken
+        Session::set('user_token', $user);
         $this->success("更新成功");
     }
 

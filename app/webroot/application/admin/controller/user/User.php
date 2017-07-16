@@ -31,13 +31,17 @@ class User extends Auth
             if ($data['password'] !== input('password')) {
                 $newData['password'] = Utils::encodeUserPassword($newData['password'], $newData['username']);
             }
+            //更新用户组
+            $groups_ids = $_POST['groups_id'];
+
+            $data->userGroup()->saveAll($groups_ids);
+
             $ret = $data->allowField(true)->save($newData);
             if (false !== $ret) {
                 $this->result([], 200, '更新成功!', "JSON");
             } else {
                 $this->result([], 500, "更新失败!" . model('user')->getError(), "JSON");
             }
-
         } else {
             $data = [
                 'username' => request()->request('username'),
@@ -75,10 +79,17 @@ class User extends Auth
         }
         $userList = model('user')
             ->where($map)
+            ->with('authGroup')
             ->paginate($this->page_limit);
-
+        foreach ($userList as &$user) {
+            $groups = [];
+            foreach ($user->auth_group as $authGroup) {
+                $groups[] = $authGroup->authGroup->id;
+                $authGroup->authGroup;
+            }
+            $user['groups_id'] = $groups;
+        }
         $data['data_list'] = $userList;
-
         $this->result($data, 200, 'success', "JSON");
     }
 
@@ -88,6 +99,9 @@ class User extends Auth
         if (is_array($id)) {
         } else {
             $map['id'] = $id;
+        }
+        if ($id == 1) {
+            $this->error("站长组不可删除");
         }
         $ret = model('user')->where($map)->delete();
         if ($ret) {

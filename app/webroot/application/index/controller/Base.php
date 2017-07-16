@@ -16,6 +16,7 @@ use oeynet\addCaptcha\CaptchaHelper;
 use think\captcha\Captcha;
 use think\Config;
 use think\Controller;
+use think\Session;
 
 class Base extends Controller
 {
@@ -24,7 +25,6 @@ class Base extends Controller
     protected $mAuthMenu = null;
     protected $friendLinks = [];
     protected $category = null;
-
 
     protected function _initialize()
     {
@@ -41,6 +41,35 @@ class Base extends Controller
         $this->assign('_total', $total);
         $this->initFriendLinks();
         $this->initCategory();
+        $this->initMenu();
+        $this->checkLogin();
+    }
+
+    private function checkLogin()
+    {
+        $token = Session::get("user_token");
+        if (!$token) {
+            //$this->error("请先登陆系统后操作", url("portal/login"));
+            //默认以游客身份进行访问
+            $token = [
+                'nickname' => '游客',
+                'uid' => -1,
+                'id' => -1,
+                'ip' => request()->ip(),
+                'admin' => [
+                    'is_root' => 0,
+                ],
+            ];
+        }
+        $this->mUser = $token;
+        $this->assign('_user', $this->mUser);
+    }
+
+    protected function initMenu()
+    {
+        $tree = AuthCache::getAuthRulesTree(1, $this->request->module());
+        $this->mAuthMenu = $tree->DeepTree();
+        $this->assign('_menu', $this->mAuthMenu);
     }
 
 

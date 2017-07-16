@@ -15,7 +15,7 @@ use think\captcha\CaptchaHelper;
 use think\Config;
 use think\Session;
 
-class Portal extends Auth
+class Portal extends Base
 {
 
     public function login()
@@ -38,6 +38,7 @@ class Portal extends Auth
             }
             //初始化admin
             $user->admin;
+            $user->headPic;
             Session::set('user_token', $user->toArray());
             if (!is_null($user->admin) && $user->admin->is_root > 0) {
                 $this->result(['url' => url('admin/index/index')], 200, '管理员,欢迎您回来,正在跳转到后台管理!', "JSON");
@@ -66,10 +67,16 @@ class Portal extends Auth
                 'password' => request()->request('password'),
                 'level_score' => 0,
                 'experience' => 0,
+                'score' => 0,
             ];
             //
             $data['password'] = Utils::encodeUserPassword($data['password'], $data['username']);
-            $ret = model('user')->validate("user.add")->save($data);
+            $user = new User($data);
+            //用户
+            $ret = $user->validate("user.add")->save($data);
+            //用户组
+            $user->authGroup()->save(['group_id' => \config('SYSTEM_USER_SIGNUP_GROUP_ID')]);
+
             if (false !== $ret) {
                 $this->result([], 200, '恭喜您,注册成功!', "JSON");
             } else {

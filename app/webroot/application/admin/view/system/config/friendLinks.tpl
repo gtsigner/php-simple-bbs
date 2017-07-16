@@ -128,6 +128,7 @@
                         });
                     },
                     addShow: function () {
+                        this.tmp_model ={};
                         this.tmp_model.modal_title = "新增";
                         this.tmp_model.method = "add";
                         this.tmp_model.id = null;

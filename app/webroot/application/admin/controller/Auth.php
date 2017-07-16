@@ -8,9 +8,13 @@
 namespace app\admin\controller;
 
 
+use app\admin\controller\user\User;
 use app\common\cache\AuthCache;
-use think\Session;
 use app\common\core\Auth as ViewAuth;
+use app\common\model\AuthGroup;
+use app\common\model\AuthRule;
+use Oeynet\Helper\TreeHelper;
+use think\Session;
 
 class Auth extends Base
 {
@@ -25,8 +29,26 @@ class Auth extends Base
 
         $this->_checkAuth();
 
-        $tree = AuthCache::getAuthRulesTree(1, $this->request->module());
-        $this->mAuthMenu = $tree->DeepTree();
+        if ($this->mUser['id'] === 1) {
+            //超级管理员
+            $tree = AuthCache::getAuthRulesTree(1, $this->request->module());
+            $this->mAuthMenu = $tree->DeepTree();
+        } else {
+            //普通管理员
+            $user = model('user')->with('userGroup')->find(['id' => $this->mUser['id']]);
+            $rulesReal = [];
+            $helper = new TreeHelper();
+            foreach ($user->userGroup as $gp) {
+                $rules = $gp->getRules(request()->module());
+                foreach ($rules as $rule) {
+                    if ($rule->module === strtolower(request()->module()) && $rule->auth_type === 1) {
+                        $rulesReal[] = $rule->toArray();
+                    }
+                }
+            }
+            $helper->load($rulesReal);
+            $this->mAuthMenu = $helper->DeepTree();
+        }
 
         $this->assign('_user', $this->mUser);
         $this->assign('_menu', $this->mAuthMenu);
@@ -68,16 +90,185 @@ class Auth extends Base
         return $this->fetch();
     }
 
+    #region  AuthRule
     public function authRule()
     {
         if ($this->request->isPost()) {
             //json
-
         } else {
-            $tree = AuthCache::getAuthRulesTree();
-            $menus = $tree->DeepTree();
-            $this->assign('data_list', $menus);
             return $this->fetch();
         }
     }
+
+    /**
+     * 增删
+     * Email:zhaojunlike@gmail.com
+     */
+    public function addEditRules()
+    {
+        if ($this->request->isPost()) {
+            //填加或者修改
+            $method = $this->request->request('method');
+            $ret = false;
+            if ($method === 'add') {
+                $link = new AuthRule($_POST);
+                $link['auth_type'] = 0;
+                $ret = $link->allowField(true)->save();
+            }
+            if ($method === 'edit') {
+                $link = AuthRule::get($this->request->request('id'));
+                $ret = $link->data($_POST)->allowField(true)->save();
+            }
+            if (false === $ret) {
+                $this->result(null, 500, '操作失败' . $link->getError(), "JSON");
+            } else {
+                $this->result(null, 200, '操作成功', "JSON");
+            }
+        } else {
+            return $this->fetch();
+        }
+    }
+
+
+    public function changeRuleStatus($id)
+    {
+        $post = AuthRule::get(['id' => $id]);
+        $post['auth_type'] = $post['auth_type'] == 1 ? 0 : 1;
+        $post->save();
+        $this->success("调整状态成功");
+    }
+
+    public function getAuthRules()
+    {
+        $map = [];
+        $userList = AuthRule::where($map)
+            ->paginate($this->page_limit);
+        $data['data_list'] = $userList;
+        $this->result($data, 200, 'success', "JSON");
+    }
+
+    public function getAllRules()
+    {
+        $map = [
+            'status' => 1,
+        ];
+        $userList = AuthRule::where($map)
+            ->order('pid ASC')
+            ->select();
+        $data['data_list'] = $userList;
+        $this->result($data, 200, 'success', "JSON");
+    }
+
+
+    public function delRule($id)
+    {
+        $map = [];
+        if (is_array($id)) {
+            //批量
+        } else {
+            $map['id'] = $id;
+        }
+        $ret = AuthRule::where($map)->delete();
+        if ($ret) {
+            $this->result([], 200, "删除成功", "JSON");
+        } else {
+            $this->result([], 500, "删除失败", "JSON");
+        }
+    }
+    #endregion
+
+
+    #region AuthGroup
+    public function getAllGroups()
+    {
+        $map = [];
+        $userList = AuthGroup::where($map)
+            ->select();
+        $data['data_list'] = $userList;
+        $this->result($data, 200, 'success', "JSON");
+    }
+
+    public function authGroup()
+    {
+        if ($this->request->isPost()) {
+            //json
+        } else {
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 增删
+     * Email:zhaojunlike@gmail.com
+     */
+    public function addEditAuthGroup()
+    {
+        if ($this->request->isPost()) {
+            //填加或者修改
+            $method = $this->request->request('method');
+            $ret = false;
+            if ($method === 'add') {
+                $link = new AuthGroup($_POST);
+
+                $link->data($_POST);
+                $rules = $_POST['rules'];
+                $link['rules'] = implode(",", $rules);
+
+                $ret = $link->allowField(true)->save();
+            }
+            if ($method === 'edit') {
+                $link = AuthGroup::get($this->request->request('id'));
+
+                $link->data($_POST);
+                $rules = $_POST['rules'];
+                $link['rules'] = implode(",", $rules);
+
+                $ret = $link->allowField(true)->save();
+            }
+            if (false === $ret) {
+                $this->result(null, 500, '操作失败' . $link->getError(), "JSON");
+            } else {
+                $this->result(null, 200, '操作成功', "JSON");
+            }
+        } else {
+            return $this->fetch();
+        }
+    }
+
+    public function getAuthGroups()
+    {
+        $map = [];
+        $dataList = AuthGroup::where($map)
+            ->paginate($this->page_limit);
+        foreach ($dataList as &$item) {
+            $rules = explode(',', $item['rules']);
+            $item['rules'] = $rules;
+
+            $rules = AuthRule::all($rules);
+            $item['rules_show'] = $rules;
+
+        }
+        $data['data_list'] = $dataList;
+        $this->result($data, 200, 'success', "JSON");
+    }
+
+    public function delAuthGroup($id)
+    {
+        $map = [];
+        if (is_array($id)) {
+            //批量
+        } else {
+            $map['id'] = $id;
+        }
+        if ($id == 1) {
+            $this->error("站长组不可删除");
+        }
+        $ret = AuthGroup::where($map)->delete();
+        if ($ret) {
+            $this->result([], 200, "删除成功", "JSON");
+        } else {
+            $this->result([], 500, "删除失败", "JSON");
+        }
+    }
+    #endregion
 }

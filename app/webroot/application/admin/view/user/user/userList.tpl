@@ -48,6 +48,18 @@
                                     <label for="" class="control-label">备注</label>
                                     <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
                                 </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">权限分组</label>
+                                    <div class="well">
+                                        <ul class="list-inline">
+                                            <li v-for="gp in groups">
+                                                <input type="checkbox" v-model="tmp_model.groups_id"
+                                                       :value="gp.id">
+                                                <span v-html="gp.title"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -79,8 +91,12 @@
                     <td><span v-html="vo.id"></span></td>
                     <td><span v-html="vo.username"></span></td>
                     <td><span v-html="vo.nickname"></span></td>
-                    <td><span v-html="vo.auth_group"></span></td>
-                    <td><span v-html="vo.level_score"></span></td>
+                    <td>
+                        <span class="text-success" v-if="vo.auth_group" v-for="group in vo.auth_group"
+                              v-html="group.authGroup.title+'，'"></span>
+                        <span class="text-danger" v-if="vo.auth_group.length<=0">无任何权限</span>
+                    </td>
+                    <td><span v-html="vo.score"></span></td>
                     <td><span v-html="vo.experience"></span></td>
                     <td><span v-html="vo.level"></span></td>
                     <td><label class="label cursor-pointer"
@@ -134,7 +150,8 @@
                         last_page: 0,
                         per_page: 0,
                         total: 0
-                    }
+                    },
+                    groups: []
                 },
                 methods: {
                     loadData: function (pageNum) {
@@ -209,10 +226,19 @@
                         }, function () {
                             layer.msg("操作取消");
                         })
+                    },
+                    loadAllGroups: function () {
+                        var self = this;
+                        $.get("{:url('auth/getAllGroups')}", function (ret) {
+                            ret.data.data_list.forEach(function (item) {
+                                self.groups.push(item);
+                            });
+                        });
                     }
                 },
                 mounted: function () {
                     // this.getDataList();
+                    this.loadAllGroups();
                     this.loadData();
                 }
             })

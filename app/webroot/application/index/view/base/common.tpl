@@ -132,22 +132,22 @@
                                 {$_user.username|default='游客请登录'}
                                 <span class="caret"></span>
                             </a>
-                            {empty name="_user.id"}
-                            <ul class="dropdown-menu user-drop-menu">
-                                <li><a href="{:url('index/portal/login')}">登陆</a></li>
-                                <li><a href="{:url('index/portal/reg')}">注册</a></li>
-                            </ul>
+                            {eq name="_user.id" value="-1"}
+                                <ul class="dropdown-menu user-drop-menu">
+                                    <li><a href="{:url('index/portal/login')}">登陆</a></li>
+                                    <li><a href="{:url('index/portal/reg')}">注册</a></li>
+                                </ul>
                             {else/}
-                            <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
-                                <li><a class="text-center text-success">欢迎您，{$_user.nickname}</a></li>
-                                <li><a>积分: <span class="text-success">{$_user.score}</span></a></li>
-                                <li><a href="{:url('index/user.profile/index')}">个人资料</a></li>
-                                <li><a href="{:url('index/user.attach/index')}">我的附件</a></li>
-                                <li><a href="{:url('index/user.profile/resetPwd')}">修改密码</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="{:url('portal/logout')}">注销登陆</a></li>
-                            </ul>
-                            {/empty}
+                                <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
+                                    <li><a class="text-center text-success">欢迎您，{$_user.nickname}</a></li>
+                                    <li><a>积分: <span class="text-success">{$_user.score}</span></a></li>
+                                    <li><a href="{:url('index/user.profile/index')}">个人资料</a></li>
+                                    <li><a href="{:url('index/user.attach/index')}">我的附件</a></li>
+                                    <li><a href="{:url('index/user.profile/resetPwd')}">修改密码</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{:url('portal/logout')}">注销登陆</a></li>
+                                </ul>
+                            {/eq}
                         </li>
                     </ul>
                     <form class="navbar-form navbar-right" method="get" action="{:url('index/index')}">

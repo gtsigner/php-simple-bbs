@@ -62,7 +62,7 @@
         {$comments_page}
     </div>
     <!--评论-->
-    {empty name="_user"}
+    {eq name="_user.id" value='-1'}
         <div class="row post-box well animated animated-quick slideInUp">
             <div class="row text-center">
                 <h1>想回复帖子,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
@@ -124,7 +124,7 @@
                 </script>
             </form>
         </div>
-    {/empty}
+    {/eq}
     <script>
         require(['jquery', 'layer', 'wangEditor'], function ($, layer, wangEditor) {
 

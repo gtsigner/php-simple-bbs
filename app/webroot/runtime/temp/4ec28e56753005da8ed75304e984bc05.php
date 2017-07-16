@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500117199;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500116989;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500117199;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500169802;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,21 +131,21 @@
                                 <?php echo (isset($_user['username']) && ($_user['username'] !== '')?$_user['username']:'游客请登录'); ?>
                                 <span class="caret"></span>
                             </a>
-                            <?php if(empty($_user['id']) || (($_user['id'] instanceof \think\Collection || $_user['id'] instanceof \think\Paginator ) && $_user['id']->isEmpty())): ?>
-                            <ul class="dropdown-menu user-drop-menu">
-                                <li><a href="<?php echo url('index/portal/login'); ?>">登陆</a></li>
-                                <li><a href="<?php echo url('index/portal/reg'); ?>">注册</a></li>
-                            </ul>
+                            <?php if($_user['id'] == '-1'): ?>
+                                <ul class="dropdown-menu user-drop-menu">
+                                    <li><a href="<?php echo url('index/portal/login'); ?>">登陆</a></li>
+                                    <li><a href="<?php echo url('index/portal/reg'); ?>">注册</a></li>
+                                </ul>
                             <?php else: ?>
-                            <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
-                                <li><a class="text-center text-success">欢迎您，<?php echo $_user['nickname']; ?></a></li>
-                                <li><a>积分: <span class="text-success"><?php echo $_user['score']; ?></span></a></li>
-                                <li><a href="<?php echo url('index/user.profile/index'); ?>">个人资料</a></li>
-                                <li><a href="<?php echo url('index/user.attach/index'); ?>">我的附件</a></li>
-                                <li><a href="<?php echo url('index/user.profile/resetPwd'); ?>">修改密码</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="<?php echo url('portal/logout'); ?>">注销登陆</a></li>
-                            </ul>
+                                <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
+                                    <li><a class="text-center text-success">欢迎您，<?php echo $_user['nickname']; ?></a></li>
+                                    <li><a>积分: <span class="text-success"><?php echo $_user['score']; ?></span></a></li>
+                                    <li><a href="<?php echo url('index/user.profile/index'); ?>">个人资料</a></li>
+                                    <li><a href="<?php echo url('index/user.attach/index'); ?>">我的附件</a></li>
+                                    <li><a href="<?php echo url('index/user.profile/resetPwd'); ?>">修改密码</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="<?php echo url('portal/logout'); ?>">注销登陆</a></li>
+                                </ul>
                             <?php endif; ?>
                         </li>
                     </ul>

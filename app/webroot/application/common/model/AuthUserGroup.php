@@ -13,4 +13,8 @@ use think\Model;
 class AuthUserGroup extends Model
 {
 
+    public function authGroup()
+    {
+        return $this->hasOne("auth_group", 'id', 'group_id');
+    }
 }

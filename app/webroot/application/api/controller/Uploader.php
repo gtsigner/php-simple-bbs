@@ -34,7 +34,7 @@ class Uploader extends Controller
         $info = $file->validate([])->rule('md5')->move($savePath);
         if ($info) {
             $entity = [
-                'status' => 1,
+                'status' => 0,
                 'download_count' => 0,
                 'create_time' => time(),
                 'title' => $info->getInfo('name'),
@@ -95,6 +95,7 @@ class Uploader extends Controller
             unset($entity['local_path']);
             $entity['id'] = $ret;
             $entity['path'] = "/upload/head/{$entity['path']}";
+            Session::set('user_token', $user);
             $this->result($entity, 200, "上传成功,正在更新您的头像");
         } else {
             $this->result([], 500, "上传失败,请保证您得头像文件在2M以内,仅支持png,jpg,jpeg,gif格式,{$file->getError()}");

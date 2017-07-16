@@ -4,6 +4,8 @@ namespace app\common\core;
 
 use app\common\model\AuthGroup;
 use app\common\model\AuthGroupAccess;
+use app\common\model\AuthRule;
+use app\common\model\AuthUserGroup;
 use app\common\model\User;
 use think\Request;
 
@@ -50,13 +52,11 @@ class Auth
     /**
      * Email:zhaojunlike@gmail.com
      * @param $rule
-     * @param $uid
+     * @param $user
      * @return mixed
      */
     public function checkAuth($rule, $user)
     {
-
-        $uid = $user['id'];
         $rule = implode("/", $rule);
         $rule = strtolower($rule);
         //1.检测系统是否配置规则
@@ -65,59 +65,50 @@ class Auth
             return self::$AUTH_CODES['denial'];
         }
         $this->currentRule = $systemRule;
-        //如果是管理员
+        //如果是超级管理员
         if (isset($user['admin']['is_root']) && $user['admin']['is_root'] === 1) {
             return self::$AUTH_CODES['success'];
         }
 
         //2.检查用户组
-        $systemRule->
-
-
-        $authGroupAccess = AuthGroupAccess::get(['uid' => $uid]);
-        if (!$authGroupAccess) {
+        $userAuthGroups = AuthUserGroup::where(['uid' => $user['id']])->with('authGroup')->select();
+        $userAuthRules = [];
+        //游客,给游客权限
+        if ($user['id'] === -1) {
+            //http://192.168.99.100/index/index/index/
+            $viewGroup = AuthGroup::get(config('SYSTEM_DEFAULT_VIEWER_GROUP_ID'));
+            $tmpRules = $viewGroup->rules;
+            $tmpRules = explode(",", $tmpRules);
+            $rules = AuthRule::all($tmpRules);
+            foreach ($rules as $rule) {
+                array_push($userAuthRules, $rule);
+            }
+        }
+        foreach ($userAuthGroups as $authGroup) {
+            //
+            $tmpRules = $authGroup->auth_group->rules;
+            $tmpRules = explode(",", $tmpRules);
+            $rules = AuthRule::all($tmpRules);
+            foreach ($rules as $rule) {
+                array_push($userAuthRules, $rule);
+            }
+        }
+        $userAuthRules = collection($userAuthRules)->toArray();
+        if (false === array_search($systemRule['id'], array_column($userAuthRules, "id"))) {
             return self::$AUTH_CODES['denial'];
         }
-
-        //3.获取所有规则检查规则是否在
-        $group = AuthGroup::get([
-            'id' => $authGroupAccess->group_id,
-            'status' => 1
-        ]);
-        if (!$group) {
-            //进行正则查询
-
-            return self::$AUTH_CODES['denial'];
-        }
-        $rules = explode(',', $group->rules);
-        if (!array_search($systemRule->id, $rules)) {
-            return self::$AUTH_CODES['denial'];
-        }
-
-        //4.验证回调GroupAccess的callback
-        $rc = new \ReflectionClass(self::class);
-        if ($rc->hasMethod($authGroupAccess['callback'])) {
-            return call_user_func(array(self::class, $authGroupAccess['callback']), $rule, $uid);
-        }
-
-        //5.验证方法
-        if (!empty($authGroupAccess['method']) && Request::instance()->method() !== strtoupper($authGroupAccess['method'])) {
-            return self::$AUTH_CODES['denial_method'];
-        }
-
         //6.验证
         return self::$AUTH_CODES['success'];
     }
 
     //拒绝服务
-    protected function denialService($rule, $uid)
+    protected function denialService($rule, $user)
     {
-        var_dump($rule, $uid);
         return self::$AUTH_CODES['denial'];
     }
 
     //记录访问
-    protected function recordService($rule, $uid)
+    protected function recordService($rule, $user)
     {
         //记录
 
