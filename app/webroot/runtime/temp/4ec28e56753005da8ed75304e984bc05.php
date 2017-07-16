@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500117199;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500169802;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/app/webroot/public/../application/index/view/index/index.tpl";i:1500117199;s:61:"/app/webroot/public/../application/index/view/base/common.tpl";i:1500200008;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,14 +51,18 @@
             $.support.transition = true;
         });
     </script>
-
+    <style>
+        .main-box {
+            box-shadow: 5px 5px 10px #ddd;
+        }
+    </style>
 </head>
 <body>
 <div class="container main-box">
     
         <div class="row header-adv show">
-            <img style="width:100%;height: 100%"
-                 src="http://imgad0.pconline.com.cn/ivy/image/20175/26/14957632245480.jpg?IVY_LEVEL_0?457727_329033"
+            <img style="width:100%;height: 200px"
+                 src="http://bpic.588ku.com/back_pic/00/05/05/995625dd8ca6ffd.jpg!ww800"
                  alt="">
         </div>
         <div class="row system-total">
@@ -95,7 +99,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="<?php echo url('/'); ?>">
-                        <img class="header-logo" src="#" alt="">
+                        <img class="header-logo" src="http://101vv.com/Public/images/logo.png" alt="">
                     </a>
                 </div>
 
