@@ -13,7 +13,7 @@ use app\common\model\BbsComment;
 use app\common\model\BbsPost;
 use app\common\model\User;
 use app\index\controller\Auth;
-use think\captcha\CaptchaHelper;
+use oeynet\addCaptcha\CaptchaHelper;
 use think\Hook;
 use voku\helper\AntiXSS;
 

@@ -36,8 +36,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label">积分</label>
-                                    <input type="number" name="level_score" class="form-control"
-                                           v-model="tmp_model.level_score">
+                                    <input type="number" name="score" class="form-control"
+                                           v-model="tmp_model.score">
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label">经验</label>
@@ -76,6 +76,7 @@
                     <th><input type="checkbox" name="check-all" class="checkbox check-all"></th>
                     <th>编号</th>
                     <th>用户账号</th>
+                    <th>头像</th>
                     <th>昵称</th>
                     <th>用户权限组</th>
                     <th>积分</th>
@@ -90,6 +91,12 @@
                     <td><input type="checkbox" class="checkbox check-item" name="id[]" :value="vo.id"></td>
                     <td><span v-html="vo.id"></span></td>
                     <td><span v-html="vo.username"></span></td>
+                    <td>
+                        <img v-if="vo.head_pic" style="height: 50px;width: 50px"
+                             :src="'/upload/head/'+vo.head_pic.path">
+                        <img v-else="vo.head_pic" style="height: 50px;width: 50px"
+                             src="__PUBLIC__theme/common/images/header.png" alt="">
+                    </td>
                     <td><span v-html="vo.nickname"></span></td>
                     <td>
                         <span class="text-success" v-if="vo.auth_group" v-for="group in vo.auth_group"

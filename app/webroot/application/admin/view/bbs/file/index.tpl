@@ -52,6 +52,11 @@
                                     <input class="form-control" type="text" name="title" v-model="tmp_model.title">
                                 </div>
                                 <div class="form-group">
+                                    <label for="" class="control-label">兑换积分</label>
+                                    <input class="form-control" type="number" name="need_score"
+                                           v-model="tmp_model.need_score">
+                                </div>
+                                <div class="form-group">
                                     <label for="" class="control-label">描述</label>
                                     <textarea class="form-control" v-model="tmp_model.desc"></textarea>
                                 </div>
@@ -72,6 +77,7 @@
                     <th>ID</th>
                     <th>排序</th>
                     <th>文件名</th>
+                    <th>兑换积分</th>
                     <th>描述</th>
                     <th>创建日期</th>
                     <th>MD5值</th>
@@ -85,6 +91,7 @@
                     <td><span v-html="vo.id"></span></td>
                     <td><span v-html="vo.sort"></span></td>
                     <td><span v-html="vo.title"></span></td>
+                    <td><span v-html="vo.need_score"></span></td>
                     <td><span v-html="vo.desc"></span></td>
                     <td><span v-html="vo.create_time"></span></td>
                     <td><span v-html="vo.md5"></span></td>
@@ -126,7 +133,6 @@
                         id: null,
                         title: '',
                         sort: 0,
-                        mark: ''
                     },
                     pagination: {
                         current_page: 0,

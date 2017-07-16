@@ -72,6 +72,8 @@ class Portal extends Base
                 'level_score' => 0,
                 'experience' => 0,
                 'score' => 0,
+                'create_time' => time(),
+                'reg_ip' => request()->ip()
             ];
             //
             $data['password'] = Utils::encodeUserPassword($data['password'], $data['username']);

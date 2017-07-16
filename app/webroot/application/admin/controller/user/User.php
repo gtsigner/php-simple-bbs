@@ -79,8 +79,11 @@ class User extends Auth
         }
         $userList = model('user')
             ->where($map)
+            ->order('id DESC')
             ->with('authGroup')
+            ->with('headPic')
             ->paginate($this->page_limit);
+
         foreach ($userList as &$user) {
             $groups = [];
             foreach ($user->auth_group as $authGroup) {
@@ -88,6 +91,8 @@ class User extends Auth
                 $authGroup->authGroup;
             }
             $user['groups_id'] = $groups;
+            //获取用户的头像
+
         }
         $data['data_list'] = $userList;
         $this->result($data, 200, 'success', "JSON");

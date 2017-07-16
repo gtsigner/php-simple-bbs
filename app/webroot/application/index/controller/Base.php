@@ -63,8 +63,8 @@ class Base extends Controller
                 ],
             ];
         }
-        //$this->mUser = $token;
-        $this->mUser = User::get(['id' => $token['id']]);
+        $this->mUser = $token;
+        //$this->mUser = User::get(['id' => $token['id']]);
         $this->assign('_user', $this->mUser);
     }
 

@@ -29,7 +29,7 @@ class File extends Auth
         return $this->fetch();
     }
 
-    public function download($id)
+    public function download($id = 0)
     {
         $file = BbsFile::get(['id' => $id, 'status' => 1]);
         if (!$file) {
