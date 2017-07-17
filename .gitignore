@@ -4,15 +4,15 @@
 
 /data/mysql/*
 /data/redis/*
-#/data/backup/*
-!/data/backup/*.sql
+/data/backup/*
 !/data/backup/README.txt
 !/data/mysql/README.txt
-!/data/redis/README.txt
-/app/webroot/Application/Runtime/*
 /logs/mysql/*.log
 /logs/nginx/*.log
 /logs/php-fpm/*.log
 /logs/redis/*.log
 docker-compose
+
+!/data/backup/*.sql
+!/data/redis/README.txt
 

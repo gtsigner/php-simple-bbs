@@ -8,6 +8,11 @@ docker大家肯定已经熟悉不过了
 
 ## 项目地址
 https://github.com/zhaojunlike/php-simple-bbs
+
+## 演示站点
+http://blog.oeynet.org
+   
+
 ## Usage
 1.git clone https://github.com/zhaojunlike/php-simple-bbs.git client101vbbs
 
