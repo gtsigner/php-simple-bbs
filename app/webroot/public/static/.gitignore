@@ -1,6 +1,7 @@
 */
 !.gitignore
 !vuejs-paginate
+!vuejs-paginate/dist
 !AjaxUploader
 AjaxUploader/examples
 AjaxUploader/extras
