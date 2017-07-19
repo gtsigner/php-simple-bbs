@@ -16,9 +16,20 @@ use think\Config;
 class ConfigBehavior
 {
 
-    public function run()
+    public function run(&$params)
+    {
+
+
+    }
+
+    public function appBegin(&$params)
     {
         $cacher = ConfigCache::Instance();
         $cacher->initCache();
+    }
+
+    public function actionBegin(&$params)
+    {
+
     }
 }

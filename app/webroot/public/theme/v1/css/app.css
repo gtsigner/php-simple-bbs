@@ -37,12 +37,6 @@
 body {
   background: #eee; }
 
-.navbar-brand {
-  padding: 5px;
-  margin-left: 10px; }
-  .navbar-brand .header-logo {
-    height: 40px; }
-
 .header-adv {
   width: 100%;
   display: none;
@@ -63,6 +57,15 @@ body {
       color: #098ee1; }
     .footer .friend-link-box .friend-link-item a {
       color: #464646; }
+
+.footer-end {
+  min-height: 50px;
+  background: #000;
+  line-height: 50px;
+  padding: 0 20px;
+  color: #fff; }
+  .footer-end a {
+    color: #fff; }
 
 .post-box {
   background: #f7f7f7;

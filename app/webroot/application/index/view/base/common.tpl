@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="keywords" content="{$_rule.title|default=config('WEB_SITE_KEYWORDS')}">
     <meta name="description" content="{$_rule.title|default=config('WEB_SITE_DESC')}">
-    <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页</title>
+    <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页-Power BY Simple BBS</title>
 
     <script src="__STATIC__/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
@@ -97,9 +97,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{:url('/')}">
-                        <img class="header-logo" src="http://101vv.com/Public/images/logo.png" alt="">
-                    </a>
+                    <a class="navbar-brand" href="{:url('/')}">{:config('WEB_SITE_TITLE')}</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -205,6 +203,10 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="row footer-end">
+            <p class="text-center"><a href="https://github.com/zhaojunlike/php-simple-bbs" target="_blank">&copy; 2017
+                    Simple BBS, Inc</a></p>
         </div>
     {/block}
 </div>

@@ -29,8 +29,8 @@ services:
       - ./logs/mysql:/var/lib/mysql-logs:rw
       - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d:ro
     restart: always
-#    ports:
-#      - "3306:3306"
+    ports:
+      - "3306:3306"
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
         MYSQL_DATABASE: oeynet_client_bbs
@@ -46,6 +46,9 @@ services:
   php-fpm:
     build: ./dockerfiles/php/
     restart: always
+    environment:
+        PHP_APP_DEBUG: 'true'
+
     volumes:
 #网站目录
       - ./app:/app:rw

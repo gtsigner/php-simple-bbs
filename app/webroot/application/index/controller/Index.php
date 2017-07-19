@@ -21,14 +21,15 @@ class Index extends Auth
         $cate = BbsCategory::get($category);
         $data = null;
         if (!$cate) {
-            //不存在分类
-            $data = BbsPost::where($map)->order('create_time DESC')->paginate($this->page_limit);
-        } else {
-            $data = $cate->posts()->where($map)->order('create_time DESC')->paginate($this->page_limit);
+            //不存在分类，默认第一个分类
+            $cate = BbsCategory::get([]);
+            $map['category_id'] = $cate['id'];
         }
+        $data = $cate->posts()->where($map)->order('create_time DESC')->paginate($this->page_limit);
         $this->assign('page', $data->render());
         $this->assign('category', $cate);
         $this->assign('data_list', $data);
+
         return $this->fetch();
     }
 }

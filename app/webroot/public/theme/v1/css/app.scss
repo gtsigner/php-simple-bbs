@@ -52,15 +52,6 @@ body {
   background: #eee;
 }
 
-.navbar-brand {
-  padding: 5px;
-  margin-left: 10px;
-
-  .header-logo {
-    height: 40px;
-  }
-}
-
 .header-adv {
   width: 100%;
   display: none;
@@ -94,6 +85,17 @@ body {
   }
 }
 
+.footer-end {
+  min-height: 50px;
+  background: #000;
+  line-height: 50px;
+  padding: 0 20px;
+  color: #fff;
+  a {
+    color: #fff;
+  }
+}
+
 .post-box {
   background: #f7f7f7;
   padding: 30px;
@@ -107,6 +109,7 @@ body {
   }
   .w-e-text-container {
     background: #fff;
+
   }
 }
 

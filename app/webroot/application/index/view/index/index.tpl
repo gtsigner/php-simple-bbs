@@ -57,20 +57,19 @@
 
         </div>
     </div>
-    {empty name="_user"}
-        <div class="row post-box well animated animated-quick slideInUp">
+    {empty name="_user.username"}
+        <div class="row post-box well animated">
             <div class="row text-center">
                 <h1>想发帖,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
             </div>
         </div>
     {else/}
-        <div class="row post-box well animated animated-quick slideInUp">
+        <div class="row post-box well animated animated animated-quick fadeIn" style="z-index: -1">
             <div class="row">
                 <form id="postForm" action="{:url('bbs.post/post')}" method="post">
                     <input type="hidden" name="category_id" value="{$category.id}">
                     <h4>发表新帖（<a href="">{$category.title}</a>）：</h4>
                     <br>
-
                     <div class="form-group">
                         <input type="text" name="title" value="" placeholder="填写帖子标题" class="form-control">
                     </div>
@@ -99,6 +98,9 @@
                         require(['wangEditor', 'jquery', 'layer'], function (wangEditor, $, layer) {
                             var editor = new wangEditor('#postContent');
                             editor.create();
+                            setTimeout(function () {
+                                $(".post-box").removeClass('hidden');
+                            }, 1000);
                             editor.txt.html('<p>请您填写发帖内容</p>')
                             //验证码
                             $('.post-verify-img').click(function (e) {

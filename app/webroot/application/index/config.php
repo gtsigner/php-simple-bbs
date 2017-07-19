@@ -9,5 +9,5 @@ return [
         '__PUBLIC__' => '/',
         '__STATIC__' => '/static',
         '__THEME__' => '/theme/v1'
-    ]
+    ],
 ];
