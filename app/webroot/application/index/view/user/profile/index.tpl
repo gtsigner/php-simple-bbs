@@ -30,7 +30,7 @@
         </div>
     </div>
     <script>
-        require(['jquery', 'layer', 'ajaxUploader'], function ($, layer, AjaxUploader) {
+        seajs.use((['jquery', 'layer', 'ajaxUploader'], function ($, layer, AjaxUploader) {
             //验证码
             $('.auth-verify-img').click(function (e) {
                 e.preventDefault();

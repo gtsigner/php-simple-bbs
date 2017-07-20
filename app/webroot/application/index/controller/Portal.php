@@ -106,7 +106,7 @@ class Portal extends Base
 
     public function getVerify()
     {
-        $captcha = new Captcha((array)Config::get('captcha'));
+        $captcha = new CaptchaHelper();
         return $captcha->entry(1);
     }
 

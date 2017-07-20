@@ -3,5 +3,6 @@
 !vuejs-paginate
 !vuejs-paginate/dist
 !AjaxUploader
+!layer
 AjaxUploader/examples
 AjaxUploader/extras

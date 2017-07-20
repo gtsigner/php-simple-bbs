@@ -48,7 +48,6 @@ services:
     restart: always
     environment:
         PHP_APP_DEBUG: 'true'
-
     volumes:
 #网站目录
       - ./app:/app:rw

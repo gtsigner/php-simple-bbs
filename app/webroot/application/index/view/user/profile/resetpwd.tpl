@@ -39,7 +39,7 @@
         </div>
     </div>
     <script>
-        require(['jquery', 'layer'], function ($, layer) {
+        seajs.use((['jquery', 'layer'], function ($, layer) {
 
             //验证码
             $('.auth-verify-img').click(function (e) {

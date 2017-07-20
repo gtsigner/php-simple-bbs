@@ -67,7 +67,8 @@ class Post extends Auth
             if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
                 $this->error("对不起,验证码不正确");
             }
-            $content = $this->request->post('content', '', 'htmlspecialchars');
+            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
+            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
             $post_id = $this->request->request('post_id', 0, 'intval');
             if (false === BbsPost::get(['id' => $post_id])) {
                 $this->error("对不起,请选择回复的帖子");
@@ -77,12 +78,14 @@ class Post extends Auth
             }
             $antiXss = new AntiXSS();
             $content = $antiXss->xss_clean($content);
+
             $comment = new BbsComment();
             $ret = $comment->insert([
                 'post_id' => $post_id,
                 'uid' => $this->mUser['id'],
                 'content' => $content,
                 'create_time' => time(),
+                'markdown_code' => $markdownCode,
                 'status' => \think\Config::get('BBS_AUTH_COMMENT_STATUS_TRUE'),
             ]);
 

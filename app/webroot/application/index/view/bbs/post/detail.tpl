@@ -1,4 +1,10 @@
 {extend name="base/common"}
+{block name="pre_head"}
+    <script src="__STATIC__/editor.md/lib/raphael.min.js"></script>
+{/block}
+{block name="style"}
+    <link rel="stylesheet" href="__STATIC__/editor.md/css/editormd.min.css">
+{/block}
 
 {block name="body"}
     <div class="post-detail">
@@ -73,8 +79,11 @@
             <form id="commentForm" action="{:url('bbs.post/comment')}" method="post">
                 <input type="hidden" name="post_id" value="{$data.id}">
                 <div class="form-group">
-                    <div id="postContent"></div>
-                    <textarea name="content" id="content" class="hidden"></textarea>
+                    <div class="" id="postContent">
+                        <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
+                        <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
+                        <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="row post-verify-box">
@@ -93,40 +102,67 @@
                         </div>
                     </div>
                 </div>
-                <script>
-                    require(['wangEditor', 'jquery', 'layer'], function (wangEditor, $, layer) {
-                        var editor = new wangEditor('#postContent');
-                        editor.create();
-                        editor.txt.html('')
-                        //验证码
-                        $('.post-verify-img').click(function (e) {
-                            e.preventDefault();
-                            var $this = $(this);
-                            $this.attr('src', "{:url('portal/getPostVerify')}?v=" + Math.random());
-                        });
-                        //
-                        $('#commentForm').submit(function (e) {
-                            e.preventDefault();
-                            var $this = $(this);
-                            $("#content").html(editor.txt.html());
-                            $.post($this.attr('action'), $this.serialize(), function (ret) {
-                                layer.alert(ret.msg);
-                                $(".post-verify-img").trigger('click');
-                                if (1 === ret.code) {
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 1300);
-                                    //$('#error_msg').html(ret.msg);
-                                }
-                            });
-                        });
-                    });
-                </script>
             </form>
         </div>
     {/eq}
     <script>
-        require(['jquery', 'layer', 'wangEditor'], function ($, layer, wangEditor) {
+
+    </script>
+    <script>
+        seajs.use(EditorMDDeps, function (editormd) {
+            var editor = editormd({
+                id: "postContent",
+                height: 640,
+                path: "/static/editor.md/lib/",
+                toolbarIcons: function () {
+                    // Or return editormd.toolbarModes[name]; // full, simple, mini
+                    // Using "||" set icons align right.
+                    return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2", "file", "faicon", "||", "watch", "fullscreen", "preview", "testIcon"]
+                },
+                //toolbar  : false,             // 关闭工具栏
+                codeFold: true,
+                searchReplace: true,
+                saveHTMLToTextarea: true,      // 保存 HTML 到 Textarea
+                htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+                emoji: true,
+                taskList: true,
+                tocm: true,          // Using [TOCM]
+                tex: true,                      // 开启科学公式 TeX 语言支持，默认关闭
+                //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
+                flowChart: true,                // 疑似 Sea.js与 Raphael.js 有冲突，必须先加载 Raphael.js ，Editor.md 才能在 Sea.js 下正常进行；
+                sequenceDiagram: true,          // 同上
+                //dialogLockScreen : false,      // 设置弹出层对话框不锁屏，全局通用，默认为 true
+                //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为 true
+                //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为 true
+                //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为 0.1
+                //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为 #fff
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "{:url('api/uploader/uploadEditorImg?pic_type=10')}",
+                onload: function () {
+
+                }
+            });
+        });
+
+        seajs.use(['layer'], function (layer) {
+
+            //验证码
+            $(".post-verify-img").click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                $this.attr('src', "{:url('portal/getPostVerify')}?v=" + Math.random());
+            });
+            //
+
+            $('#commentForm').submit(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                $.post($this.attr('action'), $this.serialize(), function (ret) {
+                    layer.alert(ret.msg);
+                    $(".post-verify-img").trigger('click');
+                });
+            });
 
             //验证码
             $('.auth-verify-img').click(function (e) {
@@ -135,24 +171,6 @@
                 $this.attr('src', "{:url('portal/getVerify')}?v=" + Math.random());
             });
 
-            $('.form').submit(function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                $.post($this.attr('action'), $this.serialize(), function (ret) {
-                    layer.alert(ret.msg);
-                    if (1 !== ret.code) {
-                        //$('#error_msg').html(ret.msg);
-                    } else {
-                        setTimeout(function () {
-                            if (ret.data.url) {
-                                window.location = ret.data.url;
-                            } else {
-                                window.location = "{:url('index/index/index')}";
-                            }
-                        }, 2000);
-                    }
-                });
-            });
         });
     </script>
 {/block}

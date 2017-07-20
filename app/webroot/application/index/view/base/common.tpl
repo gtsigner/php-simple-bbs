@@ -6,55 +6,62 @@
     <meta name="description" content="{$_rule.title|default=config('WEB_SITE_DESC')}">
     <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页-Power BY Simple BBS</title>
 
-    <script src="__STATIC__/requirejs/require.js"></script>
-    <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
+    {block name="pre_head"}
+
+    {/block}
+    <script src="__STATIC__/seajs/dist/sea.js"></script>
+    <script src="__STATIC__/seajs-css/dist/seajs-css.js"></script>
+    <script src="__STATIC__/seajs-preload/dist/seajs-preload.js"></script>
     <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="__THEME__/css/app.css">
     <script>
-        requirejs.config({
-            baseUrl: '/static',
-            paths: {
+        seajs.config({
+            base: '/static',
+            alias: {
                 jquery: 'jquery/dist/jquery.min',
                 bootstrap: 'bootstrap/dist/js/bootstrap.min',
                 vue: 'vue/dist/vue.min',
                 axios: 'axios/dist/axios.min',
-                layer: 'layer/build/layer',
-                //Css
-                appCss: '../theme/admin/scss/app',
-                bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
-                layerCss: 'layer/build/skin/default/layer',
+                appCss: '../theme/admin/scss/app.js',
+                bootstrapCss: 'bootstrap/dist/css/bootstrap.min.js',
                 wangEditor: 'wangEditor/release/wangEditor.min',
                 wangEditorCss: 'wangEditor/release/wangEditor.min',
                 animateCss: 'animate.css/animate.min',
                 vuePager: 'vuejs-paginate/dist/index',
-                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min'
+                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min',
+                layer: 'layer/layer.js',
+                layerCss: 'layer/skin/layer.css',
+                editormd: "editor.md/editormd.min"
             },
-            map: {
-                '*': {
-                    'css': 'require-css/css' // or whatever the path to require-css is
-                }
-            },
-            shim: {
-                bootstrap: {
-                    deps: ['jquery', 'css!animateCss']
-                },
-                layer: {
-                    deps: ['jquery', 'css!layerCss']
-                },
-                wangEditor: {
-                    deps: ['css!wangEditorCss'],
-                }
-            }
+            preload: ['jquery', 'layerCss'],
+            debug: true,
+            charset: 'utf-8'
         });
-        requirejs(['jquery', 'bootstrap'], function ($, bootstrap) {
-            $.support.transition = true;
+        var EditorMDDeps = [
+            "editormd"
+//            "__STATIC__/editor.md/plugins/link-dialog/link-dialog",
+//            "__STATIC__/editor.md/plugins/reference-link-dialog/reference-link-dialog",
+//            "__STATIC__/editor.md/plugins/image-dialog/image-dialog",
+//            "__STATIC__/editor.md/plugins/code-block-dialog/code-block-dialog",
+//            "__STATIC__/editor.md/plugins/table-dialog/table-dialog",
+//            "__STATIC__/editor.md/plugins/emoji-dialog/emoji-dialog",
+//            "__STATIC__/editor.md/plugins/goto-line-dialog/goto-line-dialog",
+//            "__STATIC__/editor.md/plugins/help-dialog/help-dialog",
+//            "__STATIC__/editor.md/plugins/html-entities-dialog/html-entities-dialog",
+//            "__STATIC__/editor.md/plugins/preformatted-text-dialog/preformatted-text-dialog"
+        ];
+
+        seajs.use(['bootstrap', 'layer'], function (bootstrap, layer) {
+            //$.support.transition = true;
+
         });
     </script>
     <style>
-        .main-box {
-            box-shadow: 5px 5px 10px #ddd;
-        }
+
     </style>
+    {block name="style"}
+
+    {/block}
 </head>
 <body>
 <div class="container main-box">

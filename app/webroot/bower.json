@@ -12,8 +12,11 @@
     "requirejs": "^2.3.3",
     "require-css": "^0.1.10",
     "axios": "^0.16.2",
-    "layer": "^3.0.3",
-    "wangEditor": "^3.0.3",
-    "animate.css": "^3.5.2"
+    "animate.css": "^3.5.2",
+    "editor.md": "^1.5.0",
+    "codemirror": "^5.27.4",
+    "seajs": "^3.0.0",
+    "seajs-preload": "seajs/seajs-preload",
+    "seajs-css": "seajs/seajs-css"
   }
 }

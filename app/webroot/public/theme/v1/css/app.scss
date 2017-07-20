@@ -39,6 +39,7 @@
 }
 
 .main-box {
+  box-shadow: 0 5px 10px #ddd;
   background: #fff;
   padding: 0;
   .navbar-default {
@@ -98,7 +99,6 @@ body {
 
 .post-box {
   background: #f7f7f7;
-  padding: 30px;
   .post-verify-box {
     .post-verify-img {
       padding: 2px;
@@ -114,6 +114,7 @@ body {
 }
 
 .post-list-box {
+  min-height: 600px;
   .index-post-title {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -172,12 +173,17 @@ body {
     border-radius: 8px;
     background: #fff;
     padding: 0 5px;
+
     .well-header {
       padding: 15px 10px;
     }
     .well-content {
       min-height: 60px;
       padding: 15px 40px;
+      img {
+        position: static !important;
+        max-width: 100%;
+      }
     }
     .user-msg-box {
       padding: 0 10px;
