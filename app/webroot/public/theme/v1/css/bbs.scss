@@ -1,0 +1,110 @@
+.page-bbs {
+  margin-top: 20px;
+  .post-list-box {
+    min-height: 600px;
+    .index-post-title {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 240px;
+      overflow: hidden;
+      display: block;
+    }
+  }
+}
+
+.page-post-detail {
+  /*帖子详细*/
+  .post-detail {
+    .detail-box {
+      .post-detail-header {
+        padding: 20px 0;
+        border-bottom: 1px solid #e0e0e0;
+        .post-tag-box {
+          color: #5e5e5e;
+          font-size: 15px;
+          .tags-box {
+            min-width: 20%;
+          }
+        }
+        .post-title {
+          margin: 15px 0;
+        }
+      }
+      .content {
+        img {
+          position: static !important;
+          width: 100%;
+          border: 1px solid #d3d3d3;
+          padding: 4px;
+        }
+      }
+    }
+    .article-content {
+      padding: 20px;
+    }
+  }
+
+  .post-comments-total {
+    margin-top: 20px;
+    border-bottom: 4px solid #ddd;
+    h3 {
+      font-weight: normal;
+    }
+  }
+  .comments {
+    padding: 10px 0;
+    border-radius: 0;
+    .well {
+      border: none;
+      .well-header {
+        border: none;
+        border-radius: 0;
+      }
+      border-bottom: 1px solid #ddd;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .comment-item {
+      margin-bottom: 10px;
+      background: #fff;
+      padding: 0 5px;
+      .well-header {
+        padding: 15px 10px;
+        margin: 0;
+        border-radius: 0;
+      }
+      .well-content {
+        min-height: 60px;
+        padding: 15px 40px;
+        img {
+          position: static !important;
+          max-width: 100%;
+          border: 1px solid #d3d3d3;
+          padding: 4px;
+        }
+      }
+      .user-msg-box {
+        padding: 0 10px;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.post-box {
+  .post-verify-box {
+    .post-verify-img {
+      border: 1px solid rgba(207, 207, 207, 0.89);
+      height: 33px;
+      width: 100%;
+      transition: all .3s;
+      &:hover {
+        transform: scale(1.3);
+      }
+    }
+  }
+  .w-e-text-container {
+    background: #fff;
+
+  }
+}

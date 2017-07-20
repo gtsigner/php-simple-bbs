@@ -1,0 +1,19 @@
+.footer {
+  background: #fff;
+  margin-top: 20px;
+  width: 100%;
+  min-height: 200px;
+  border-top: 1px solid #ddd;
+  .friend-link-box {
+    padding: 10px 30px;
+    line-height: 30px;
+    .friend-link-head {
+      color: #098ee1;
+    }
+    .friend-link-item {
+      a {
+        color: #464646;
+      }
+    }
+  }
+}

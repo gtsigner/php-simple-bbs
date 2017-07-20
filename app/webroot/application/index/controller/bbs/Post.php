@@ -123,7 +123,7 @@ class Post extends Auth
             $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
             $antiXss = new AntiXSS();
             $content = $antiXss->xss_clean($content);
-            
+
             $ret = $comment->save(['content' => $content, 'markdown_code' => $markdownCode, 'update_time' => time()]);
             //评论钩子
             Hook::listen("user_bbs_comment_update", $this->mUser, $comment);
@@ -135,6 +135,49 @@ class Post extends Auth
             }
         } else {
             $this->assign('data', $comment);
+            return $this->fetch();
+        }
+    }
+
+    public function editPost()
+    {
+        $id = input('id', 0, 'intval');
+        $data = BbsPost::get([
+            'uid' => $this->mUser['id'],
+            'id' => $id,
+        ]);
+        if (!$data) {
+            $this->error("对不起,未找到");
+        }
+        if (request()->isPost()) {
+            $cap = new CaptchaHelper();
+            if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
+                $this->error("对不起,验证码不正确");
+            }
+            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
+            $title = $this->request->post('title', '', 'htmlspecialchars');
+            $category_id = $this->request->post('category_id', $data['category_id'], 'intval');
+            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
+            $antiXss = new AntiXSS();
+            $content = $antiXss->xss_clean($content);
+
+            $ret = $data->save([
+                'title' => $title,
+                'content' => $content,
+                'markdown_code' => $markdownCode,
+                'category_id' => $category_id,
+                'update_time' => time()
+            ]);
+            //评论钩子
+            Hook::listen("user_bbs_comment_update", $this->mUser, $data);
+
+            if ($ret) {
+                $this->success("修改成功");
+            } else {
+                $this->error("操作失败,{$data->getError()}");
+            }
+        } else {
+            $this->assign('data', $data);
             return $this->fetch();
         }
     }

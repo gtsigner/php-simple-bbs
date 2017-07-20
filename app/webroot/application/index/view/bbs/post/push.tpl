@@ -11,18 +11,19 @@
 {block name="body"}
     <div class="post-box animated animated-quick slideInUp">
         <form id="postForm" action="{:url('bbs.post/push')}" method="post">
-            <div class="form-group col-xs-8 row" style="margin-top: 20px;">
-                <input type="text" name="title" class="form-control" placeholder="请输入标题">
+            <div class="row" style="margin-top: 20px">
+                <div class="form-group col-xs-6 no-padding">
+                    <input type="text" name="title" class="form-control input-lg" placeholder="请输入标题">
+                </div>
+                <div class="form-group col-xs-offset-1 col-xs-3 no-padding">
+                    <select name="category_id" class="form-control input-lg" id="">
+                        <option value="0">请选择分类</option>
+                        {volist name="_category" id="vo"}
+                            <option value="{$vo.id}">{$vo.title}</option>
+                        {/volist}
+                    </select>
+                </div>
             </div>
-            <div class="form-group col-xs-4" style="margin-top: 20px;">
-                <select name="category_id" class="form-control" id="">
-                    <option value="0">请选择分类</option>
-                    {volist name="_category" id="vo"}
-                        <option value="{$vo.id}">{$vo.title}</option>
-                    {/volist}
-                </select>
-            </div>
-
             <div class="form-group">
                 <div class="" id="postContent">
                     <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
@@ -30,6 +31,7 @@
                     <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="row post-verify-box">
                     <div class="col-xs-2">
@@ -37,13 +39,13 @@
                              class="post-verify-img"
                              src="{:url('portal/getPostVerify')}" alt="">
                     </div>
-                    <div class="col-xs-3">
-                        <input type="text" name="verify_code" class="form-control input-lg"
+                    <div class="col-xs-2">
+                        <input type="text" name="verify_code" class="form-control"
                                value=""
                                placeholder="请输入验证码结果">
                     </div>
                     <div class="col-xs-3">
-                        <button type="submit" class="btn btn-primary btn-lg">确认回复</button>
+                        <button type="submit" class="btn btn-success">确认回复</button>
                     </div>
                 </div>
             </div>

@@ -2,17 +2,10 @@
 {block name="category"}
 {/block}
 {block name="body"}
-    <div class="page row">
-        <div class="col-xs-8">
-            {$page}
-        </div>
-    </div>
     <div class="row post-list-box">
-        <table class="table text-center">
+        <table class="table table-responsive table-hover text-center">
             <tr class="text-center">
-                <td><label>ID</label></td>
                 <td><label>附件名称</label></td>
-                <td><label>附件描述</label></td>
                 <td><label>文件类型</label></td>
                 <td><label>文件大小</label></td>
                 <td><label>发布时间</label></td>
@@ -24,7 +17,6 @@
             <tbody>
             {volist name="data_list" id="vo"}
                 <tr class="text-center">
-                    <td style="width: 80px">{$vo.id}</td>
                     <td class="text-center">
                         <p class="overflow-title-els">
                             <a class="download-btn cursor-pointer"
@@ -32,9 +24,6 @@
                                data-id="{$vo.id}"
                                data-href="{:url('attach.file/download',['id'=>$vo['id']])}">{$vo.title}</a>
                         </p>
-                    </td>
-                    <td>
-                        <p class="overflow-title-els">{$vo.desc|default='无描述'}</p>
                     </td>
                     <td>{$vo.type}</td>
                     <td>{$vo.size}</td>

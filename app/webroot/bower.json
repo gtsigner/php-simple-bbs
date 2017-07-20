@@ -17,6 +17,7 @@
     "codemirror": "^5.27.4",
     "seajs": "^3.0.0",
     "seajs-preload": "seajs/seajs-preload",
-    "seajs-css": "seajs/seajs-css"
+    "seajs-css": "seajs/seajs-css",
+    "font-awesome": "^4.7.0"
   }
 }

@@ -13,7 +13,25 @@
         <form id="postForm" action="" method="post">
             <input type="hidden" name="id" value="{$data.id}" class="hidden">
             <div class="form-group row" style="margin: 20px;">
-                <h3 class="text-center">{$data.post.title}（回复）</h3>
+                <h3 class="text-center">{$data.title}（修改主贴）</h3>
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="form-group col-xs-6 no-padding">
+                    <input type="text" name="title" value="{$data.title}" class="form-control input-lg"
+                           placeholder="请输入标题">
+                </div>
+                <div class="form-group col-xs-offset-1 col-xs-3 no-padding">
+                    <select name="category_id" class="form-control input-lg" id="">
+                        <option value="0">请选择分类</option>
+                        {volist name="_category" id="vo"}
+                        {eq name="data.category_id" value="$vo.id"}
+                            <option selected value="{$vo.id}">{$vo.title}</option>
+                        {else/}
+                            <option value="{$vo.id}">{$vo.title}</option>
+                        {/eq}
+                        {/volist}
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <div class="" id="postContent">

@@ -7,107 +7,125 @@
 {/block}
 
 {block name="body"}
-    <div class="post-detail">
-        <div class="row">
-            <div class="detail-box">
-                <h3 class="text-center post-title">{$data.title}</h3>
-                <ul class="list-inline text-center">
-                    <li>
-                        帖子编号：<span>{$data.id}</span>
-                    </li>
-                    <li>
-                        <!-- href="{:url('user.user/show',['user_id'=>$data['user']['id']])}"-->
-                        作者：<span><a>{$data.user.nickname|default='已删除'}</a></span>
-                    </li>
-                    <li>
-                        发表时间：<span>{$data.create_time}</a></span>
-                    </li>
-                    <li>
-                        回帖数：<span>{$data->comments()->count()}</span>
-                    </li>
-                    <li>
-                        点击数：<span>{$data.view_count}</span>
-                    </li>
-                </ul>
-                <div class="content row"
-                     style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
-                    {$data.content}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="comments">
-        {volist name="comments" id="vo"}
-            <div class="well comment-item no-padding">
-                <div class="well-header">
-                    <div class="row">
-                        <div class="col-xs-2" style="width: 60px;">
-                            <img style="height: 60px;width: 60px;border-radius: 5px;"
-                                 src="{$vo.user|getRealHeadPath|default='/theme/common/images/header.png'}" alt="">
+    <div class="page-post-detail">
+        <div class="post-detail">
+            <div class="row">
+                <div class="detail-box">
+                    <div class="post-detail-header row">
+                        <div class="col-xs-10">
+                            <h2 class="text-left post-title">{$data.title}</h2>
+                            <ul class="list-inline post-tag-box">
+                                <li class="tags-box">
+                                    Tags：<span class="badge new-badge success">php</span>
+                                    <span class="badge new-badge success">Java</span>
+                                    <span class="badge new-badge success">c#</span>
+                                </li>
+                                <li>
+                                    <!-- href="{:url('user.user/show',['user_id'=>$data['user']['id']])}"-->
+                                    <a class="author">{$data.user.nickname|default='已删除'}</a>
+                                    <span>{:date("Y年m月d日",strtotime($data.create_time))}发布</span>
+                                    {eq name="data.uid" value="$_user.id"}
+                                        *
+                                        <a href="{:url('bbs.post/editPost',['id'=>$data['id']])}" class="author">编辑</a>
+                                    {/eq}
+                                </li>
+                                <li>
+
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-xs-10 user-msg-box">
-                            <p><h4>{$vo.user.nickname}</h4></p>
-                            <p style="color: #606060;">
-                                <span>离线</span>
-                                <small>|</small>
-                                {$vo.user|getUserLevel}
-                                <small>|</small>
-                                发表时间
-                                <small class="time">{$vo.create_time}</small>
-                                {eq name="vo.user.id" value="$_user.id"}
-                                    <a href="{:url('index/bbs.post/editComment',['id'=>$vo['id']])}" class="pull-right">编辑修改</a>
-                                {/eq}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="well-content">
-                    {$vo.content}
-                </div>
-            </div>
-        {/volist}
-    </div>
-    <div class="comments-pager text-center">
-        {$comments_page}
-    </div>
-    <!--评论-->
-    {eq name="_user.id" value='-1'}
-        <div class="row post-box well animated animated-quick slideInUp">
-            <div class="row text-center">
-                <h1>想回复帖子,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
-            </div>
-        </div>
-    {else/}
-        <div class="post-box  animated animated-quick slideInUp">
-            <form id="commentForm" action="{:url('bbs.post/comment')}" method="post">
-                <input type="hidden" name="post_id" value="{$data.id}">
-                <div class="form-group">
-                    <div class="" id="postContent">
-                        <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
-                        <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
-                        <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row post-verify-box">
                         <div class="col-xs-2">
-                            <img style="cursor: pointer;"
-                                 class="post-verify-img"
-                                 src="{:url('portal/getPostVerify')}" alt="">
-                        </div>
-                        <div class="col-xs-3">
-                            <input type="text" name="verify_code" class="form-control input-lg"
-                                   value=""
-                                   placeholder="请输入验证码结果">
-                        </div>
-                        <div class="col-xs-3">
-                            <button type="submit" class="btn btn-primary btn-lg">确认回复</button>
+                            <button class="btn btn-success">赞 | <span>0</span></button>
+                            <button class="btn btn-default">收藏 | <span>0</span></button>
                         </div>
                     </div>
+                    <div class="content row article-content"
+                         style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
+                        {$data.content}
+                    </div>
                 </div>
-            </form>
+            </div>
+            <div class="row post-comments-total">
+                <div class="col-xs-3">
+                    <h3><span>{$data->comments()->count()}</span>条评论</h3>
+                </div>
+            </div>
         </div>
-    {/eq}
+        <div class="comments">
+            {volist name="comments" id="vo"}
+                <div class="well comment-item no-padding">
+                    <div class="well-header">
+                        <div class="row">
+                            <div class="col-xs-2" style="width: 60px;">
+                                <img style="height: 60px;width: 60px;border-radius: 5px;"
+                                     src="{$vo.user|getRealHeadPath|default='/theme/common/images/header.png'}" alt="">
+                            </div>
+                            <div class="col-xs-10 user-msg-box">
+                                <p><h4>{$vo.user.nickname}</h4></p>
+                                <p style="color: #606060;">
+                                    <span>离线</span>
+                                    <small>|</small>
+                                    {$vo.user|getUserLevel}
+                                    <small>|</small>
+                                    发表时间
+                                    <small class="time">{$vo.create_time}</small>
+                                    {eq name="vo.user.id" value="$_user.id"}
+                                        <a href="{:url('index/bbs.post/editComment',['id'=>$vo['id']])}" class=""
+                                           style="margin-left: 20px">编辑修改</a>
+                                    {/eq}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="well-content comment-content">
+                        {$vo.content}
+                    </div>
+                </div>
+            {/volist}
+        </div>
+        <div class="comments-pager text-center">
+            {$comments_page}
+        </div>
+        <!--评论-->
+        {eq name="_user.id" value='-1'}
+            <div class="row post-box well animated animated-quick slideInUp">
+                <div class="row text-center">
+                    <h1>想回复帖子,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
+                </div>
+            </div>
+        {else/}
+            <div class="post-box  animated animated-quick slideInUp">
+                <h4>撰写答案</h4>
+                <form id="commentForm" action="{:url('bbs.post/comment')}" method="post">
+                    <input type="hidden" name="post_id" value="{$data.id}">
+                    <div class="form-group">
+                        <div class="" id="postContent">
+                            <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
+                            <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
+                            <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row post-verify-box">
+                            <div class="col-xs-2">
+                                <img style="cursor: pointer;"
+                                     class="post-verify-img"
+                                     src="{:url('portal/getPostVerify')}" alt="">
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="text" name="verify_code" class="form-control"
+                                       value=""
+                                       placeholder="运算结果">
+                            </div>
+                            <div class="col-xs-3">
+                                <button type="submit" class="btn btn-success">确认回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {/eq}
+    </div>
     <script>
         seajs.use(EditorMDDeps, function (editormd) {
             var editor = editormd({
