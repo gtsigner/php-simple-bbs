@@ -38,8 +38,8 @@ services:
         MYSQL_PASSWORD: zhaojun
   redis-db:
     build: ./dockerfiles/redis
-#    ports:
-#      - "6379:6379"
+    ports:
+      - "6379:6379"
     restart: always
     volumes:
       - ./data/redis:/data

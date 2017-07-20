@@ -54,6 +54,9 @@
                                 <small>|</small>
                                 发表时间
                                 <small class="time">{$vo.create_time}</small>
+                                {eq name="vo.user.id" value="$_user.id"}
+                                    <a href="{:url('index/bbs.post/editComment',['id'=>$vo['id']])}" class="pull-right">编辑修改</a>
+                                {/eq}
                             </p>
                         </div>
                     </div>
@@ -105,9 +108,6 @@
             </form>
         </div>
     {/eq}
-    <script>
-
-    </script>
     <script>
         seajs.use(EditorMDDeps, function (editormd) {
             var editor = editormd({

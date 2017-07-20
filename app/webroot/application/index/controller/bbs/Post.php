@@ -19,8 +19,7 @@ use voku\helper\AntiXSS;
 
 class Post extends Auth
 {
-
-    public function post()
+    public function push()
     {
         if ($this->request->isPost()) {
             $cap = new CaptchaHelper();
@@ -28,7 +27,8 @@ class Post extends Auth
                 $this->error("对不起,验证码不正确");
             }
             $title = $this->request->request('title', '', 'htmlspecialchars');
-            $content = $this->request->post('content', '', 'htmlspecialchars');
+            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
+            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
             $category_id = $this->request->request('category_id', 0, 'intval');
             if (false === BbsCategory::get(['id' => $category_id])) {
                 $this->error("对不起,请选择发表栏目");
@@ -47,6 +47,7 @@ class Post extends Auth
                 'uid' => $this->mUser['id'],
                 'content' => $content,
                 'create_time' => time(),
+                'markdown_code' => $markdownCode,
                 'status' => \think\Config::get('BBS_AUTH_STATUS_TRUE')
             ]);
             //发帖钩子
@@ -57,8 +58,11 @@ class Post extends Auth
             } else {
                 $this->error("发帖失败,{$post->getError()}");
             }
+        } else {
+            return $this->fetch();
         }
     }
+
 
     public function comment()
     {
@@ -97,6 +101,41 @@ class Post extends Auth
             } else {
                 $this->error("回帖失败,{$comment->getError()}");
             }
+        }
+    }
+
+    public function editComment()
+    {
+        $id = input('id', 0, 'intval');
+        $comment = BbsComment::get([
+            'uid' => $this->mUser['id'],
+            'id' => $id,
+        ]);
+        if (false === $comment) {
+            $this->error("对不起,未找到");
+        }
+        if (request()->isPost()) {
+            $cap = new CaptchaHelper();
+            if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
+                $this->error("对不起,验证码不正确");
+            }
+            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
+            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
+            $antiXss = new AntiXSS();
+            $content = $antiXss->xss_clean($content);
+            
+            $ret = $comment->save(['content' => $content, 'markdown_code' => $markdownCode, 'update_time' => time()]);
+            //评论钩子
+            Hook::listen("user_bbs_comment_update", $this->mUser, $comment);
+
+            if ($ret) {
+                $this->success("修改成功");
+            } else {
+                $this->error("操作失败,{$comment->getError()}");
+            }
+        } else {
+            $this->assign('data', $comment);
+            return $this->fetch();
         }
     }
 
