@@ -74,7 +74,7 @@
         </div>
     </div>
     <script>
-        seajs.use((['jquery', 'layer'], function ($, layer) {
+        seajs.use(['layer'], function (layer) {
 
             $(".download-btn").click(function (e) {
                 e.preventDefault();

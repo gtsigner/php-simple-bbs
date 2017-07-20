@@ -1,5 +1,6 @@
 {extend name="base/common"}
-
+{block name="style"}
+{/block}
 {block name="body"}
     <div class="container page-auth">
         <div class="row">
@@ -30,7 +31,7 @@
         </div>
     </div>
     <script>
-        seajs.use((['jquery', 'layer', 'ajaxUploader'], function ($, layer, AjaxUploader) {
+        seajs.use(['layer', 'ajaxUploader'], function (layer) {
             //验证码
             $('.auth-verify-img').click(function (e) {
                 e.preventDefault();
@@ -57,8 +58,7 @@
                 });
             });
 
-            //Ajax
-            var uploader = new AjaxUploader.SimpleUpload({
+            var uploader = new ss.SimpleUpload({
                 button: 'uploadBtn', // file upload button
                 url: '{:url('api/uploader/upHeadImg')}', // server side handler
                 name: 'up_file', // upload parameter name

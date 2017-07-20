@@ -28,7 +28,7 @@
                 wangEditorCss: 'wangEditor/release/wangEditor.min',
                 animateCss: 'animate.css/animate.min',
                 vuePager: 'vuejs-paginate/dist/index',
-                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min',
+                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min.js',
                 layer: 'layer/layer.js',
                 layerCss: 'layer/skin/layer.css',
                 editormd: "editor.md/editormd.min"

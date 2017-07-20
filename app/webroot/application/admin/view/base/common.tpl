@@ -20,11 +20,11 @@
                 bootstrap: 'bootstrap/dist/js/bootstrap.min',
                 vue: 'vue/dist/vue.min',
                 axios: 'axios/dist/axios.min',
-                layer: 'layer/build/layer',
+                layer: 'layer/layer',
                 //Css
                 appCss: '../theme/admin/scss/app',
                 bootstrapCss: 'bootstrap/dist/css/bootstrap.min',
-                layerCss: 'layer/build/skin/default/layer',
+                layerCss: 'layer/skin/layer',
                 vuePager: 'vuejs-paginate/dist/index',
                 ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min'
             },
