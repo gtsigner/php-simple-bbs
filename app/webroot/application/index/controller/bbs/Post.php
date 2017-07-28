@@ -200,6 +200,7 @@ class Post extends Auth
         $this->assign('comments_page', $comments->render());
         $this->assign('category', $data->category);
         $this->assign('data', $data);
+
         return $this->fetch();
     }
 }

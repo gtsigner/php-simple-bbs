@@ -17,7 +17,7 @@ services:
     command: nginx -g 'daemon off;'
 
   mysql-db:
-    image: mysql:5.6
+    image: mysql:5.7
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
       - ./logs/mysql:/var/lib/mysql-logs:rw
