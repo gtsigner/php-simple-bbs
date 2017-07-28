@@ -77,6 +77,39 @@ services:
       - ./app:/app:rw
     working_dir: /app/webroot
     command: bower install
+
+
+##集群监控
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+##第一次迁移数据所需的镜像 version0.3 README手动迁移
+#  mysql-database:
+#    image: mysql:5.7
+#    volumes:
+#      - ./data/backup:/data/backup
+
+##GoogleDocker资源监控
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8081:8080"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
 ##第一次迁移数据所需的镜像 version0.3 README手动迁移
 #  mysql-database:
 #    image: mysql:5.7

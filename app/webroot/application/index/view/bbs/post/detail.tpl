@@ -41,7 +41,9 @@
                     </div>
                     <div class="content row article-content"
                          style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
+                        <html>
                         {$data.content}
+                        </html>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.md-fmt h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px; }
+
 .animated.animated-quick {
   animation-duration: 0.3s; }
 

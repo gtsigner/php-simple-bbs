@@ -18,6 +18,7 @@
     "seajs": "^3.0.0",
     "seajs-preload": "seajs/seajs-preload",
     "seajs-css": "seajs/seajs-css",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "normalize-css": "^7.0.0"
   }
 }

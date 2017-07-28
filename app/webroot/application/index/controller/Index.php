@@ -20,12 +20,10 @@ class Index extends Auth
         }
         $cate = BbsCategory::get($category);
         $data = null;
-        if (!$cate) {
-            //不存在分类，默认第一个分类
-            $cate = BbsCategory::get([]);
-            $map['category_id'] = $cate['id'];
+        if ($cate) {
+            $map['category_id'] = $category;
         }
-        $data = $cate->posts()->where($map)->order('create_time DESC')->paginate($this->page_limit);
+        $data = model('bbs_post')->where($map)->order('create_time DESC')->paginate($this->page_limit);
         $this->assign('page', $data->render());
         $this->assign('category', $cate);
         $this->assign('data_list', $data);
