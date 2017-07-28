@@ -15,6 +15,7 @@ services:
     expose:
       - "80"
     command: nginx -g 'daemon off;'
+
   mysql-db:
     image: mysql:5.6
     volumes:
@@ -49,8 +50,8 @@ services:
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
     links:
-      - mysql-db:mysql-db
-      - redis-db:redis-db
+      - "mysql-db:mysql-db"
+      - "redis-db:redis-db"
     command: php-fpm
 
   composer:

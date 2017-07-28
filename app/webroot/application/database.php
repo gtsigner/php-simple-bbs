@@ -17,7 +17,7 @@ return [
     // 数据库名
     'database' => 'oeynet_client_bbs',
     // 用户名
-    'username' => 'zhaojun',
+    'username' => 'root',
     // 密码
     'password' => 'zhaojun',
     // 端口
