@@ -5,7 +5,7 @@ services:
     ports:
       - "80:80"
     links:
-      - "php-fpm:php-fpm"
+      - php-fpm:php-fpm
     volumes:
       - ./app:/app:rw
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
@@ -29,6 +29,7 @@ services:
         MYSQL_DATABASE: oeynet_client_bbs
         MYSQL_USER: zhaojun
         MYSQL_PASSWORD: zhaojun
+
   redis-db:
     build: ./dockerfiles/redis
     ports:
@@ -36,6 +37,7 @@ services:
     restart: always
     volumes:
       - ./data/redis:/data
+
   php-fpm:
     build: ./dockerfiles/php/
     restart: always
@@ -46,11 +48,11 @@ services:
       - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
-
     links:
       - mysql-db:mysql-db
       - redis-db:redis-db
     command: php-fpm
+
   composer:
     image: composer:1.4.2
     volumes:
@@ -58,6 +60,7 @@ services:
       - ./app:/app:rw
     working_dir: /app/webroot
     command: composer install
+
   bower:
     image: digitallyseamless/nodejs-bower-grunt
     volumes:
@@ -65,36 +68,6 @@ services:
       - ./app:/app:rw
     working_dir: /app/webroot
     command: bower install
-
-##GoogleDocker资源监控
-  cadvisor:
-    image: google/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "8081:8080"
-# 启动一次备份服务 ./docker-compose restart backup
-  backup:
-    image: mysql:5.7
-    environment:
-        MYSQL_HOST: mysql
-        MYSQL_DATABASE: oeynet_client_bbs
-        MYSQL_USER: root
-        MYSQL_PASSWORD: zhaojun
-    depends_on:
-      - mysql-db
-    links:
-      - mysql-db:mysql
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./data/backup:/backup:rw
-      - ./dockerfiles/backup/:/app:ro
-    entrypoint:
-      - /bin/bash
-    command: /app/backup-default.sh
 
 volumes:
   app-data:
