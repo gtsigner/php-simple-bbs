@@ -6,7 +6,7 @@ services:
 #网站目录
       - ./app:/var/www/html
       - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
-#日志文件
+      - /etc/localtime:/etc/localtime:ro
       - ./logs/nginx:/var/log/nginx
     ports:
       - "80:80"
@@ -17,9 +17,9 @@ services:
 
   mysql-db:
     image: mysql:5.7
-#很重要导入到处数据
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
+      - /etc/localtime:/etc/localtime:ro
       - ./logs/mysql:/var/lib/mysql-logs:rw
       - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d:ro
     environment:
@@ -27,8 +27,6 @@ services:
         MYSQL_DATABASE: lottery_api_sale
         MYSQL_USER: zhaojun
         MYSQL_PASSWORD: zhaojun
-    ports:
-      - "3306:3306"
     deploy:
       restart_policy:
         condition: any
@@ -40,24 +38,20 @@ services:
     deploy:
       restart_policy:
         condition: any
-##
+
   php-fpm:
     image: zhaojunlike/php-fpm:5.6
     volumes:
-#网站目录
       - ./app:/var/www/html:rw
-#配置文件
+      - /etc/localtime:/etc/localtime:ro
       - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
-
-#挂载站点日志
       - ./logs/php-fpm:/var/log/php-fpm:rw
     deploy:
       restart_policy:
         condition: any
     command: php-fpm
 
-##附加扩展安装器
   composer:
     image: composer:1.4.2
     volumes:
@@ -78,23 +72,17 @@ services:
         condition: none
     command: bower install
 
-##集群监控
   visualizer:
     image: dockersamples/visualizer:stable
     ports:
-      - "8080:8080"
+      - "8082:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - /etc/localtime:/etc/localtime:ro
     deploy:
       placement:
         constraints: [node.role == manager]
-##第一次迁移数据所需的镜像 version0.3 README手动迁移
-#  mysql-database:
-#    image: mysql:5.7
-#    volumes:
-#      - ./data/backup:/data/backup
 
-##GoogleDocker资源监控
   cadvisor:
     image: google/cadvisor
     volumes:
@@ -102,6 +90,7 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - "8081:8080"
     deploy:
