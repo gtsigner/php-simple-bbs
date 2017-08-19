@@ -1,0 +1,21 @@
+version:  '3.0'
+services:
+# 启动一次备份服务 ./docker-compose restart backup
+  resotre:
+    image: mysql:5.7
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: package_v1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: zhaojun
+      MYSQL_DEFAULT_NAME: default
+    external_links:
+      - dockeroeynetbbs_mysql-db_1:mysql
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/backup:/backup:rw
+      - ./dockerfiles/backup/:/app:ro
+    entrypoint:
+      - /bin/bash
+    command: /app/restore-default.sh
+

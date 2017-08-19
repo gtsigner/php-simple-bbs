@@ -1,4 +1,15 @@
 
+.form-control {
+  box-shadow: none;
+  &:hover, &:focus {
+    box-shadow: none;
+  }
+}
+
+.form-control, .btn {
+  border-radius: 0;
+}
+
 .animated.animated-quick {
   animation-duration: 0.3s;
 }

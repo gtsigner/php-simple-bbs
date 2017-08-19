@@ -1,0 +1,11 @@
+version: 3.0
+service:
+  composer:
+    #image: composer:1.4.2
+    image: zhaojunlike/composer:5.6-latest
+    #build: ./dockerfiles/composer/
+    volumes:
+    #网站目录
+      - ./app:/app:rw
+    working_dir: /app/webroot
+    command: composer install

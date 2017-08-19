@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{$_rule.title|default='首页'}-后台管理</title>
-    <script src="__STATIC__/requirejs/require.js"></script>
+    <script src="__STATIC__/libs/requirejs/require.js"></script>
     <script data-main="css!bootstrapCss" src="__THEME__/js/app.v1.js?v={:getStaticVersion()}"></script>
-    <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="__THEME__/scss/app.css">
+    <link rel="stylesheet" href="__STATIC__/libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__THEME__/css/app.css">
     <script>
         var ThinkQuick = {
             module: '',
@@ -14,7 +14,7 @@
             action: '',
         };
         requirejs.config({
-            baseUrl: '/static',
+            baseUrl: '/static/libs/',
             paths: {
                 jquery: 'jquery/dist/jquery.min',
                 bootstrap: 'bootstrap/dist/js/bootstrap.min',

@@ -23,7 +23,7 @@ class Portal extends Base
         if ($this->request->isPost()) {
             $captcha = new Captcha((array)Config::get('captcha'));
             $verify_code = $this->request->post("verify_code", null, "trim");
-            if (!$captcha->check($verify_code, 1)) {
+            if (!$captcha->check($verify_code, 1) && \config('app_debug') !== true) {
                 $this->error("对不起,验证码错误");
             }
             $username = $this->request->post("username", null, "trim");

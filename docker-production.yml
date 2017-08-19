@@ -2,102 +2,57 @@ version:  '3.0'
 services:
   nginx:
     image: nginx:1.13.3
-    volumes:
-#网站目录
-      - ./app:/var/www/html
-      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
-      - /etc/localtime:/etc/localtime:ro
-      - ./logs/nginx:/var/log/nginx
     ports:
       - "80:80"
-    deploy:
-      restart_policy:
-        condition: any
+      - "443:443"
+    links:
+      - "php-fpm"
+    volumes:
+      - ./app:/app:rw
+      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./dockerfiles/nginx/certs:/etc/nginx/certs:ro
+      - ./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx:rw
+    depends_on:
+      - redis-db
+    restart: always
     command: nginx -g 'daemon off;'
-
   mysql-db:
     image: mysql:5.7
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
-      - /etc/localtime:/etc/localtime:ro
       - ./logs/mysql:/var/lib/mysql-logs:rw
       - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d:ro
+    restart: always
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
-        MYSQL_DATABASE: lottery_api_sale
+        MYSQL_DATABASE: oeynet_client_bbs
         MYSQL_USER: zhaojun
         MYSQL_PASSWORD: zhaojun
-    deploy:
-      restart_policy:
-        condition: any
-
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   redis-db:
-    image: redis
+    build: ./dockerfiles/redis
+    restart: always
     volumes:
       - ./data/redis:/data
-    deploy:
-      restart_policy:
-        condition: any
-
   php-fpm:
-    image: zhaojunlike/php-fpm:5.6
+    build: ./dockerfiles/php/
+    restart: always
+    environment:
+        DEV_APP_DEBUG: 1
+        APP_DEBUG: 1
+        APP_TRACE: 1
     volumes:
-      - ./app:/var/www/html:rw
-      - /etc/localtime:/etc/localtime:ro
+      - ./app:/app:rw
       - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
-    deploy:
-      restart_policy:
-        condition: any
+    depends_on:
+      - mysql-db
+      - redis-db
+    links:
+      - mysql-db
+      - redis-db
     command: php-fpm
-
-  composer:
-    image: composer:1.4.2
-    volumes:
-      - ./app:/app:rw
-    working_dir: /app/webroot
-    deploy:
-      restart_policy:
-        condition: none
-    command: composer install
-
-  bower:
-    image: digitallyseamless/nodejs-bower-grunt
-    volumes:
-      - ./app:/app:rw
-    working_dir: /app/webroot
-    deploy:
-      restart_policy:
-        condition: none
-    command: bower install
-
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8082:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - /etc/localtime:/etc/localtime:ro
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-
-  cadvisor:
-    image: google/cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "8081:8080"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-
-
 volumes:
-  wwwroot:
-    driver: local
+  app-data:

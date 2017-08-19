@@ -5,6 +5,7 @@
 /data/mysql/*
 /data/redis/*
 /data/backup/*
+!/data/backup/default.sql
 !/data/backup/README.txt
 !/data/mysql/README.txt
 !/data/redis/README.txt

@@ -24,8 +24,9 @@ class Portal extends Base
         if ($this->request->isPost()) {
             $captcha = new Captcha((array)Config::get('captcha'));
             $verify_code = $this->request->post("verify_code", null, "trim");
+            var_dump(Config::get('app_debug'));
             if (!$captcha->check($verify_code, 1) && Config::get('app_debug') !== true) {
-                $this->result([], 500, "对不起,验证码错误", "JSON");
+                $this->error("对不起,验证码错误");
             }
             $username = $this->request->post("username", null, "trim");
             $password = $this->request->post('password', null, 'trim');
@@ -35,39 +36,38 @@ class Portal extends Base
                 'password' => Utils::encodeUserPassword($password, $username),
             ]);
             if (!$user) {
-                $this->result([], 500, "对不起,用户名或者密码错误", "JSON");
+                $this->error("对不起,用户名或者密码错误");
             }
             //初始化admin
             $user->admin;
             $user->headPic;
             //钩子
             Hook::listen("user_login", $user);
-
             Session::set('user_token', $user->toArray());
             if (!is_null($user->admin) && $user->admin->is_root > 0) {
-                $this->result(['url' => url('admin/index/index')], 200, '管理员,欢迎您回来,正在跳转到后台管理!', "JSON");
+                $this->success('管理员,欢迎您回来,正在跳转到后台管理!');
             } else {
-                $this->result(['url' => url('index/index/index')], 200, '会员欢迎您,请您稍后!', "JSON");
+                $this->success('会员欢迎您,请您稍后!');
             }
         } else {
             return $this->fetch();
         }
     }
 
-    public function reg()
+    public function signup()
     {
         if ($this->request->isPost()) {
             $captcha = new Captcha((array)Config::get('captcha'));
-            $verify_code = $this->request->post("verify_code", null, "trim");
+            $verify_code = input("verify_code", null, "trim");
             if (!$captcha->check($verify_code, 1) && Config::get('app_debug') !== true) {
-                $this->result([], 500, "对不起,验证码错误", "JSON");
+                $this->error("对不起,验证码错误");
             }
             if (request()->request("password") !== request()->request('re_password')) {
-                $this->result([], 500, "对不起,两次密码不一致", "JSON");
+                $this->error("对不起,两次密码不一致");
             }
             $data = [
                 'username' => request()->request('username'),
-                'nickname' => request()->request('nickname'),
+                'email' => request()->request('email'),
                 'password' => request()->request('password'),
                 'level_score' => 0,
                 'experience' => 0,
@@ -81,7 +81,7 @@ class Portal extends Base
             //用户
             $ret = $user->validate("user.add")->save($data);
             if (false === $ret) {
-                $this->result([], 500, "对不起,注册失败. <span class='text-danger'>" . $user->getError() . "!!!</span>", "JSON");
+                $this->error("对不起,注册失败. <span class='text-danger'>" . $user->getError() . "</span>");
             }
 
             //用户组
@@ -89,9 +89,9 @@ class Portal extends Base
             //钩子
             if (false !== $ret) {
                 Hook::listen("user_reg", $user);
-                $this->result([], 200, '恭喜您,注册成功!', "JSON");
+                $this->success('恭喜您,注册成功!');
             } else {
-                $this->result([], 500, "对不起,注册失败. <span class='text-danger'>" . $user->getError() . "!!!</span>", "JSON");
+                $this->error("对不起,注册失败. <span class='text-danger'>" . $user->getError() . "!!!</span>");
             }
         } else {
             return $this->fetch();
@@ -116,11 +116,5 @@ class Portal extends Base
         return $captcha->entry(10);
     }
 
-    public function logout()
-    {
-        //钩子
-        Hook::listen("user_logout", $this->mUser);
-        Session::delete("user_token");
-        $this->success("注销成功", url('portal/login'));
-    }
+
 }

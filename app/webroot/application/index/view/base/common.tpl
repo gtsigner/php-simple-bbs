@@ -9,52 +9,18 @@
     {block name="pre_head"}
 
     {/block}
-    <script src="__STATIC__/seajs/dist/sea.js"></script>
-    <script src="__STATIC__/seajs-css/dist/seajs-css.js"></script>
-    <script src="__STATIC__/seajs-preload/dist/seajs-preload.js"></script>
-    <link rel="stylesheet" href="__STATIC__/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="__STATIC__/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__STATIC__/libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__STATIC__/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="__THEME__/css/app.css">
-    <script>
-        seajs.config({
-            base: '/static',
-            alias: {
-                jquery: 'jquery/dist/jquery.min',
-                bootstrap: 'bootstrap/dist/js/bootstrap.min',
-                vue: 'vue/dist/vue.min',
-                axios: 'axios/dist/axios.min',
-                appCss: '../theme/admin/scss/app.js',
-                bootstrapCss: 'bootstrap/dist/css/bootstrap.min.js',
-                wangEditor: 'wangEditor/release/wangEditor.min',
-                wangEditorCss: 'wangEditor/release/wangEditor.min',
-                animateCss: 'animate.css/animate.min',
-                vuePager: 'vuejs-paginate/dist/index',
-                ajaxUploader: 'AjaxUploader/SimpleAjaxUploader.min.js',
-                layer: 'layer/layer.js',
-                layerCss: 'layer/skin/layer.css',
-                editormd: "editor.md/editormd.min"
-            },
-            preload: ['jquery', 'layerCss'],
-            debug: true,
-            charset: 'utf-8'
-        });
-        var EditorMDDeps = [
-            "editormd"
-//            "__STATIC__/editor.md/plugins/link-dialog/link-dialog",
-//            "__STATIC__/editor.md/plugins/reference-link-dialog/reference-link-dialog",
-//            "__STATIC__/editor.md/plugins/image-dialog/image-dialog",
-//            "__STATIC__/editor.md/plugins/code-block-dialog/code-block-dialog",
-//            "__STATIC__/editor.md/plugins/table-dialog/table-dialog",
-//            "__STATIC__/editor.md/plugins/emoji-dialog/emoji-dialog",
-//            "__STATIC__/editor.md/plugins/goto-line-dialog/goto-line-dialog",
-//            "__STATIC__/editor.md/plugins/help-dialog/help-dialog",
-//            "__STATIC__/editor.md/plugins/html-entities-dialog/html-entities-dialog",
-//            "__STATIC__/editor.md/plugins/preformatted-text-dialog/preformatted-text-dialog"
-        ];
 
+    <script src="__STATIC__/libs/seajs/dist/sea.js"></script>
+    <script src="__STATIC__/libs/seajs-css/dist/seajs-css.js"></script>
+    <script src="__STATIC__/libs/seajs-preload/dist/seajs-preload.js"></script>
+    <script src="__THEME__/js/sea.conf.js"></script>
+
+    <script>
         seajs.use(['bootstrap', 'layer'], function (bootstrap, layer) {
             //$.support.transition = true;
-
         });
     </script>
     <style>
@@ -68,16 +34,6 @@
 <div class="header">
     <div class="container">
         {block name='header'}
-            <div class="row">
-                <div class="row">
-
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        <img src="" alt="">
-                    </div>
-                </div>
-            </div>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -219,8 +175,7 @@
         </div>
     </div>
     <div class="text-center">
-        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-            document.write(unescape("%3Cspan id='cnzz_stat_icon_1262977691'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1262977691%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
     </div>
 {/block}
 </body>

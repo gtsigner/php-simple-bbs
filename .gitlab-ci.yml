@@ -1,0 +1,12 @@
+
+stages:
+  - deploy
+#部署
+deploy:
+  stage: deploy
+  script:
+    - /bin/bash ./devops/delopy.sh
+  only:
+    - master
+  tags:
+    - shell

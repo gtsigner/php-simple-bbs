@@ -31,7 +31,9 @@ class Uploader extends Controller
             $this->result([], 500, "上传失败,请检查上传文件");
         }
         $savePath = Config::get("storage_path.{$type}");
-        $info = $file->validate([])->rule('md5')->move($savePath);
+        $info = $file->validate([
+            'ext' => 'zip,tar.gz,tar,jpg,png,jpeg,gif'
+        ])->rule('md5')->move($savePath);
         if ($info) {
             $entity = [
                 'status' => 0,

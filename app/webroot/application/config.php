@@ -25,7 +25,7 @@ return [
     // 应用命名空间
     'app_namespace' => 'app',
     // 应用调试模式
-    'app_debug' => isset($_ENV['PHP_APP_DEBUG']) ? $_ENV['PHP_APP_DEBUG'] : true,
+    'app_debug' => isset($_ENV['APP_DEBUG']) ? boolval($_ENV['APP_DEBUG']) : true,
     // 应用Trace
     'app_trace' => false,
     // 应用模式状态

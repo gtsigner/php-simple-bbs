@@ -8,6 +8,6 @@ return [
     'view_replace_str' => [
         '__PUBLIC__' => '/',
         '__STATIC__' => '/static',
-        '__THEME__' => '/theme/v1'
+        '__THEME__' => '/theme/default'
     ],
 ];
