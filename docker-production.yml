@@ -21,16 +21,16 @@ services:
     command: nginx -g 'daemon off;'
   mysql-db:
     image: mysql:5.7
-    networks:
-      - back-net
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
       - ./logs/mysql:/var/lib/mysql-logs:rw
-      - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d
     restart: always
+    networks:
+      - back-net
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
-        MYSQL_DATABASE: oeynet_client_bbs
+        MYSQL_DATABASE: package_v1
         MYSQL_USER: zhaojun
         MYSQL_PASSWORD: zhaojun
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
