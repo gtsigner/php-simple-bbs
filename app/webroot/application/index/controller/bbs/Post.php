@@ -56,7 +56,7 @@ class Post extends Auth
                 Hook::listen("user_bbs_comment", $this->mUser, $post);
 
                 if ($ret) {
-                    $this->success("发帖成功");
+                    $this->success("发帖成功", url("bbs.post/detail", ['id' => $post->getLastInsID()]));
                 } else {
                     $this->error("发帖失败,{$post->getError()}");
                 }
@@ -64,6 +64,9 @@ class Post extends Auth
                 $this->editPost();
             }
         } else {
+            $bbsPost = new BbsPost();
+            $bbsPost['category_id'] = null;
+            $this->assign('data', $bbsPost->toArray());
             return $this->fetch();
         }
     }

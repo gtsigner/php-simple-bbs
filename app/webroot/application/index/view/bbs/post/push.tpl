@@ -41,6 +41,7 @@
             </div>
         </form>
     </div>
+    <div class="block" style="line-height: 80px;height: 80px;"></div>
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
             <div class="row">
@@ -58,6 +59,7 @@
                         </div>
                     </div>
                     <div class="form-group form-group-lg">
+                        <button type="button" class="btn btn-default btn-lg">定时发布</button>
                         <button type="button" class="btn btn-primary btn-lg post-submit-btn">立即发布</button>
                     </div>
                 </form>
@@ -114,9 +116,14 @@
                 console.log("submit");
                 $("#post_form").trigger("submit");
             });
+            //发帖成功后，进入到详细页面
             $('#post_form').ajaxForm(function (ret) {
-                layer.alert(ret.msg);
-                $(".post-verify-img").trigger('click');
+                if (ret.code === 1) {
+                    window.location.href = ret.url;
+                } else {
+                    layer.msg(ret.msg);
+                    $(".post-verify-img").trigger('click');
+                }
             });
 
             //验证码
