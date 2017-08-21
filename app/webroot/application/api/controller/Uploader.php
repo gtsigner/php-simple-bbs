@@ -179,6 +179,7 @@ class Uploader extends Controller
             if (!$ret) {
                 $this->result([], 500, "上传失败,请稍后重试");
             }
+            $entity['title'] = "screenshots.{$entity['ext']}";
             $this->result($entity, 1, "上传成功", "Json");
         } else {
             $this->result([], 0, $file->getError(), "Json");

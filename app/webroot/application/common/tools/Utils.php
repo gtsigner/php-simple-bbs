@@ -40,7 +40,7 @@ class Utils
             $file['ext'] = $type;
             $file['save_path'] = $path . DS . date('Ymd') . DS;
             if (!is_dir($file['save_path'])) {
-                mkdir($file['save_path'], 0666);
+                mkdir($file['save_path'], 0777);
             }
             $file['data'] = base64_decode(str_replace($result[1], '', $content));
             $file['name'] = md5($file['data']) . ".{$file['ext']}";
