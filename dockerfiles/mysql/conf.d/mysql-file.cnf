@@ -2,13 +2,8 @@
 port=3306
 
 [mysql]
-default-character-set=utf8mb4
 
 [mysqld]
-character-set-server=utf8mb4
-character_set_database=utf8mb4
-character_set_client=utf8mb4
-
 default-storage-engine=INNODB
 max_connections=512
 skip-host-cache
