@@ -16,7 +16,5 @@ services:
       - ./dockerfiles/backup/:/app:ro
     entrypoint:
       - /bin/bash
-    networks:
-      - dockeroeynetbbs_back-net
     command: /app/backup-default.sh
 
