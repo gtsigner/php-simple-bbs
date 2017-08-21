@@ -9,33 +9,35 @@ namespace app\admin\controller\user;
 
 
 use app\admin\controller\Auth;
-use app\common\model\BbsPost;
 use app\common\tools\Utils;
 
 class User extends Auth
 {
 
+    /**
+     * 修改提交
+     */
     public function addEditUser()
     {
         if (input('method') == 'edit') {
             $data = \app\common\model\User::get(['id' => input('id', 0, 'intval')]);
             $newData = [
-                'username' => request()->request('username'),
-                'nickname' => request()->request('nickname'),
-                'mark' => request()->request('mark'),
-                'score' => request()->request("score"),
-                'experience' => request()->request("experience"),
-                'password' => input('password')
+                'username' => input('username'),
+                'nickname' => input('nickname'),
+                'password' => input('password'),
+                'mark' => input('mark'),
             ];
             //
             if ($data['password'] !== input('password')) {
                 $newData['password'] = Utils::encodeUserPassword($newData['password'], $newData['username']);
             }
             //更新用户组
-            $groups_ids = $_POST['groups_id'];
-
+            $groups_ids = @$_POST['groups_id'];
+            if (!$groups_ids || !is_array($groups_ids)) {
+                $groups_ids = [];
+            }
+            model('auth_user_group')->where(['uid' => $data['id']])->delete();
             $data->userGroup()->saveAll($groups_ids);
-
             $ret = $data->allowField(true)->save($newData);
             if (false !== $ret) {
                 $this->result([], 200, '更新成功!', "JSON");
@@ -44,11 +46,10 @@ class User extends Auth
             }
         } else {
             $data = [
-                'username' => request()->request('username'),
-                'nickname' => request()->request('nickname'),
-                'password' => request()->request('password'),
-                'level_score' => request()->request("level_score"),
-                'experience' => request()->request("experience"),
+                'username' => input('username'),
+                'nickname' => input('nickname'),
+                'password' => input('password'),
+                'mark' => input('mark'),
             ];
             //
             $data['password'] = Utils::encodeUserPassword($data['password'], $data['username']);
@@ -66,7 +67,7 @@ class User extends Auth
      * 用户列表
      * Email:zhaojunlike@gmail.com
      */
-    public function userList()
+    public function index()
     {
         return $this->fetch();
     }
@@ -78,10 +79,11 @@ class User extends Auth
             $map['status'] = input('status');
         }
         $userList = model('user')
+            ->where('id>1')
             ->where($map)
             ->order('id DESC')
             ->with('authGroup')
-            ->with('headPic')
+            ->with('userProfile')
             ->paginate($this->page_limit);
 
         foreach ($userList as &$user) {
@@ -92,7 +94,6 @@ class User extends Auth
             }
             $user['groups_id'] = $groups;
             //获取用户的头像
-
         }
         $data['data_list'] = $userList;
         $this->result($data, 200, 'success', "JSON");

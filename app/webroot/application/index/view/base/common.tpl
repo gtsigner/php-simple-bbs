@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
     <meta name="keywords" content="{$_rule.title|default=config('WEB_SITE_KEYWORDS')}">
     <meta name="description" content="{$_rule.title|default=config('WEB_SITE_DESC')}">
     <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页-Power BY Simple BBS</title>
@@ -31,6 +33,29 @@
     {/block}
 </head>
 <body>
+<div class="process-bar" id="process-bar"></div>
+<script>
+    //AjaxBar
+    seajs.use([], function () {
+        var $progress = $('#process-bar');
+        $(document).ajaxStart(function () {
+            //only add progress bar if not added yet.
+            if ($progress.length === 0) {
+                $progress = $('<div><dt/><dd/></div>').attr('id', 'progress');
+                $("body").append($progress);
+            }
+            $progress.width((50 + Math.random() * 30) + "%");
+        });
+
+        $(document).ajaxComplete(function () {
+            //End loading animation
+            $progress.width("100%").delay(200).fadeOut(400, function () {
+                $progress.width("0%").delay(200).show();
+            });
+        });
+
+    });
+</script>
 <div class="header">
     <div class="container">
         {block name='header'}
@@ -45,7 +70,9 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{:url('/')}">{:config('WEB_SITE_TITLE')}</a>
+                        <a class="navbar-brand no-padding" href="{:url('/')}">
+                            <img src="__THEME__/../common/images/logo.png" alt="{:config('WEB_SITE_TITLE')}">
+                        </a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,6 +98,7 @@
                             {/volist}
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
+
                             <li>
                                 <a href=""><i class="fa fa-lg fa-bell-o"></i></a>
                             </li>
@@ -95,20 +123,30 @@
                                     <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
                                         <li><a href="{:url('index/user.profile/index')}">我的主页</a></li>
                                         <li><a href="{:url('index/user.attach/index')}">我的附件</a></li>
-                                        <li><a href="{:url('index/user.profile/index')}">资料档案</a></li>
-                                        <li><a href="{:url('index/user.profile/index')}">我的资产</a></li>
                                         <li><a href="{:url('index/user.profile/index')}">账号设置</a></li>
-                                        <li><a href="{:url('portal/logout')}">退出</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="{:url('index/user.profile/resetPwd')}">意见反馈</a></li>
-                                        <li><a href="{:url('index/user.profile/resetPwd')}">用户投诉</a></li>
+                                        <li><a href="{:url('user.user/logout')}">安全退出</a></li>
                                     </ul>
                                 {/eq}
                             </li>
                         </ul>
                         <form class="navbar-form navbar-right" method="get" action="{:url('index/index')}">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="关键词" name="keywords">
+                                <input type="text" class="form-control" placeholder="文章/标签/用户/笔记" name="keywords">
+                            </div>
+                            <div class="btn-group navbar-btn">
+                                <button type="button" class="btn btn-success " id="shuldGoTo" data-type="timeline">
+                                    搜索
+                                </button>
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span
+                                            class="sr-only">显示下拉菜单</span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{:url('bbs.post/push')}">写博客</a></li>
+                                    <li><a href="{:url('bbs.post/push')}">写文章</a></li>
+                                    <li><a href="/record">记笔记</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{:url('user.content/draft')}">草稿箱</a></li>
+                                </ul>
                             </div>
                         </form>
                     </div><!-- /.navbar-collapse -->

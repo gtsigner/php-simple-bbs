@@ -17,12 +17,8 @@ use think\Session;
 
 class Uploader extends Controller
 {
-    /**
-     * upload
-     * Email:zhaojunlike@gmail.com
-     * @param $type
-     */
-    public function upload($type = 'file')
+
+    public function upload()
     {
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('up_file');
@@ -30,14 +26,12 @@ class Uploader extends Controller
         if (!$file) {
             $this->result([], 500, "上传失败,请检查上传文件");
         }
-        $savePath = Config::get("storage_path.{$type}");
+        $savePath = Config::get("storage_path.file");
         $info = $file->validate([
             'ext' => 'zip,tar.gz,tar,jpg,png,jpeg,gif'
         ])->rule('md5')->move($savePath);
         if ($info) {
             $entity = [
-                'status' => 0,
-                'download_count' => 0,
                 'create_time' => time(),
                 'title' => $info->getInfo('name'),
                 'size' => $info->getInfo('size'),
@@ -46,7 +40,7 @@ class Uploader extends Controller
                 'local_path' => $info->getPathname(),
                 'path' => $info->getSaveName(),
                 'md5' => $info->md5(),
-                'path_type' => $type,
+                'path_type' => 'file',
             ];
             $saveRet = BbsFile::create($entity)->save();
             $this->result($entity, 200, "上传成功,{$saveRet}");
@@ -56,6 +50,7 @@ class Uploader extends Controller
     }
 
 
+    //头像文件
     public function upHeadImg()
     {
         $token = Session::get('user_token');
@@ -75,14 +70,11 @@ class Uploader extends Controller
         ])->rule('md5')->move($savePath);
         if ($info) {
             $entity = [
-                'status' => 1,
-                'download_count' => 0,
                 'create_time' => time(),
                 'title' => $info->getInfo('name'),
                 'size' => $info->getInfo('size'),
                 'ext' => $info->getExtension(),
                 'type' => $info->getInfo('type'),
-                'local_path' => $info->getPathname(),
                 'path' => $info->getSaveName(),
                 'md5' => $info->md5(),
                 'uid' => $token['id']
@@ -123,8 +115,6 @@ class Uploader extends Controller
         ])->rule('md5')->move($savePath);
         if ($info) {
             $entity = [
-                'status' => 1,
-                'download_count' => 0,
                 'create_time' => time(),
                 'title' => $info->getInfo('name'),
                 'size' => $info->getInfo('size'),

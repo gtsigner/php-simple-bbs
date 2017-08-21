@@ -1,12 +1,11 @@
 {extend name="base/common"}
 {block name="pre_head"}
-    <script src="__STATIC__/editor.md/lib/raphael.min.js"></script>
-{/block}
-{block name="style"}
-    <link rel="stylesheet" href="__STATIC__/editor.md/css/editormd.min.css">
+    <script src="__STATIC__/libs/editor.md/lib/raphael.min.js"></script>
+    <link rel="stylesheet" href="__STATIC__/libs/editor.md/css/editormd.min.css">
 {/block}
 
 {block name="body"}
+    <link href="http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css" rel="stylesheet"/>
     <div class="page-post-detail">
         <div class="post-detail">
             <div class="row">
@@ -24,9 +23,12 @@
                                     <!-- href="{:url('user.user/show',['user_id'=>$data['user']['id']])}"-->
                                     <a class="author">{$data.user.nickname|default='已删除'}</a>
                                     <span>{:date("Y年m月d日",strtotime($data.create_time))}发布</span>
-                                    {eq name="data.uid" value="$_user.id"}
+                                    {eq name="data.user_id" value="$_user.id"}
                                         *
                                         <a href="{:url('bbs.post/editPost',['id'=>$data['id']])}" class="author">编辑</a>
+                                        *
+                                        <a href="{:url('bbs.post/delete',['id'=>$data['id']])}"
+                                           class="text-danger">删除</a>
                                     {/eq}
                                 </li>
                                 <li>
@@ -39,7 +41,7 @@
                             <button class="btn btn-default">收藏 | <span>0</span></button>
                         </div>
                     </div>
-                    <div class="content row article-content"
+                    <div class="content row article-content markdown-body"
                          style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
                         <html>
                         {$data.content}
@@ -67,7 +69,7 @@
                                 <p style="color: #606060;">
                                     <span>离线</span>
                                     <small>|</small>
-                                    {$vo.user|getUserLevel}
+                                    {$vo.user.userProfile|getUserLevel}
                                     <small>|</small>
                                     发表时间
                                     <small class="time">{$vo.create_time}</small>
@@ -79,12 +81,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="well-content comment-content">
+                    <div class="well-content comment-content markdown-body">
                         {$vo.content}
                     </div>
                 </div>
             {/volist}
         </div>
+
         <div class="comments-pager text-center">
             {$comments_page}
         </div>
@@ -98,7 +101,7 @@
         {else/}
             <div class="post-box  animated animated-quick slideInUp">
                 <h4>撰写答案</h4>
-                <form id="commentForm" action="{:url('bbs.post/comment')}" method="post">
+                <form id="commentForm" class="form" action="{:url('bbs.post/comment')}" method="post">
                     <input type="hidden" name="post_id" value="{$data.id}">
                     <div class="form-group">
                         <div class="" id="postContent">
@@ -108,32 +111,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row post-verify-box">
-                            <div class="col-xs-2">
-                                <img style="cursor: pointer;"
-                                     class="post-verify-img"
-                                     src="{:url('portal/getPostVerify')}" alt="">
-                            </div>
-                            <div class="col-xs-2">
-                                <input type="text" name="verify_code" class="form-control"
-                                       value=""
-                                       placeholder="运算结果">
-                            </div>
-                            <div class="col-xs-3">
-                                <button type="submit" class="btn btn-success">确认回复</button>
-                            </div>
-                        </div>
+                        <button type="submit" class="btn btn-success btn-lg">确认回复</button>
                     </div>
                 </form>
             </div>
         {/eq}
     </div>
     <script>
-        seajs.use(EditorMDDeps, function (editormd) {
+        seajs.use(['editormd', 'layer'], function () {
+            var editormd = seajs.require('editormd');
             var editor = editormd({
                 id: "postContent",
-                height: 640,
-                path: "/static/editor.md/lib/",
+                height: 320,
+                path: "/static/libs/editor.md/lib/",
                 toolbarIcons: function () {
                     // Or return editormd.toolbarModes[name]; // full, simple, mini
                     // Using "||" set icons align right.
@@ -165,7 +155,7 @@
             });
         });
 
-        seajs.use(['layer'], function (layer) {
+        seajs.use(['layer'], function () {
 
             //验证码
             $(".post-verify-img").click(function (e) {
@@ -179,7 +169,7 @@
                 e.preventDefault();
                 var $this = $(this);
                 $.post($this.attr('action'), $this.serialize(), function (ret) {
-                    layer.alert(ret.msg);
+                    layer.msg(ret.msg);
                     $(".post-verify-img").trigger('click');
                 });
             });

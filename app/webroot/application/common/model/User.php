@@ -32,4 +32,9 @@ class User extends Model
     {
         return $this->hasOne('bbs_picture', 'id', 'head_pic_id');
     }
+
+    public function userProfile()
+    {
+        return $this->hasOne('user_profile', 'uid', 'id');
+    }
 }

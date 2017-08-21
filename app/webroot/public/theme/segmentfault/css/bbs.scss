@@ -76,12 +76,6 @@
       .well-content {
         min-height: 60px;
         padding: 15px 40px;
-        img {
-          position: static !important;
-          max-width: 100%;
-          border: 1px solid #d3d3d3;
-          padding: 4px;
-        }
       }
       .user-msg-box {
         padding: 0 10px;
@@ -91,12 +85,10 @@
   }
 }
 
+
 .post-box {
   .post-verify-box {
     .post-verify-img {
-      border: 1px solid rgba(207, 207, 207, 0.89);
-      height: 33px;
-      width: 100%;
       transition: all .3s;
       &:hover {
         transform: scale(1.3);

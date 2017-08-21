@@ -24,7 +24,6 @@ class Portal extends Base
         if ($this->request->isPost()) {
             $captcha = new Captcha((array)Config::get('captcha'));
             $verify_code = $this->request->post("verify_code", null, "trim");
-            var_dump(Config::get('app_debug'));
             if (!$captcha->check($verify_code, 1) && Config::get('app_debug') !== true) {
                 $this->error("对不起,验证码错误");
             }
@@ -38,17 +37,11 @@ class Portal extends Base
             if (!$user) {
                 $this->error("对不起,用户名或者密码错误");
             }
-            //初始化admin
-            $user->admin;
-            $user->headPic;
             //钩子
             Hook::listen("user_login", $user);
+            //session
             Session::set('user_token', $user->toArray());
-            if (!is_null($user->admin) && $user->admin->is_root > 0) {
-                $this->success('管理员,欢迎您回来,正在跳转到后台管理!');
-            } else {
-                $this->success('会员欢迎您,请您稍后!');
-            }
+            $this->success('会员欢迎您,请您稍后!');
         } else {
             return $this->fetch();
         }
@@ -69,11 +62,10 @@ class Portal extends Base
                 'username' => request()->request('username'),
                 'email' => request()->request('email'),
                 'password' => request()->request('password'),
-                'level_score' => 0,
-                'experience' => 0,
-                'score' => 0,
-                'create_time' => time(),
-                'reg_ip' => request()->ip()
+                'pwd_salt' => '',//暂时不用
+                'reg_time' => time(),
+                'reg_ip' => request()->ip(),
+                'status' => \config('USER_SIGNUP_STATUS')
             ];
             //
             $data['password'] = Utils::encodeUserPassword($data['password'], $data['username']);

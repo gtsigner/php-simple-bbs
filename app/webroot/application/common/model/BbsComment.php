@@ -25,7 +25,12 @@ class BbsComment extends Model
 
     public function user()
     {
-        return $this->hasOne("User", 'id', 'uid');
+        return $this->hasOne("User", 'id', 'user_id');
+    }
+
+    public function atUser()
+    {
+        return $this->hasOne("User", 'id', 'to_uid');
     }
 
 }

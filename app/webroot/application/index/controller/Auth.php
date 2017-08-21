@@ -23,8 +23,6 @@ class Auth extends Base
         $this->_checkAuth();
     }
 
-
-
     private function _checkAuth()
     {
         $viewAuthChecker = ViewAuth::Instance();
@@ -36,7 +34,7 @@ class Auth extends Base
                 $this->error("对不起,未知的请求权限访问");
                 break;
             case ViewAuth::$AUTH_CODES['denial']:
-                $this->error("对不起,权限拒绝访问");
+                //$this->error("对不起,权限拒绝访问");
                 break;
             default:
                 break;

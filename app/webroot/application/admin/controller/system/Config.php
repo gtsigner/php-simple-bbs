@@ -38,7 +38,8 @@ class Config extends Auth
                 $ret = $link->allowField(true)->save();
             }
             if ($method === 'edit') {
-                $link = SystemConfig::get($this->request->request('id'));
+                $link = SystemConfig::get(input('id'));
+                unset($_POST['create_time']);
                 $ret = $link->data($_POST)->allowField(true)->save();
             }
             if (false === $ret) {
@@ -106,7 +107,8 @@ class Config extends Auth
                 $ret = $link->allowField(true)->save();
             }
             if ($method === 'edit') {
-                $link = FriendLinks::get($this->request->request('id'));
+                $link = FriendLinks::get(input('id'));
+                unset($_POST['create_time']);
                 $ret = $link->data($_POST)->allowField(true)->save();
             }
             if (false === $ret) {

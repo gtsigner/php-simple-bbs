@@ -76,16 +76,17 @@ class File extends Auth
             $this->success("您已经兑换过附件,您可以直接到<label class='label label-primary'>我的附件</label>进行附件下载");
         } else {
             $user = User::get(['id' => $this->mUser['id']]);
-            if ($user->score < $attach['need_score']) {
-                $this->error('对不起,您的积分不足');
-            }
+//            if ($user->score < $attach['need_score']) {
+//                $this->error('对不起,您的积分不足');
+//            }
             //扣分
-            UserService::DecUserScore($user['id'], "兑换附件，扣除积分", $attach['need_score']);
+            //UserService::DecUserScore($user['id'], "兑换附件，扣除积分", $attach['need_score']);
             //添加
             $buy = new BbsAttachBuy();
             $buy['uid'] = $this->mUser['id'];
             $buy['attach_id'] = $id;
             $buy['create_time'] = time();
+            $buy['pay_type'] = 0;
             $buy['pay_amount'] = $attach['need_score'];
             $buyRet = $buy->save();
             $user->lock(false);

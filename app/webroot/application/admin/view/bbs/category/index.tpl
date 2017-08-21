@@ -1,70 +1,79 @@
 {extend name="base/common"}
 {block name="body"}
     <div class="container-fluid" id="index-app">
-        <div class="row data-list-header-action">
-            <button type="button" class="btn btn-success" data-toggle="modal" v-on:click="addShow">新增
-            </button>
-        </div>
-        <div class="row">
-            <!--增加modal-->
-            <div class="modal fade" id="addEditModel" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" v-html="tmp_model.modal_title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{:url('system.config/addFriendLinks')}" method="post">
-                                <input type="hidden" name="id" v-model="tmp_model.id">
-                                <div class="form-group">
-                                    <label for="" class="control-label">标题</label>
-                                    <input type="text" name="title" class="form-control" v-model="tmp_model.title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="control-label">排序(小号在前)</label>
-                                    <input type="number" name="sort" class="form-control" v-model="tmp_model.sort">
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="control-label">备注</label>
-                                    <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" v-on:click="sureAddEdit">确认</button>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {$_rule.title|default='首页'}
+            </div>
+            <div class="panel-body">
+                <div class="well">
+                    <button type="button" class="btn btn-success" data-toggle="modal" v-on:click="addShow">新增
+                    </button>
+                </div>
+                <!--增加modal-->
+                <div class="modal fade" id="addEditModel" tabindex="-1" role="dialog"
+                     aria-labelledby="myLargeModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" v-html="tmp_model.modal_title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{:url('system.config/addFriendLinks')}" method="post">
+                                    <input type="hidden" name="id" v-model="tmp_model.id">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">标题</label>
+                                        <input type="text" name="title" class="form-control" v-model="tmp_model.title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">排序(小号在前)</label>
+                                        <input type="number" name="sort" class="form-control" v-model="tmp_model.sort">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">备注</label>
+                                        <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click="sureAddEdit">确认</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <table class="table-bordered table table-responsive table-hover">
-                <thead>
-                <tr>
-                    <th>编号</th>
-                    <th>排序</th>
-                    <th>栏目名称</th>
-                    <th>状态</th>
-                    <th style="width: 10%">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="vo in data_list">
-                    <td><span v-html="vo.id"></span></td>
-                    <td><span v-html="vo.sort"></span></td>
-                    <td><span v-html="vo.title"></span></td>
-                    <td><span v-html="vo.status"></span></td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑</button>
-                        <button type="button" class="btn btn-sm btn-danger" v-on:click="deleteCategory(vo.id)">删除
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table-bordered table table-responsive table-hover">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>排序</th>
+                        <th>栏目名称</th>
+                        <th>状态</th>
+                        <th style="width: 10%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="vo in data_list">
+                        <td><span v-html="vo.id"></span></td>
+                        <td><span v-html="vo.sort"></span></td>
+                        <td><span v-html="vo.title"></span></td>
+                        <td><label class="label cursor-pointer"
+                                   :class="vo.status===1?'label-success':'label-danger'"
+                                   v-on:click="changeStatus(vo)"
+                                   v-html="vo.status===1?'开启':'关闭'"></label></td>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑</button>
+                            <button type="button" class="btn btn-sm btn-danger" v-on:click="deleteCategory(vo.id)">删除
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script>
@@ -128,6 +137,14 @@
                             self.getDataList();
                             $('#addCategoryModal').modal('toggle');
                             layer.msg(ret.msg);
+                        });
+                    },
+                    changeStatus: function (vo) {
+                        var self = this;
+                        $.post("{:url('changeStatus')}",{id:vo.id}, function (ret) {
+                            if (ret.code === 1) {
+                                vo.status = vo.status === 1 ? 0 : 1;
+                            }
                         });
                     },
                     sureAddEdit: function () {

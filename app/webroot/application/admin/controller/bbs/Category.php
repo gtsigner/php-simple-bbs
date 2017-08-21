@@ -71,6 +71,14 @@ class Category extends Auth
         $this->result($data, 200, "success", "JSON");
     }
 
+    public function changeStatus($id)
+    {
+        $post = BbsCategory::get(['id' => $id]);
+        $post['status'] = $post['status'] == 1 ? 0 : 1;
+        $post->save();
+        $this->success("调整状态成功");
+    }
+
     public function addEdit()
     {
         if ($this->request->isPost()) {

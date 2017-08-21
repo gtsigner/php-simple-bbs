@@ -1,62 +1,75 @@
 {extend name="base/common"}
 {block name="pre_head"}
-    <script src="__STATIC__/editor.md/lib/raphael.min.js"></script>
+    <script src="__STATIC__/libs/editor.md/lib/raphael.min.js"></script>
+    <link rel="stylesheet" href="__STATIC__/libs/editor.md/css/editormd.min.css">
 {/block}
-{block name="style"}
-    <link rel="stylesheet" href="__STATIC__/editor.md/css/editormd.min.css">
-{/block}
+
 {block name="category"}{/block}
-
-
 {block name="body"}
     <div class="post-box animated animated-quick slideInUp">
-        <form id="postForm" action="{:url('bbs.post/push')}" method="post">
+        <form id="post_form" action="{:url('bbs.post/push')}" method="post">
+            <input type="hidden" name="method" value="{$form.method|default='add'}">
+            <input type="hidden" name="id" value="{$data.id|default=''}">
             <div class="row" style="margin-top: 20px">
                 <div class="form-group col-xs-6 no-padding">
-                    <input type="text" name="title" class="form-control input-lg" placeholder="请输入标题">
+                    <input type="text" name="title" value="{$data.title|default=''}"
+                           class="form-control input-lg"
+                           placeholder="请输入标题">
                 </div>
-                <div class="form-group col-xs-offset-1 col-xs-3 no-padding">
+                <div class="form-group col-xs-3 no-padding" style="margin-left: 10px;">
                     <select name="category_id" class="form-control input-lg" id="">
                         <option value="0">请选择分类</option>
                         {volist name="_category" id="vo"}
+                        {eq name="data.category_id" value="$vo.id"}
+                            <option value="{$vo.id}" selected>{$vo.title}</option>
+                        {else/}
                             <option value="{$vo.id}">{$vo.title}</option>
+                        {/eq}
                         {/volist}
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <div class="" id="postContent">
-                    <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
-                    <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
-                    <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
-                </div>
+                <input type="text" name="tags" class="form-control input-lg" placeholder="标签，如：php 可使用逗号,分号;分隔">
             </div>
-
             <div class="form-group">
-                <div class="row post-verify-box">
-                    <div class="col-xs-2">
-                        <img style="cursor: pointer;"
-                             class="post-verify-img"
-                             src="{:url('portal/getPostVerify')}" alt="">
-                    </div>
-                    <div class="col-xs-2">
-                        <input type="text" name="verify_code" class="form-control"
-                               value=""
-                               placeholder="请输入验证码结果">
-                    </div>
-                    <div class="col-xs-3">
-                        <button type="submit" class="btn btn-success">确认回复</button>
-                    </div>
+                <div class="" id="post_content">
+                    <textarea class="editormd-markdown-textarea"
+                              name="md_content">{$data.md_content|default=''}</textarea>
+                    <textarea class="editormd-html-textarea" name="content"></textarea>
                 </div>
             </div>
         </form>
     </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <form class="navbar-form navbar-right">
+                    <div class="form-group form-group-lg">
+                        <div class="input-group input-group-lg">
+                            <div class="input-group-addon no-padding" style="padding: 0">
+                                <img style="cursor: pointer;height: 42px;"
+                                     class="post-verify-img"
+                                     src="{:url('portal/getPostVerify')}" alt="">
+                            </div>
+                            <input type="text" name="verify_code" class="form-control"
+                                   value=""
+                                   placeholder="请输入验证码结果">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <button type="button" class="btn btn-primary btn-lg post-submit-btn">立即发布</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
     <script>
-        seajs.use(EditorMDDeps, function (editormd) {
+        seajs.use(['editormd'], function (editormd) {
             var editor = editormd({
-                id: "postContent",
-                height: 640,
-                path: "/static/editor.md/lib/",
+                id: "post_content",
+                height: 840,
+                path: "/static/libs/editor.md/lib/",
                 toolbarIcons: function () {
                     // Or return editormd.toolbarModes[name]; // full, simple, mini
                     // Using "||" set icons align right.
@@ -88,7 +101,7 @@
             });
         });
 
-        seajs.use(['layer'], function (layer) {
+        seajs.use(['layer', 'ajaxForm'], function () {
 
             //验证码
             $(".post-verify-img").click(function (e) {
@@ -97,14 +110,13 @@
                 $this.attr('src', "{:url('portal/getPostVerify')}?v=" + Math.random());
             });
             //
-
-            $('#postForm').submit(function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                $.post($this.attr('action'), $this.serialize(), function (ret) {
-                    layer.alert(ret.msg);
-                    $(".post-verify-img").trigger('click');
-                });
+            $(".post-submit-btn").click(function () {
+                console.log("submit");
+                $("#post_form").trigger("submit");
+            });
+            $('#post_form').ajaxForm(function (ret) {
+                layer.alert(ret.msg);
+                $(".post-verify-img").trigger('click');
             });
 
             //验证码
@@ -116,4 +128,6 @@
 
         });
     </script>
+{/block}
+{block name="footer"}
 {/block}

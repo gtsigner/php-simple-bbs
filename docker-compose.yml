@@ -37,7 +37,6 @@ services:
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   redis-db:
     build: ./dockerfiles/redis
-#打包后的镜像名称
     image: zhaojunlike/redis:3.1-bbs
     networks:
       - back-net
@@ -58,6 +57,8 @@ services:
         PHP_APP_DEBUG: 1
         APP_DEBUG: 1
         APP_TRACE: 1
+        MYSQL_HOST: mysql-db
+        MYSQL_READ_HOST: mysql-db
     volumes:
       - ./app:/app:rw
       - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
@@ -67,7 +68,6 @@ services:
       - mysql-db:mysql-db
       - redis-db:redis-db
     command: php-fpm
-
 #test
   visualizer:
     image: dockersamples/visualizer:stable

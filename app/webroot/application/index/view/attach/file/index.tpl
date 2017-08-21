@@ -63,7 +63,7 @@
         </div>
     </div>
     <script>
-        seajs.use(['layer'], function (layer) {
+        seajs.use(['layer'], function () {
 
             $(".download-btn").click(function (e) {
                 e.preventDefault();

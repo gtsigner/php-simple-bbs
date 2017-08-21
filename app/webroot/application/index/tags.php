@@ -10,23 +10,24 @@
 // +----------------------------------------------------------------------
 
 // 应用行为扩展定义文件
+return [];
 return [
-    'user_login' => [
-        'app\\index\\behavior\\UserScore',
-    ],
-    'user_reg' => [
-        'app\\index\\behavior\\UserScore',
-    ],
-    'user_bbs_post' => [
-        'app\\index\\behavior\\UserScore',
-    ],
-    'user_bbs_comment' => [
-        'app\\index\\behavior\\UserScore',
-    ],
-    'user_logout' => [
-        'app\\index\\behavior\\UserScore',
-    ],
-    'user_bbs_view' => [
-        'app\\index\\behavior\\UserScore',
-    ]
+//    'user_login' => [
+//        'app\\index\\behavior\\UserScore',
+//    ],
+//    'user_reg' => [
+//        'app\\index\\behavior\\UserScore',
+//    ],
+//    'user_bbs_post' => [
+//        'app\\index\\behavior\\UserScore',
+//    ],
+//    'user_bbs_comment' => [
+//        'app\\index\\behavior\\UserScore',
+//    ],
+//    'user_logout' => [
+//        'app\\index\\behavior\\UserScore',
+//    ],
+//    'user_bbs_view' => [
+//        'app\\index\\behavior\\UserScore',
+//    ]
 ];

@@ -1,9 +1,9 @@
 {extend name="base/common"}
 {block name="pre_head"}
-    <script src="__STATIC__/editor.md/lib/raphael.min.js"></script>
+    <script src="__STATIC__/libs/editor.md/lib/raphael.min.js"></script>
 {/block}
 {block name="style"}
-    <link rel="stylesheet" href="__STATIC__/editor.md/css/editormd.min.css">
+    <link rel="stylesheet" href="__STATIC__/libs/editor.md/css/editormd.min.css">
 {/block}
 {block name="category"}{/block}
 
@@ -18,36 +18,23 @@
             <div class="form-group">
                 <div class="" id="postContent">
                     <textarea class="editormd-markdown-textarea"
-                              name="postContent-markdown-doc">{$data.markdown_code}</textarea>
+                              name="postContent-markdown-doc">{$data.md_content}</textarea>
                     <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
                     <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row post-verify-box">
-                    <div class="col-xs-2">
-                        <img style="cursor: pointer;"
-                             class="post-verify-img"
-                             src="{:url('portal/getPostVerify')}" alt="">
-                    </div>
-                    <div class="col-xs-2">
-                        <input type="text" name="verify_code" class="form-control"
-                               value=""
-                               placeholder="请输入验证码结果">
-                    </div>
-                    <div class="col-xs-3">
-                        <button type="submit" class="btn btn-success">确认修改</button>
-                    </div>
-                </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success btn-lg">确认修改</button>
             </div>
         </form>
     </div>
     <script>
-        seajs.use(EditorMDDeps, function (editormd) {
+        seajs.use(['editormd'], function () {
+            var editormd = seajs.require('editormd');
             var editor = editormd({
                 id: "postContent",
                 height: 640,
-                path: "/static/editor.md/lib/",
+                path: "/static/libs/editor.md/lib/",
                 toolbarIcons: function () {
                     // Or return editormd.toolbarModes[name]; // full, simple, mini
                     // Using "||" set icons align right.
@@ -79,7 +66,7 @@
             });
         });
 
-        seajs.use(['layer'], function (layer) {
+        seajs.use(['layer'], function () {
 
             //验证码
             $(".post-verify-img").click(function (e) {
@@ -93,7 +80,7 @@
                 e.preventDefault();
                 var $this = $(this);
                 $.post($this.attr('action'), $this.serialize(), function (ret) {
-                    layer.alert(ret.msg);
+                    layer.msg(ret.msg);
                     $(".post-verify-img").trigger('click');
                 });
             });

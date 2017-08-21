@@ -32,7 +32,7 @@
                         <td>{$vo.comments|count}</td>
                         <td>{$vo.view_count}</td>
                         <td>{$vo.update_time|checkDateDefault|default='未有更新'}</td>
-                        <td>{$vo.recommend_count}</td>
+                        <td>{$vo.re_count}</td>
                     </tr>
                 {/volist}
                 </tbody>

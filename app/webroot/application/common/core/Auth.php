@@ -61,7 +61,7 @@ class Auth
         $rule = strtolower($rule);
         //1.检测系统是否配置规则
         $systemRule = model('auth_rule')->where(['rule' => $rule])->find();
-        if (!$systemRule && !isset($user['admin']['is_root']) && $user['admin']['is_root'] !== 1) {
+        if (!$systemRule && !isset($user['admin'])) {
             return self::$AUTH_CODES['denial'];
         }
         $this->currentRule = $systemRule;
@@ -75,7 +75,6 @@ class Auth
         $userAuthRules = [];
         //游客,给游客权限
         if ($user['id'] === -1) {
-            //http://192.168.99.100/index/index/index/
             $viewGroup = AuthGroup::get(config('SYSTEM_DEFAULT_VIEWER_GROUP_ID'));
             $tmpRules = $viewGroup->rules;
             $tmpRules = explode(",", $tmpRules);

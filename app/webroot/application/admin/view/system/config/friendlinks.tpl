@@ -1,85 +1,90 @@
 {extend name="base/common"}
 {block name="body"}
     <div class="container-fluid" id="config-app">
-        <div class="row data-list-header-action">
-            <button type="button" class="btn btn-success" v-on:click="addShow">新增友情链接
-            </button>
-        </div>
-        <div class="row">
-            <!--增加modal-->
-            <div class="modal fade" id="addEditModel" tabindex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" v-html="tmp_model.modal_title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{:url('system.config/addFriendLinks')}" method="post">
-                                <input type="hidden" name="id" v-model="tmp_model.id">
-                                <div class="form-group">
-                                    <label for="" class="control-label">标题</label>
-                                    <input type="text" name="title" class="form-control" v-model="tmp_model.title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="control-label">URL</label>
-                                    <input type="text" name="url" class="form-control" v-model="tmp_model.url">
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="control-label">排序(小号在前)</label>
-                                    <input type="number" name="sort" class="form-control" v-model="tmp_model.sort">
-                                </div>
-                                <div class="form-group">
-                                    <label for="" class="control-label">备注</label>
-                                    <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" v-on:click="sureAddEdit">确认</button>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {$_rule.title|default='首页'}
+            </div>
+            <div class="panel-body">
+                <div class="well">
+                    <button type="button" class="btn btn-success" v-on:click="addShow">新增友情链接
+                    </button>
+                </div>
+                <!--增加modal-->
+                <div class="modal fade" id="addEditModel" tabindex="-1" role="dialog"
+                     aria-labelledby="myLargeModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" v-html="tmp_model.modal_title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{:url('system.config/addFriendLinks')}" method="post">
+                                    <input type="hidden" name="id" v-model="tmp_model.id">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">标题</label>
+                                        <input type="text" name="title" class="form-control" v-model="tmp_model.title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">URL</label>
+                                        <input type="text" name="url" class="form-control" v-model="tmp_model.url">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">排序(小号在前)</label>
+                                        <input type="number" name="sort" class="form-control" v-model="tmp_model.sort">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">备注</label>
+                                        <textarea name="mark" class="form-control" v-model="tmp_model.mark"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" v-on:click="sureAddEdit">确认</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <table class="table-bordered table table-responsive table-hover">
-                <thead>
-                <tr>
-                    <th>编号</th>
-                    <th>排序</th>
-                    <th>名称</th>
-                    <th>URL</th>
-                    <th>备注</th>
-                    <th>状态</th>
-                    <th style="width: 10%">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="vo in data_list">
-                    <td><span v-html="vo.id"></span></td>
-                    <td><span v-html="vo.sort"></span></td>
-                    <td><span v-html="vo.title"></span></td>
-                    <td><a :href="vo.url" target="_blank"><span v-html="vo.url"></span></a></td>
-                    <td><span v-html="vo.mark"></span></td>
-                    <td><span v-html="vo.status"></span></td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑</button>
-                        <button type="button" class="btn btn-sm btn-danger" v-on:click="del(vo.id)">删除
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="pager">
-                <paginate
-                        :page-count="pagination.last_page"
-                        :click-handler="loadData"
-                        :prev-text="'上一页'"
-                        :next-text="'下一页'"
-                        :container-class="'pagination'">
-                </paginate>
+                <table class="table-bordered table table-responsive table-hover">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>排序</th>
+                        <th>名称</th>
+                        <th>URL</th>
+                        <th>备注</th>
+                        <th>状态</th>
+                        <th style="width: 10%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="vo in data_list">
+                        <td><span v-html="vo.id"></span></td>
+                        <td><span v-html="vo.sort"></span></td>
+                        <td><span v-html="vo.title"></span></td>
+                        <td><a :href="vo.url" target="_blank"><span v-html="vo.url"></span></a></td>
+                        <td><span v-html="vo.mark"></span></td>
+                        <td><span v-html="vo.status"></span></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" v-on:click="edit(vo)">编辑</button>
+                            <button type="button" class="btn btn-sm btn-danger" v-on:click="del(vo.id)">删除
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page text-center">
+                    <paginate
+                            :page-count="pagination.last_page"
+                            :click-handler="loadData"
+                            :prev-text="'上一页'"
+                            :next-text="'下一页'"
+                            :container-class="'pagination'">
+                    </paginate>
+                </div>
             </div>
         </div>
     </div>

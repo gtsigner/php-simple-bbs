@@ -31,7 +31,7 @@
         </div>
     </div>
     <script>
-        seajs.use(['layer', 'ajaxUploader'], function (layer) {
+        seajs.use(['layer', 'ajaxUploader'], function () {
             //验证码
             $('.auth-verify-img').click(function (e) {
                 e.preventDefault();

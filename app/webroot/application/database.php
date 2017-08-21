@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname' => 'mysql-db',
     // 数据库名
-    'database' => 'oeynet_client_bbs',
+    'database' => 'package_v1',
     // 用户名
     'username' => 'root',
     // 密码

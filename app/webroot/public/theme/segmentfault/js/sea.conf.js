@@ -20,6 +20,8 @@ seajs.config({
 
         'distPicker': 'libs/distpicker/dist/distpicker.min',
 
+        'editormd': "libs/editor.md/editormd.min",
+
         'layer': 'libs/layer/build/layer.js',
         'layerCss': 'libs/layer/build/skin/default/layer.css',
 

@@ -54,13 +54,13 @@ class Auth extends Base
         $this->assign('_menu', $this->mAuthMenu);
     }
 
-    private function _checkLogin()
+    protected function _checkLogin()
     {
         $token = Session::get("user_token");
         if (!$token) {
-            $this->error("请先登陆系统后操作", url("portal/login"));
+            $this->redirect("portal/login");
         }
-        $this->mUser = $token;
+        $this->mUser = model('user')->with('admin')->find(['id' => $token['id']]);
     }
 
     private function _checkAuth()

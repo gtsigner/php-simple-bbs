@@ -15,7 +15,7 @@ class BbsPost extends Validate
     protected $rule = [
         'title' => 'require|min:4',
         'content' => 'require|min:100',
-        'uid' => 'require',
+        'user_id' => 'require',
         'category_id' => 'require',
     ];
 
@@ -23,7 +23,7 @@ class BbsPost extends Validate
         'title.min' => '帖子标题最少4个字符',
         'title.require' => '帖子题目必须填写',
         'content.require' => '内容必须填写',
-        'uid.require' => '内容必须填写',
+        'user_id.require' => '请登陆后发帖',
         'category_id.require' => '必须选择发表栏目',
         'content.min' => '内容最小100个字符',
     ];

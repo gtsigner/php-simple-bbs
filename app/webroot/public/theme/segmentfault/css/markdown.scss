@@ -1,0 +1,31 @@
+.markdown-body {
+  line-height: 1.6;
+  word-wrap: break-word;
+  blockquote {
+
+    background: #F6F6F6;
+    color: #555;
+    font-size: 1em;
+    border-left: 4px solid #009A61;
+    margin: 1.5em 0;
+    padding: 10px 20px;
+  }
+
+  pre {
+    padding: 1em;
+    border: none;
+    overflow: auto;
+    line-height: 1.45;
+    max-height: 35em;
+    position: relative;
+    background: url(../images/pre-print.png) #F6F6F6;
+  }
+  img {
+    vertical-align: middle;
+    padding: 3px;
+    border: 1px solid #ddd;
+    position: static !important;
+    max-width: 100%;
+
+  }
+}

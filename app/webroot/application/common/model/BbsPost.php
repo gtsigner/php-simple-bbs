@@ -20,7 +20,7 @@ class BbsPost extends Model
 
     public function user()
     {
-        return $this->hasOne("user", 'id', 'uid');
+        return $this->hasOne("user", 'id', 'user_id');
     }
 
     public function comments()
