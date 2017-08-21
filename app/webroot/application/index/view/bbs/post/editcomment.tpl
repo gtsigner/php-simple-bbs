@@ -10,13 +10,13 @@
 
 {block name="body"}
     <div class="post-box animated animated-quick slideInUp">
-        <form id="postForm" action="" method="post">
+        <form id="post_form" action="" method="post">
             <input type="hidden" name="id" value="{$data.id}" class="hidden">
             <div class="form-group row" style="margin: 20px;">
                 <h3 class="text-center">{$data.post.title}（回复）</h3>
             </div>
             <div class="form-group">
-                <div class="" id="postContent">
+                <div class="" id="post_content">
                     <textarea class="editormd-markdown-textarea"
                               name="postContent-markdown-doc">{$data.md_content}</textarea>
                     <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
@@ -29,10 +29,9 @@
         </form>
     </div>
     <script>
-        seajs.use(['editormd'], function () {
-            var editormd = seajs.require('editormd');
+        seajs.use(['editormd'], function (editormd) {
             var editor = editormd({
-                id: "postContent",
+                id: "post_content",
                 height: 640,
                 path: "/static/libs/editor.md/lib/",
                 toolbarIcons: function () {
@@ -64,6 +63,33 @@
 
                 }
             });
+
+            /**
+             * 咱贴上传图片
+             */
+            $("#post_content").on('paste', function (ev) {
+                var data = ev.clipboardData;
+                var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                for (var index in items) {
+                    var item = items[index];
+                    if (item.kind === 'file') {
+                        var blob = item.getAsFile();
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            var base64 = event.target.result;
+                            //ajax上传图片
+                            $.post("{:url('api/uploader/upEditorImg')}",{base:base64}, function (ret) {
+                                layer.msg(ret.msg);
+                                if (ret.code === 1) {
+                                    //新一行的图片显示
+                                    editor.insertValue("\n![" + ret.data.title + "](" + ret.data.path + ")");
+                                }
+                            });
+                        }; // data url!
+                        var url = reader.readAsDataURL(blob);
+                    }
+                }
+            });
         });
 
         seajs.use(['layer'], function () {
@@ -76,7 +102,7 @@
             });
             //
 
-            $('#postForm').submit(function (e) {
+            $('#post_form').submit(function (e) {
                 e.preventDefault();
                 var $this = $(this);
                 $.post($this.attr('action'), $this.serialize(), function (ret) {

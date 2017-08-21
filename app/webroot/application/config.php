@@ -21,6 +21,7 @@ return [
         'file' => ROOT_PATH . 'storage' . DS . 'files',
         'picture' => ROOT_PATH . 'storage' . DS . 'picture',
         'head_path' => ROOT_PATH . 'public' . DS . 'upload/head',
+        'editor' => ROOT_PATH . 'public' . DS . 'upload/editor',
     ],
     // 应用命名空间
     'app_namespace' => 'app',

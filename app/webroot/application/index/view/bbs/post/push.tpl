@@ -98,12 +98,44 @@
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "{:url('api/uploader/uploadEditorImg?pic_type=10')}",
                 onload: function () {
-
+                    this.on('paste', function () {
+                        console.log(1);
+                    });
                 }
             });
+
+
+            /**
+             * 咱贴上传图片
+             */
+            $("#post_content").on('paste', function (ev) {
+                var data = ev.clipboardData;
+                var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                for (var index in items) {
+                    var item = items[index];
+                    if (item.kind === 'file') {
+                        var blob = item.getAsFile();
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            var base64 = event.target.result;
+                            //ajax上传图片
+                            $.post("{:url('api/uploader/upEditorImg')}",{base:base64}, function (ret) {
+                                layer.msg(ret.msg);
+                                if (ret.code === 1) {
+                                    //新一行的图片显示
+                                    editor.insertValue("\n![" + ret.data.title + "](" + ret.data.path + ")");
+                                }
+                            });
+                        }; // data url!
+                        var url = reader.readAsDataURL(blob);
+                    }
+                }
+            });
+
         });
 
         seajs.use(['layer', 'ajaxForm'], function () {
+
 
             //验证码
             $(".post-verify-img").click(function (e) {

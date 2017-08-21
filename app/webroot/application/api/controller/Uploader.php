@@ -11,6 +11,7 @@ namespace app\api\controller;
 use app\common\model\BbsFile;
 use app\common\model\BbsPicture;
 use app\common\model\User;
+use app\common\tools\Utils;
 use think\Config;
 use think\Controller;
 use think\Session;
@@ -120,11 +121,9 @@ class Uploader extends Controller
                 'size' => $info->getInfo('size'),
                 'ext' => $info->getExtension(),
                 'type' => $info->getInfo('type'),
-                'local_path' => $info->getPathname(),
                 'path' => $info->getSaveName(),
                 'md5' => $info->md5(),
                 'uid' => $token['id'],
-                'pic_type' => input('pic_type')
             ];
             $pic = new BbsPicture();
             $ret = $pic->insertGetId($entity);
@@ -148,6 +147,44 @@ class Uploader extends Controller
             ]);
         }
     }
+
+    public function upEditorImg()
+    {
+        $token = Session::get('user_token');
+        if (!$token || $token['id'] <= 0) {
+            $this->error("对不起,您没有权限操作");
+        }
+        // 获取表单上传文件 例如上传了001.jpg
+        $base64 = input('base');
+        $savePath = Config::get("storage_path.editor");
+        $file = Utils::saveBase642Img($base64, $savePath);
+        if (!$file) {
+            $this->result([], 500, "上传失败,请检查上传文件");
+        }
+        // 移动到框架应用根目录/public/uploads/ 目录下
+
+        if ($file->check(['size' => 1024 * 1024 * 1, 'ext' => 'jpg,png,jpeg,gif'])) {
+            $entity = [
+                'create_time' => time(),
+                'title' => $file->getInfo('name'),
+                'size' => $file->getInfo('size'),
+                'ext' => $file->getExtension(),
+                'type' => $file->getInfo('type'),
+                'path' => "/upload/editor" . $file->getInfo('build_path'),
+                'md5' => $file->md5(),
+                'uid' => $token['id'],
+            ];
+            $pic = new BbsPicture();
+            $ret = $pic->insertGetId($entity);
+            if (!$ret) {
+                $this->result([], 500, "上传失败,请稍后重试");
+            }
+            $this->result($entity, 1, "上传成功", "Json");
+        } else {
+            $this->result([], 0, $file->getError(), "Json");
+        }
+    }
+
 
     //进度
     public function uploadProgress()
