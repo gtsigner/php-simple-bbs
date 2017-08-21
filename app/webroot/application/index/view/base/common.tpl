@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
-    <meta name="keywords" content="{$_rule.title|default=config('WEB_SITE_KEYWORDS')}">
-    <meta name="description" content="{$_rule.title|default=config('WEB_SITE_DESC')}">
-    <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页-Power BY Simple BBS</title>
+    <meta name="keywords" content="{$_rule.keywords|default=config('WEB_SITE_KEYWORDS')}">
+    <meta name="description" content="{$_rule.desc|default=config('WEB_SITE_DESC')}">
+    <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页</title>
 
     {block name="pre_head"}
 

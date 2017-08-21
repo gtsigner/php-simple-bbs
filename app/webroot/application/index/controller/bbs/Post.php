@@ -197,7 +197,9 @@ class Post extends Auth
         $this->assign('comments_page', $comments->render());
         $this->assign('category', $data->category);
         $this->assign('data', $data);
-
+        $this->_rule['keywords'] = $data['title'];
+        $this->_rule['desc'] = $data['title'];
+        $this->_rule['title'] = $data['title'] . ' ' . config('WEB_SITE_TITLE');
         return $this->fetch();
     }
 

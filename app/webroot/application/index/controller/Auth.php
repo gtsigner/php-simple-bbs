@@ -14,6 +14,8 @@ use app\common\core\Auth as ViewAuth;
 class Auth extends Base
 {
 
+    protected $_rule = [];
+
     #region start
 
 
@@ -39,7 +41,8 @@ class Auth extends Base
             default:
                 break;
         }
-        $this->assign('_rule', $viewAuthChecker->getRule());
+        $this->_rule = $viewAuthChecker->getRule();
+        $this->assign('_rule', $this->_rule);
     }
 
     #endregion
