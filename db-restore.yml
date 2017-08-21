@@ -10,7 +10,7 @@ services:
       MYSQL_PASSWORD: zhaojun
       MYSQL_DEFAULT_NAME: default
     external_links:
-      - dockeroeynetbbs_mysql-db_1:mysql
+      - dockeroeynetbbs_mysql_1:mysql
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./data/backup:/backup:rw

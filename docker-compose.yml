@@ -17,7 +17,7 @@ services:
       - front-net
     restart: always
     command: nginx -g 'daemon off;'
-  mysql-db:
+  mysql:
     image: mysql:5.7
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
@@ -64,7 +64,7 @@ services:
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
     links:
-      - mysql-db:mysql-db
+      - mysql:mysql-db
       - redis-db:redis-db
     command: php-fpm
 #test
