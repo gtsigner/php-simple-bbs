@@ -1,5 +1,5 @@
 version: 3.0
-service:
+services:
   composer:
     #image: composer:1.4.2
     image: zhaojunlike/composer:5.6-latest
