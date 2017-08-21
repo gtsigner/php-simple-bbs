@@ -69,7 +69,7 @@ class Post extends Auth
     {
         if (request()->isPost()) {
 
-            $markdownCode = input('postContent-markdown-doc');
+            $markdownCode = input('md_content');
             $post_id = input('post_id');
 
             //每个文章只能评论一次
@@ -121,7 +121,7 @@ class Post extends Auth
             $this->error("对不起,未找到");
         }
         if (request()->isPost()) {
-            $markdownCode = input('postContent-markdown-doc');
+            $markdownCode = input('md_content');
             $ret = $comment->save(['md_content' => $markdownCode, 'update_time' => time()]);
             //评论钩子
             Hook::listen("user_bbs_comment_update", $this->mUser, $comment);
@@ -153,7 +153,7 @@ class Post extends Auth
             }
             $title = input('title');
             $category_id = input('category_id', $data['category_id'], 'intval');
-            $markdownCode = input('postContent-markdown-doc');
+            $markdownCode = input('md_content');
             $ret = $data->save([
                 'title' => $title,
                 'md_content' => $markdownCode,

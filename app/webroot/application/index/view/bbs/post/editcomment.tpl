@@ -18,9 +18,8 @@
             <div class="form-group">
                 <div class="" id="post_content">
                     <textarea class="editormd-markdown-textarea"
-                              name="postContent-markdown-doc">{$data.md_content}</textarea>
-                    <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
-                    <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
+                              name="md_content">{$data.md_content}</textarea>
+                    <textarea class="editormd-html-textarea" name="content"></textarea>
                 </div>
             </div>
             <div class="form-group text-center">

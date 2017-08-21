@@ -121,6 +121,7 @@
                                     </ul>
                                 {else/}
                                     <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
+                                        <li><a href="#" class="text-center">{$_user.username}</a></li>
                                         <li><a href="{:url('index/user.profile/index')}">我的主页</a></li>
                                         <li><a href="{:url('index/user.attach/index')}">我的附件</a></li>
                                         <li><a href="{:url('index/user.profile/index')}">账号设置</a></li>

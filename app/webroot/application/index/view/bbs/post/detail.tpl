@@ -102,7 +102,7 @@
                     <input type="hidden" name="post_id" value="{$data.id}">
                     <div class="form-group">
                         <div class="" id="post_content">
-                            <textarea class="editormd-markdown-textarea" name="postContent-markdown-doc"></textarea>
+                            <textarea class="editormd-markdown-textarea" name="md_content"></textarea>
                             <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
                             <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
                         </div>
@@ -217,6 +217,6 @@
     <!--高亮代码-->
     <script src="__STATIC__/libs/highlight/highlight.pack.js"></script>
     <link rel="stylesheet" href="__STATIC__/libs/highlight/styles/default.css">
-    <link rel="stylesheet" href="__STATIC__/libs/highlight/styles/idea.css">
+    <link rel="stylesheet" href="__STATIC__/libs/highlight/styles/solarized-light.css">
     <script>hljs.initHighlightingOnLoad();</script>
 {/block}
