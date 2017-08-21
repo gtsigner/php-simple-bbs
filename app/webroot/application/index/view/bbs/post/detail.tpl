@@ -20,7 +20,6 @@
                                     <span class="badge new-badge success">c#</span>
                                 </li>
                                 <li>
-                                    <!-- href="{:url('user.user/show',['user_id'=>$data['user']['id']])}"-->
                                     <a class="author">{$data.user.nickname|default='已删除'}</a>
                                     <span>{:date("Y年m月d日",strtotime($data.create_time))}发布</span>
                                     {eq name="data.user_id" value="$_user.id"}

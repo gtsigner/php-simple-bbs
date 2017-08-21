@@ -70,13 +70,12 @@ class Post extends Auth
         if (request()->isPost()) {
 
             $markdownCode = input('postContent-markdown-doc');
-
-            $post_id = input('post_id', 0, 'intval');
+            $post_id = input('post_id');
 
             //每个文章只能评论一次
             $had = model('bbs_comment')->where(['user_id' => $this->mUser['id'], 'post_id' => $post_id, 'to_uid' => 0])->count();
             if ($had > 0) {
-                //$this->error("每个文章,您只能评论一次");
+                $this->error("每篇文章,您只能评论一次");
             }
 
             if (false === BbsPost::get(['id' => $post_id])) {

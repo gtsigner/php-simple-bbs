@@ -117,7 +117,7 @@
                                 {eq name="_user.id" value="-1"}
                                     <ul class="dropdown-menu user-drop-menu">
                                         <li><a href="{:url('index/portal/login')}">登陆</a></li>
-                                        <li><a href="{:url('index/portal/reg')}">注册</a></li>
+                                        <li><a href="{:url('index/portal/signup')}">注册</a></li>
                                     </ul>
                                 {else/}
                                     <ul class="dropdown-menu user-drop-menu animated animated-quick fadeInRight">
