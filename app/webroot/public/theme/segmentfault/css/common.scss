@@ -1,4 +1,16 @@
 
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: #017E66;
+  border-color: #017E66;
+}
+
+.pagination > li > a, .pagination > li > span {
+  color: #017E66;
+}
+
 .form-control {
   box-shadow: none;
   &:hover, &:focus {

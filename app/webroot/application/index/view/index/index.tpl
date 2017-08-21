@@ -2,7 +2,7 @@
 {block name="body"}
     <div class="page-bbs">
         <div class="row post-list-box">
-            <table class="table table-hover text-center">
+            <table class="table text-center">
                 <thead class="">
                 <tr>
                     <td class="text-left"><label for="">标题</label></td>
@@ -35,13 +35,8 @@
                 {/volist}
                 </tbody>
             </table>
-        </div>
-        <div class="page row">
-            <div class="col-xs-8">
+            <div class="page text-center">
                 {$page}
-            </div>
-            <div class="col-xs-4">
-
             </div>
         </div>
         {empty name="_user.username"}
