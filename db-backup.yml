@@ -17,5 +17,9 @@ services:
       - ./dockerfiles/backup/:/app:ro
     entrypoint:
       - /bin/bash
+    networks:
+      - back-net
     command: /app/backup-default.sh
-
+networks:
+  front-net:
+  back-net:
