@@ -13,8 +13,6 @@ services:
       - ./dockerfiles/nginx/certs:/etc/nginx/certs:ro
       - ./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./logs/nginx:/var/log/nginx:rw
-    networks:
-      - front-net
     restart: always
     command: nginx -g 'daemon off;'
   mysql:
@@ -24,8 +22,6 @@ services:
       - ./logs/mysql:/var/lib/mysql-logs:rw
       - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d
     restart: always
-    networks:
-      - back-net
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
         MYSQL_DATABASE: package_v1
@@ -35,17 +31,12 @@ services:
   redis-db:
     build: ./dockerfiles/redis
     restart: always
-    networks:
-      - back-net
     volumes:
       - ./data/redis:/data
   php-fpm:
     build: ./dockerfiles/php/
     image: zhaojunlike/php-fpm:5.6
     restart: always
-    networks:
-      - front-net
-      - back-net
     environment:
         DEV_APP_DEBUG: 1
         APP_DEBUG: 1
@@ -59,9 +50,4 @@ services:
       - mysql:mysql-db
       - redis-db
     command: php-fpm
-networks:
-  front-net:
-  back-net:
-volumes:
-  app-data:
 
