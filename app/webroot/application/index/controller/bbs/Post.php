@@ -24,30 +24,20 @@ class Post extends Auth
         if ($this->request->isPost()) {
             $method = input('method');
             if ($method === 'add') {
-                $cap = new CaptchaHelper();
-                if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
-                    $this->error("对不起,验证码不正确");
-                }
-                $title = $this->request->request('title', '', 'htmlspecialchars');
-                $content = $this->request->post('content', '', 'htmlspecialchars');
-                $markdownCode = $this->request->post('md_content', '', 'htmlspecialchars');
+                $title = $this->request->request('title');
+                $markdownCode = input('md_content');
                 $category_id = $this->request->request('category_id', 0, 'intval');
                 if (false === BbsCategory::get(['id' => $category_id])) {
                     $this->error("对不起,请选择发表栏目");
                 }
-
                 if (false === User::get(['id' => $this->mUser['id'], 'status' => 1])) {
                     $this->error("对不起,您没有发帖权限");
                 }
-
-                $antiXss = new AntiXSS();
-                $content = $antiXss->xss_clean($content);
                 $post = new BbsPost();
                 $ret = $post->validate(true)->save([
                     'title' => $title,
                     'category_id' => $category_id,
                     'user_id' => $this->mUser['id'],
-                    'content' => $content,
                     'create_time' => time(),
                     'md_content' => $markdownCode,
                     'status' => config('BBS_AUTH_STATUS_TRUE')
@@ -56,7 +46,7 @@ class Post extends Auth
                 Hook::listen("user_bbs_comment", $this->mUser, $post);
 
                 if ($ret) {
-                    $this->success("发帖成功", url("bbs.post/detail", ['id' => $post->getLastInsID()]));
+                    $this->success("发帖成功", url("index/bbs.post/detail", ['id' => $post->getLastInsID()]));
                 } else {
                     $this->error("发帖失败,{$post->getError()}");
                 }
@@ -78,28 +68,32 @@ class Post extends Auth
     public function comment()
     {
         if (request()->isPost()) {
-            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
-            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
-            $post_id = $this->request->request('post_id', 0, 'intval');
+
+            $markdownCode = input('postContent-markdown-doc');
+
+            $post_id = input('post_id', 0, 'intval');
+
+            //每个文章只能评论一次
+            $had = model('bbs_comment')->where(['user_id' => $this->mUser['id'], 'post_id' => $post_id, 'to_uid' => 0])->count();
+            if ($had > 0) {
+                //$this->error("每个文章,您只能评论一次");
+            }
+
             if (false === BbsPost::get(['id' => $post_id])) {
                 $this->error("对不起,请选择回复的帖子");
             }
             if (false === User::get(['id' => $this->mUser['id'], 'status' => 1])) {
                 $this->error("对不起,您没有回帖权限");
             }
-            $antiXss = new AntiXSS();
-            $content = $antiXss->xss_clean($content);
-
             $comment = new BbsComment();
             $ret = $comment->insert([
                 'to_uid' => 0,//at
                 'post_id' => $post_id,
                 'user_id' => $this->mUser['id'],
-                'content' => $content,
                 'create_time' => time(),
                 'update_time' => time(),
                 'md_content' => $markdownCode,
-                'status' => \think\Config::get('BBS_AUTH_COMMENT_STATUS_TRUE'),
+                'status' => config('BBS_AUTH_COMMENT_STATUS_TRUE'),
             ]);
 
             //评论钩子
@@ -128,19 +122,10 @@ class Post extends Auth
             $this->error("对不起,未找到");
         }
         if (request()->isPost()) {
-            $cap = new CaptchaHelper();
-            if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
-                $this->error("对不起,验证码不正确");
-            }
-            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
-            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
-            $antiXss = new AntiXSS();
-            $content = $antiXss->xss_clean($content);
-
-            $ret = $comment->save(['content' => $content, 'md_content' => $markdownCode, 'update_time' => time()]);
+            $markdownCode = input('postContent-markdown-doc');
+            $ret = $comment->save(['md_content' => $markdownCode, 'update_time' => time()]);
             //评论钩子
             Hook::listen("user_bbs_comment_update", $this->mUser, $comment);
-
             if ($ret) {
                 $this->success("修改成功");
             } else {
@@ -167,16 +152,11 @@ class Post extends Auth
             if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
                 $this->error("对不起,验证码不正确");
             }
-            $content = $this->request->post('postContent-html-code', '', 'htmlspecialchars');
-            $title = $this->request->post('title', '', 'htmlspecialchars');
-            $category_id = $this->request->post('category_id', $data['category_id'], 'intval');
-            $markdownCode = $this->request->post('postContent-markdown-doc', '', 'htmlspecialchars');
-            $antiXss = new AntiXSS();
-            $content = $antiXss->xss_clean($content);
-
+            $title = input('title');
+            $category_id = input('category_id', $data['category_id'], 'intval');
+            $markdownCode = input('postContent-markdown-doc');
             $ret = $data->save([
                 'title' => $title,
-                'content' => $content,
                 'md_content' => $markdownCode,
                 'category_id' => $category_id,
                 'update_time' => time()
@@ -212,9 +192,7 @@ class Post extends Auth
         }
         cookie($cacheKey, 1);
 
-        $comments = $data->comments()
-            ->where(['status' => 1])
-            ->paginate(10);
+        $comments = $data->comments()->where(['status' => 1])->paginate(10);
 
         $this->assign('comments', $comments);
         $this->assign('comments_page', $comments->render());
@@ -226,7 +204,10 @@ class Post extends Auth
 
     public function delete($id)
     {
-        $del = model('bbs_post')->where(['id' => $id])->delete();
+        $bbsPost = BbsPost::get($id);
+        if ($bbsPost) {
+            $bbsPost->delete();
+        }
         $this->success("删除成功", url('/'));
     }
 }

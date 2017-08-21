@@ -23,7 +23,9 @@
     "bluem/tree": "^1.5",
     "oeynet/helper": "^0.1",
     "oeynet/add-captcha": "^0.2.0",
-    "voku/anti-xss": "^2.1"
+    "voku/anti-xss": "^2.1",
+    "michelf/php-markdown": "^1.7",
+    "erusev/parsedown": "^1.6"
   },
   "autoload": {
     "psr-4": {

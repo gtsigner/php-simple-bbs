@@ -141,8 +141,8 @@
                                         aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span
                                             class="sr-only">显示下拉菜单</span></button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{:url('bbs.post/push')}">写博客</a></li>
                                     <li><a href="{:url('bbs.post/push')}">写文章</a></li>
+                                    <li><a href="{:url('bbs.post/push')}">写专辑</a></li>
                                     <li><a href="/record">记笔记</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{:url('user.content/draft')}">草稿箱</a></li>

@@ -9,6 +9,16 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+
+/**
+ *
+ */
+function parseMarkDown($my_text)
+{
+    $Parsedown = new Parsedown();
+    return $Parsedown->text($my_text);
+}
+
 // 应用公共文件
 
 function getSystemVersion()

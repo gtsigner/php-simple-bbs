@@ -43,9 +43,7 @@
                     </div>
                     <div class="content row article-content markdown-body"
                          style="overflow: hidden;text-overflow: ellipsis;text-wrap: normal;white-space: normal">
-                        <html>
-                        {$data.content}
-                        </html>
+                        {$data.md_content|parseMarkDown}
                     </div>
                 </div>
             </div>
@@ -82,7 +80,7 @@
                         </div>
                     </div>
                     <div class="well-content comment-content markdown-body">
-                        {$vo.content}
+                        {$vo.md_content|parseMarkDown}
                     </div>
                 </div>
             {/volist}
@@ -100,7 +98,7 @@
             </div>
         {else/}
             <div class="post-box  animated animated-quick slideInUp">
-                <h4>撰写答案</h4>
+                <h4>撰写评论</h4>
                 <form id="commentForm" class="form" action="{:url('bbs.post/comment')}" method="post">
                     <input type="hidden" name="post_id" value="{$data.id}">
                     <div class="form-group">

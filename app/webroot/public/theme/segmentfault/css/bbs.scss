@@ -5,7 +5,8 @@
     .index-post-title {
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 240px;
+      max-width: 400px;
+
       overflow: hidden;
       display: block;
     }
@@ -84,7 +85,6 @@
     }
   }
 }
-
 
 .post-box {
   .post-verify-box {
