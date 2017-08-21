@@ -214,4 +214,9 @@
             });
         });
     </script>
+    <!--高亮代码-->
+    <script src="__STATIC__/libs/highlight/highlight.pack.js"></script>
+    <link rel="stylesheet" href="__STATIC__/libs/highlight/styles/default.css">
+    <link rel="stylesheet" href="__STATIC__/libs/highlight/styles/idea.css">
+    <script>hljs.initHighlightingOnLoad();</script>
 {/block}
