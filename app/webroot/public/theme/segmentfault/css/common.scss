@@ -121,10 +121,9 @@ body {
   height: 14px;
 }
 
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb {
-  border-radius: 999px;
+::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-track {

@@ -8,6 +8,7 @@
                     <td class="text-left"><label for="">标题</label></td>
                     <td><label for="">栏目</label></td>
                     <td><label for="">更新时间</label></td>
+                    <td><label for="">访问量</label></td>
                     <td><label for="">推荐</label></td>
                 </tr>
                 </thead>
@@ -28,6 +29,7 @@
                             <a href="/category/{$vo['category']['id']}.html">{$vo.category.title|default='<span class="text-danger">已删除</span>'}</a>
                         </td>
                         <td>{$vo.update_time|checkDateDefault|default='未有更新'}</td>
+                        <td>{$vo.view_count}</td>
                         <td>{$vo.re_count}</td>
                     </tr>
                 {/volist}
