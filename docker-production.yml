@@ -15,10 +15,14 @@ services:
       - ./logs/nginx:/var/log/nginx:rw
     depends_on:
       - redis-db
+    networks:
+      - front-net
     restart: always
     command: nginx -g 'daemon off;'
   mysql-db:
     image: mysql:5.7
+    networks:
+      - back-net
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
       - ./logs/mysql:/var/lib/mysql-logs:rw
@@ -33,11 +37,16 @@ services:
   redis-db:
     build: ./dockerfiles/redis
     restart: always
+    networks:
+      - back-net
     volumes:
       - ./data/redis:/data
   php-fpm:
     build: ./dockerfiles/php/
     restart: always
+    networks:
+      - front-net
+      - back-net
     environment:
         DEV_APP_DEBUG: 1
         APP_DEBUG: 1
@@ -54,5 +63,9 @@ services:
       - mysql-db
       - redis-db
     command: php-fpm
+networks:
+  front-net:
+  back-net:
 volumes:
   app-data:
+

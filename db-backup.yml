@@ -1,6 +1,5 @@
 version:  '3.0'
 services:
-# 启动一次备份服务 ./docker-compose restart backup
   backup:
     image: mysql:5.7
     environment:
