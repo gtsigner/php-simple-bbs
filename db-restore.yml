@@ -18,8 +18,6 @@ services:
     entrypoint:
       - /bin/bash
     networks:
-      - back-net
+      - dockeroeynetbbs_back-net
     command: /app/restore-default.sh
-networks:
-  front-net:
-  back-net:
+

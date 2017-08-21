@@ -17,8 +17,6 @@ services:
     entrypoint:
       - /bin/bash
     networks:
-      - back-net
+      - dockeroeynetbbs_back-net
     command: /app/backup-default.sh
-networks:
-  front-net:
-  back-net:
+
