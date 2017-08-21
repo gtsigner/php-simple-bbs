@@ -5,7 +5,6 @@
 {/block}
 
 {block name="body"}
-    <link href="http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css" rel="stylesheet"/>
     <div class="page-post-detail">
         <div class="post-detail">
             <div class="row">
