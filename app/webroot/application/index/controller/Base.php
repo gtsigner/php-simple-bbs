@@ -47,6 +47,9 @@ class Base extends Controller
         $this->checkLogin();
     }
 
+    /**
+     * 如果没有登录，就是用游客权限
+     */
     private function checkLogin()
     {
         $token = Session::get("user_token");
@@ -55,6 +58,7 @@ class Base extends Controller
             //默认以游客身份进行访问
             $token = [
                 'nickname' => '游客',
+                'username' => '游客',
                 'uid' => -1,
                 'id' => -1,
                 'ip' => request()->ip(),
@@ -64,7 +68,9 @@ class Base extends Controller
             ];
         }
         $this->mUser = $token;
-        //$this->mUser = User::get(['id' => $token['id']]);
+        if ($token['id'] > 0) {
+            $this->mUser = User::get(['id' => $token['id']]);
+        }
         $this->assign('_user', $this->mUser);
     }
 

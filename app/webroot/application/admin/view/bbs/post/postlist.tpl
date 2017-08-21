@@ -45,6 +45,11 @@
                                                v-model="tmp_model.title">
                                     </div>
                                     <div class="form-group">
+                                        <label for="" class="control-label">用户ID</label>
+                                        <input type="text" name="user_id" class="form-control"
+                                               v-model="tmp_model.user_id">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="" class="control-label">所属栏目</label>
                                         <select class="form-control" name="category_id" id=""
                                                 v-model="tmp_model.category_id">

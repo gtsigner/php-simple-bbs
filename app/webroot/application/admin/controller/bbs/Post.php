@@ -59,6 +59,7 @@ class Post extends Auth
             }
             $post['category_id'] = $this->request->request('category_id', 0, 'intval');
             $post['sort'] = $this->request->request('sort', 0, 'intval');
+            $post['user_id'] = input('user_id', 0, 'intval');
             $post->save();
             $this->success("保存成功");
         }

@@ -75,6 +75,7 @@ class Auth
         $userAuthRules = [];
         //游客,给游客权限
         if ($user['id'] === -1) {
+            //有课权限
             $viewGroup = AuthGroup::get(config('SYSTEM_DEFAULT_VIEWER_GROUP_ID'));
             $tmpRules = $viewGroup->rules;
             $tmpRules = explode(",", $tmpRules);
