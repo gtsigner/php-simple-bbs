@@ -6,4 +6,4 @@ services:
     volumes:
       - ./app:/app:rw
     working_dir: /app/webroot
-    command: composer install
+    command: composer install && composer update
