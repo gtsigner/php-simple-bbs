@@ -66,6 +66,9 @@ class Auth
         }
         $this->currentRule = $systemRule;
         //如果是超级管理员
+        if (!$user['admin']) {
+            return self::$AUTH_CODES['success'];
+        }
         if (isset($user['admin']['is_root']) && $user['admin']['is_root'] === 1) {
             return self::$AUTH_CODES['success'];
         }
