@@ -23,11 +23,11 @@
                     <tr class="text-center">
                         <td class="text-left">
                             <p class="index-post-title"><a
-                                        href="{:url('bbs.post/detail',['id'=>$vo['id']])}">{$vo.title}</a>
+                                        href="/post/{$vo.id}.html">{$vo.title}</a>
                             </p>
                         </td>
                         <td>
-                            <a href="{:url('index/index/index',['category'=>$vo['category']['id']])}">{$vo.category.title|default='<span class="text-danger">已删除</span>'}</a>
+                            <a href="/category/{$vo['category']['id']}.html">{$vo.category.title|default='<span class="text-danger">已删除</span>'}</a>
                         </td>
                         <td>{$vo.comments|count}</td>
                         <td>{$vo.view_count}</td>

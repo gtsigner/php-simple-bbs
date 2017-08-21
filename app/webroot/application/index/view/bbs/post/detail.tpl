@@ -28,7 +28,7 @@
                                         <a href="{:url('bbs.post/editPost',['id'=>$data['id']])}" class="author">编辑</a>
                                         *
                                         <a href="{:url('bbs.post/delete',['id'=>$data['id']])}"
-                                           class="text-danger">删除</a>
+                                           class="text-danger post-del-action">删除</a>
                                     {/eq}
                                 </li>
                                 <li>
@@ -181,6 +181,11 @@
                 $this.attr('src', "{:url('portal/getVerify')}?v=" + Math.random());
             });
 
+            $('.post-del-action').click(function (e) {
+                if (!confirm("确认删除么？")) {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 {/block}

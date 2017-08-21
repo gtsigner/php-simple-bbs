@@ -202,7 +202,9 @@ class Post extends Auth
         $cacheKey = "looked_{$id}_{$this->mUser['id']}";
 
         $data = BbsPost::get($id);
-
+        if (!$data) {
+            $this->error("文章被偷走了");
+        }
         Hook::listen("user_bbs_view", $this->mUser, $data);
 
         if (!cookie($cacheKey)) {
@@ -224,6 +226,7 @@ class Post extends Auth
 
     public function delete($id)
     {
-
+        $del = model('bbs_post')->where(['id' => $id])->delete();
+        $this->success("删除成功", url('/'));
     }
 }

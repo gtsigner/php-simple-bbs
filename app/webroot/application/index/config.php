@@ -10,4 +10,7 @@ return [
         '__STATIC__' => '/static',
         '__THEME__' => '/theme/segmentfault'
     ],
+    // 默认跳转页面对应的模板文件
+    'dispatch_success_tmpl' => APP_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+    'dispatch_error_tmpl' => APP_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
 ];

@@ -8,14 +8,32 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\Route;
+
+Route::rule('post/:id', 'Index/bbs.post/detail', 'POST');
 
 return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    '[hello]' => [
-        ':id' => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
+    'post/:id' => 'Index/bbs.post/detail',
 
+    //分类
+    '[category]' => [
+        ':category' => [
+            'Index/index/index',
+            ['method' => 'get'],
+            ['id' => '\d+']
+        ],
+        '' => 'Index/index/index',
+    ],
+    //附件
+    '[attach]' => [
+        ':id' => [
+            'Index/index/index',
+            ['method' => 'get'],
+            ['id' => '\d+']
+        ],
+        '' => 'Index/attach.file/index',
+    ],
 ];
