@@ -1,0 +1,14 @@
+{
+  "name": "seajs-preload",
+  "homepage": "https://github.com/seajs/seajs-preload",
+  "_release": "acfabfbbb5",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "acfabfbbb53501a7066f56c68a00dfcbb0299c15"
+  },
+  "_source": "https://github.com/seajs/seajs-preload.git",
+  "_target": "*",
+  "_originalSource": "seajs/seajs-preload",
+  "_direct": true
+}

@@ -1,0 +1,41 @@
+/*
+Error: Invalid CSS after "...-theme-tactile"": expected "{", was ";"
+        on line 4 of style.scss
+
+1: ---
+2: ---
+3: 
+4: @import "jekyll-theme-tactile";
+5: @import "style";
+
+Backtrace:
+style.scss:4
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:1189:in `expected'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:1125:in `expected'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:1120:in `tok!'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:656:in `block'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:649:in `ruleset'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:675:in `block_child'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:665:in `block_contents'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:125:in `stylesheet'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/scss/parser.rb:41:in `parse'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:406:in `_to_tree'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/engine.rb:298:in `render_with_sourcemap'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/exec/sass_scss.rb:340:in `watch_or_update'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/exec/base.rb:52:in `parse'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/exec/base.rb:19:in `parse!'
+C:/Program Files/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/bin/scss:13:in `<top (required)>'
+C:/Program Files/Ruby23-x64/bin/scss:23:in `load'
+C:/Program Files/Ruby23-x64/bin/scss:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"...-theme-tactile\"\": expected \"{\", was \";\"\A         on line 4 of style.scss\A \A 1: ---\A 2: ---\A 3: \A 4: @import \"jekyll-theme-tactile\";\A 5: @import \"style\";"; }

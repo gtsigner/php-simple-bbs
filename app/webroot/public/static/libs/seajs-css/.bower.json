@@ -1,0 +1,14 @@
+{
+  "name": "seajs-css",
+  "homepage": "https://github.com/seajs/seajs-css",
+  "_release": "06e861d95a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "06e861d95a7e6e49d56b909c848f027bbea551a4"
+  },
+  "_source": "https://github.com/seajs/seajs-css.git",
+  "_target": "*",
+  "_originalSource": "seajs/seajs-css",
+  "_direct": true
+}

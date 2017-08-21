@@ -1,0 +1,22 @@
+{
+  "name": "seajs-preload",
+  "version": "1.0.0",
+  "description": "A Sea.js plugin for preload",
+  "keywords": ["seajs", "plugin", "preload"],
+  "author": "army8735 <army8735@qq.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seajs/seajs-preload.git"
+  },
+  "devDependencies": {
+    "seatools": "*"
+  },
+  "spm": {
+    "main": "dist/seajs-preload.js"
+  },
+  "config": {
+    "plugin-concat": [
+      "seajs-preload.js"
+    ]
+  }
+}
