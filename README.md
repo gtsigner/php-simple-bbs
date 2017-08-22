@@ -40,3 +40,5 @@ docker-compose -f db-backup.yml up
 - php-fpm
 - mysql-db
 - redis
+
+## Jenkins自动部署配置
