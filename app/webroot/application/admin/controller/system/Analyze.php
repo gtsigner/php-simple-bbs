@@ -13,4 +13,9 @@ use app\admin\controller\Auth;
 class Analyze extends Auth
 {
 
+    public function info()
+    {
+        phpinfo();
+    }
+
 }

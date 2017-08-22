@@ -91,8 +91,9 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">{$_user.username} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="{:url('system.analyze/info')}">PhpInfo</a></li>
                             <li><a href="#">个人资料</a></li>
-                            <li><a href="#">修改密码</a></li>
+                            <li><a href="{:url('')}">修改密码</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{:url('portal/logout')}">注 销</a></li>
                         </ul>
