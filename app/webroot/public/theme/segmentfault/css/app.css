@@ -3,6 +3,9 @@
   border-bottom: 1px solid #eee;
   padding-bottom: 10px; }
 
+.editormd-preview-close-btn {
+  display: none; }
+
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   z-index: 3;
   color: #fff;
@@ -214,7 +217,7 @@ body {
       .page-post-detail .post-detail .detail-box .post-detail-header .post-tag-box .tags-box {
         min-width: 20%; }
     .page-post-detail .post-detail .detail-box .post-detail-header .post-title {
-      margin: 15px 0; }
+      margin: 0 0 15px; }
   .page-post-detail .post-detail .detail-box .content img {
     position: static !important;
     width: 100%;
