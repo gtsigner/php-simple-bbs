@@ -28,7 +28,7 @@
         </form>
     </div>
     <script>
-        seajs.use(['editormd'], function (editormd) {
+        seajs.use(['editormd', 'editorTools'], function (editormd, Edtools) {
             var editor = editormd({
                 id: "post_content",
                 height: 640,
@@ -63,31 +63,25 @@
                 }
             });
 
-            /**
-             * 咱贴上传图片
-             */
-            $("#post_content").on('paste', function (ev) {
-                var data = ev.clipboardData;
-                var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-                for (var index in items) {
-                    var item = items[index];
-                    if (item.kind === 'file') {
-                        var blob = item.getAsFile();
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            var base64 = event.target.result;
-                            //ajax上传图片
-                            $.post("{:url('api/uploader/upEditorImg')}",{base:base64}, function (ret) {
-                                layer.msg(ret.msg);
-                                if (ret.code === 1) {
-                                    //新一行的图片显示
-                                    editor.insertValue("\n![" + ret.data.title + "](" + ret.data.path + ")");
-                                }
-                            });
-                        }; // data url!
-                        var url = reader.readAsDataURL(blob);
+            //上传图片
+            Edtools.paste("#post_content", function (base64, image, event) {
+                $.post("{:url('api/uploader/upEditorImg')}",{base:base64}, function (ret) {
+                    layer.msg(ret.msg);
+                    if (ret.code === 1) {
+                        //新一行的图片显示
+                        editor.insertValue("\n![" + ret.data.title + "](" + ret.data.path + ")");
                     }
-                }
+                });
+            });
+
+            Edtools.drag("#post_content", function (base64, image, event) {
+                $.post("{:url('api/uploader/upEditorImg')}",{base:base64}, function (ret) {
+                    layer.msg(ret.msg);
+                    if (ret.code === 1) {
+                        //新一行的图片显示
+                        editor.insertValue("\n![" + ret.data.title + "](" + ret.data.path + ")");
+                    }
+                });
             });
         });
 

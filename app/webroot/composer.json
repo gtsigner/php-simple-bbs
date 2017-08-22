@@ -25,7 +25,8 @@
     "oeynet/add-captcha": "^0.2.0",
     "voku/anti-xss": "^2.1",
     "michelf/php-markdown": "^1.7",
-    "erusev/parsedown": "^1.6"
+    "erusev/parsedown": "^1.6",
+    "docker-php/docker-php": "^1.24"
   },
   "autoload": {
     "psr-4": {

@@ -79,7 +79,7 @@ class User extends Auth
             $map['status'] = input('status');
         }
         $userList = model('user')
-            ->where('id>1')
+            //->where('id>1')
             ->where($map)
             ->order('id DESC')
             ->with('authGroup')
@@ -106,8 +106,8 @@ class User extends Auth
         } else {
             $map['id'] = $id;
         }
-        if ($id == 1) {
-            $this->error("站长组不可删除");
+        if ($id <= 1) {
+            $this->error("Root不可删除");
         }
         $ret = model('user')->where($map)->delete();
         if ($ret) {

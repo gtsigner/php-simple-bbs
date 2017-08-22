@@ -50,6 +50,8 @@ seajs.config({
 
         //module
         'verifyCode': 'theme/admin/v1/js/verify-code.js',
+
+        'editorTools': 'theme/segmentfault/js/editor-tools.js'
     },
     //预加载
     preload: ['jquery', 'layerCss']
