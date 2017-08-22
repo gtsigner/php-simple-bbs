@@ -1,0 +1,14 @@
+version: "3.0"
+services:
+  jenkins:
+    image: jenkins:latest
+    environment:
+       DOCKER_URL: ''
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+#备份数据
+      - "./data/jenkins:/var/jenkins_home"
+      - "~/.ssh:/var/jenkins_home/.ssh"
+    ports:
+      - "8999:8080"
+#      - "50000:50000"
