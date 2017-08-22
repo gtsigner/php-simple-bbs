@@ -51,7 +51,7 @@ services:
         MYSQL_READ_HOST: mysql-db
     volumes:
       - ./app:/app:rw
-      - ./dockerfiles/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./dockerfiles/php/php-dev.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
