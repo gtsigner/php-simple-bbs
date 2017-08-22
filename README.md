@@ -42,3 +42,9 @@ docker-compose -f db-backup.yml up
 - redis
 
 ## Jenkins自动部署配置
+
+1.
+
+2.
+
+3.
