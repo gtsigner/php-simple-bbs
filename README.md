@@ -14,7 +14,7 @@ http://blog.oeynet.org
    
 
 ## Usage
-1.git clone https://github.com/zhaojunlike/php-simple-bbs.git client101vbbs
+1.git clone https://github.com/zhaojunlike/php-simple-bbs.git docker-oeynet-bbs
 
 2.docker-compose up --build -d
 
@@ -24,6 +24,11 @@ http://blog.oeynet.org
 ```shell
 $  docker network ls
 $  docker run -it --link mysql-db:mysql --network client101vbbs_default -v `pwd`/data/backup:/data/backup:ro --rm mysql:5.7 sh -c 'exec mysql -h"mysql" -P"3306" -uroot -p"zhaojun" oeynet_client_bbs<./data/backup/oeynet_client_bbs.sql'
+```
+
+启用备份工具
+```bash
+docker-compose -f db-backup.yml up 
 ```
 
 ## Docker Containers
