@@ -149,7 +149,7 @@ class Post extends Auth
         if (request()->isPost()) {
             $cap = new CaptchaHelper();
             if (!$cap->check(input('verify_code'), 10) && true !== config('app_debug')) {
-                $this->error("对不起,验证码不正确");
+                //$this->error("对不起,验证码不正确");
             }
             $title = input('title');
             $category_id = input('category_id', $data['category_id'], 'intval');
