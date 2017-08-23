@@ -135,9 +135,7 @@
                                 <input type="text" class="form-control" placeholder="文章/标签/用户/笔记" name="keywords">
                             </div>
                             <div class="btn-group navbar-btn">
-                                <button type="button" class="btn btn-success " id="shuldGoTo" data-type="timeline">
-                                    搜索
-                                </button>
+                                <button type="button" class="btn btn-success" id="btn-search">搜索</button>
                                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span
                                             class="sr-only">显示下拉菜单</span></button>
@@ -154,6 +152,13 @@
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>
+            <script>
+                seajs.use(['layer'], function () {
+                    $('#btn-search').click(function () {
+                        layer.msg("未实现此功能呢");
+                    });
+                });
+            </script>
         {/block}
         {block name="category"}
             <div class="row category-list">
