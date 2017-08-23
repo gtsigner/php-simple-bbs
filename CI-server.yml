@@ -8,7 +8,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
 #备份数据
       - "./data/jenkins:/var/jenkins_home"
-      - "~/.ssh:/var/jenkins_home/.ssh"
+      - "./dockerfiles/jenkins/.ssh:/var/jenkins_home/.ssh"
     ports:
       - "8999:8080"
 #      - "50000:50000"

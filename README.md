@@ -1,19 +1,16 @@
->最近有个朋友有个小需求，刚好有时间，也刚好准备研究一下tp5，听说tp5规范了，而且更傻瓜化了。
->便做了这个论坛的小Demo，开源出来玩玩，改天做两个模版。说句实话，TP5模型层，数据库层真的很好用
-
 ## Env Docker
 docker大家肯定已经熟悉不过了
 
 环境： Redis3.1+PHP5.6-fpm+Nginx+Mysql5.7
 
-## 项目地址
-https://github.com/zhaojunlike/php-simple-bbs
 
 ## 演示站点
 http://blog.oeynet.org
    
 
 ## Usage
+由于docker-compose up会默认得给项目加上一个前缀，在db-backup中links的必须要加上前缀才可以
+
 1.git clone https://github.com/zhaojunlike/php-simple-bbs.git docker-oeynet-bbs
 
 2.docker-compose up --build -d
