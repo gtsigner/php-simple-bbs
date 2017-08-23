@@ -221,7 +221,8 @@ body {
   .page-post-detail .post-detail .detail-box .content img {
     position: static !important;
     border: 1px solid #d3d3d3;
-    padding: 4px; }
+    padding: 4px;
+    display: block; }
   .page-post-detail .post-detail .article-content {
     padding: 20px; }
   .page-post-detail .post-comments-total {
