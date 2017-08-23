@@ -5,11 +5,12 @@
             <table class="table text-center">
                 <thead class="">
                 <tr>
-                    <td class="text-left"><label for="">标题</label></td>
-                    <td><label for="">栏目</label></td>
-                    <td><label for="">更新时间</label></td>
-                    <td><label for="">访问量</label></td>
-                    <td><label for="">推荐</label></td>
+                    <th class="text-left"><label for="">标题</label></th>
+                    <th><label for="">栏目</label></th>
+                    <th><label for="">作者</label></th>
+                    <th><label for="">更新时间</label></th>
+                    <th><label for="">访问量</label></th>
+                    <th><label for="">推荐</label></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -20,13 +21,22 @@
                 {/eq}
                 {volist name="data_list" id="vo"}
                     <tr class="text-center">
-                        <td class="text-left" style="width: 60%">
-                            <p class="index-post-title"><a
-                                        href="/post/{$vo.id}.html">{$vo.title}</a>
+                        <td class="text-left" style="width: 50%">
+                            <p class="index-post-title">
+                                {eq name="vo.position" value="2"}
+                                    <label class="label label-success">置顶</label>
+                                {/eq}
+                                {eq name="vo.position" value="1"}
+                                    <label class="label label-primary">推荐</label>
+                                {/eq}
+                                <a href="/post/{$vo.id}.html">{$vo.title}</a>
                             </p>
                         </td>
                         <td>
                             <a href="/category/{$vo['category']['id']}.html">{$vo.category.title|default='<span class="text-danger">已删除</span>'}</a>
+                        </td>
+                        <td>
+                            <a href="/user/{$vo['user']['id']}.html">{$vo.user.username|default='<span class="text-danger">已删除</span>'}</a>
                         </td>
                         <td>{$vo.update_time|checkDateDefault|default='未有更新'}</td>
                         <td>{$vo.view_count}</td>

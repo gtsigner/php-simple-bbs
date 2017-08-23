@@ -27,6 +27,14 @@ return [
         ],
         '' => 'Index/index/index',
     ],
+    '[user]' => [
+        ':id' => [
+            'user.profile/index',
+            ['method' => 'get'],
+            ['id' => '\d+']
+        ],
+        '' => 'user.profile/index',
+    ],
     //附件
     '[attach]' => [
         ':id' => [

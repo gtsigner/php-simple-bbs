@@ -60,6 +60,7 @@ class Portal extends Base
             }
             $data = [
                 'username' => request()->request('username'),
+                'nickname' => request()->request('username') . '_' . rand(0, 9999),
                 'email' => request()->request('email'),
                 'password' => request()->request('password'),
                 'pwd_salt' => '',//暂时不用

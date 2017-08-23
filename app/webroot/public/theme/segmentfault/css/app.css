@@ -30,6 +30,9 @@
 .cursor-pointer {
   cursor: pointer; }
 
+.label {
+  padding: .2em .6em; }
+
 .no-padding {
   padding: 0; }
 
@@ -202,9 +205,12 @@ body {
     .page-bbs .post-list-box .index-post-title {
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 400px;
       overflow: hidden;
       display: block; }
+    .page-bbs .post-list-box p {
+      margin: 0; }
+    .page-bbs .post-list-box tr td {
+      line-height: 30px; }
 
 .page-post-detail {
   /*甯栧瓙璇︾粏*/ }

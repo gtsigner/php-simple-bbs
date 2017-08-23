@@ -5,14 +5,18 @@
     .index-post-title {
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 400px;
-
       overflow: hidden;
       display: block;
     }
+    p {
+      margin: 0;
+
+    }
+    tr td {
+      line-height: 30px;
+    }
   }
 }
-
 
 .page-post-detail {
   /*帖子详细*/

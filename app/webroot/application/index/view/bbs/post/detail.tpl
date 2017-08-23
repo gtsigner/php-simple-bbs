@@ -70,7 +70,7 @@
                                     发表时间
                                     <small class="time">{$vo.create_time}</small>
                                     {eq name="vo.user.id" value="$_user.id"}
-                                        <a href="{:url('index/bbs.post/editComment',['id'=>$vo['id']])}" class=""
+                                        <a href="{:url('index/bbs.comment/push',['id'=>$vo['id']])}" class=""
                                            style="margin-left: 20px">编辑修改</a>
                                     {/eq}
                                 </p>
@@ -97,13 +97,13 @@
         {else/}
             <div class="post-box  animated animated-quick slideInUp">
                 <h4>撰写评论</h4>
-                <form id="comment_form" class="form" action="{:url('bbs.post/comment')}" method="post">
+                <form id="comment_form" class="form" action="{:url('bbs.comment/comment')}" method="post">
                     <input type="hidden" name="post_id" value="{$data.id}">
                     <div class="form-group">
                         <div class="" id="post_content">
                             <textarea class="editormd-markdown-textarea" name="md_content"></textarea>
                             <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
-                            <textarea class="editormd-html-textarea" name="postContent-html-code"></textarea>
+                            <textarea class="editormd-html-textarea" name="content"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
