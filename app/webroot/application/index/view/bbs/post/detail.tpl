@@ -53,7 +53,7 @@
         </div>
         <div class="comments">
             {volist name="comments" id="vo"}
-                <div class="well comment-item no-padding">
+                <div class="well comment-item no-padding" id="comment_{$vo.id}">
                     <div class="well-header">
                         <div class="row">
                             <div class="col-xs-2" style="width: 60px;">

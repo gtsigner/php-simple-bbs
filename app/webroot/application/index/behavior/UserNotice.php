@@ -26,7 +26,9 @@ class UserNotice
     {
         //给用户发送通知消息
         $userNotice = new \app\common\service\UserNotice();
-        $content = "用户<a href=''>{$user['username']}</a>评论了您的文章<a>{$data['post']['title']}</a>";
+        $postUrl = url('index/bbs.post/detail', ['id' => $data['post']['id']]);
+        $userUrl = url('index/user.user/detail', ['id' => $user['id']]);
+        $content = "用户<a href='{$userUrl}'>{$user['username']}</a>评论了您的文章<a href='{$postUrl}#comment_{$data['comment']['id']}'>{$data['post']['title']}</a>";
         $userNotice->sendNotice($user['id'], $content);
     }
 }

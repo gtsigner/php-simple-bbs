@@ -23,4 +23,33 @@ class User extends Auth
         Session::delete("user_token");
         $this->success("注销成功", url('portal/login'));
     }
+
+    public function getNotice()
+    {
+        $noticeList = model('user_notice')
+            ->where(['uid' => $this->mUser['id']])
+            ->order('status DESC,create_time DESC')
+            ->field('id,create_time,content,status')
+            ->paginate($this->page_limit);
+
+        return json([
+            'msg' => 'success',
+            'code' => 1,
+            'data' => $noticeList
+        ], 200);
+
+    }
+
+    public function notice()
+    {
+        $noticeList = model('user_notice')
+            ->where(['uid' => $this->mUser['id']])
+            ->order('status DESC,create_time DESC')
+            ->field('id,create_time,content,status')
+            ->paginate($this->page_limit);
+
+        $this->assign('page', $noticeList->render());
+        $this->assign('data_list', $noticeList);
+        return $this->fetch();
+    }
 }

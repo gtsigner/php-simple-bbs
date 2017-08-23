@@ -16,7 +16,7 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    'post/:id' => 'Index/bbs.post/detail',
+    'post/:id' => 'index/bbs.post/detail',
 
     //分类
     '[category]' => [
@@ -25,7 +25,7 @@ return [
             ['method' => 'get'],
             ['id' => '\d+']
         ],
-        '' => 'Index/index/index',
+        '' => 'index/index/index',
     ],
     '[user]' => [
         ':id' => [
@@ -38,10 +38,10 @@ return [
     //附件
     '[attach]' => [
         ':id' => [
-            'Index/index/index',
+            'index/index/index',
             ['method' => 'get'],
             ['id' => '\d+']
         ],
-        '' => 'Index/attach.file/index',
+        '' => 'index/attach.file/index',
     ],
 ];

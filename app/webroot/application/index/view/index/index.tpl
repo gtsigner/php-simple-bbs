@@ -2,7 +2,7 @@
 {block name="body"}
     <div class="page-bbs">
         <div class="row post-list-box">
-            <table class="table text-center">
+            <table class="table">
                 <thead class="">
                 <tr>
                     <th class="text-left"><label for="">标题</label></th>
@@ -20,7 +20,7 @@
                     </tr>
                 {/eq}
                 {volist name="data_list" id="vo"}
-                    <tr class="text-center">
+                    <tr>
                         <td class="text-left" style="width: 50%">
                             <p class="index-post-title">
                                 {eq name="vo.position" value="2"}

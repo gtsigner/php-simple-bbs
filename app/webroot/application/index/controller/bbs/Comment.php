@@ -50,7 +50,7 @@ class Comment extends Auth
                 'md_content' => $markdownCode,
                 'status' => config('BBS_AUTH_COMMENT_STATUS_TRUE'),
             ]);
-
+            $comment['id'] = $comment->getLastInsID();
             //评论钩子
             $data['user'] = $this->mUser;
             $data['post'] = $post;

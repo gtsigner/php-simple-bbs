@@ -99,8 +99,12 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li>
-                                <a href=""><i class="fa fa-lg fa-bell-o"></i></a>
+                            <li class="dropdown">
+                                <!--email-->
+                                <a href="{:url('index/user.user/notice')}"><i class="fa fa-lg fa-bell-o"></i>
+                                    <span class="badge"
+                                          id="notice_badge"
+                                          style="float: right;font-size: 10px;background: red;top: 16px;position: absolute;right: 2px;display: none;">1</span></a>
                             </li>
                             <li>
                                 <a href=""><i class="fa fa-lg fa-envelope-o"></i></a>
@@ -157,6 +161,34 @@
                     $('#btn-search').click(function () {
                         layer.msg("未实现此功能呢");
                     });
+
+                    //api
+
+
+                    function getUserNotice() {
+                        $.get("{:url('index/user.user/getNotice')}", function (ret) {
+                            if (ret.code === 1) {
+                                var notReadCount = 0;
+                                ret.data.data.forEach(function (it) {
+                                    if (it.status === 0) {
+                                        notReadCount++;
+                                    }
+                                });
+                                var $notice = $('#notice_badge');
+                                $notice.html(notReadCount);
+                                if (notReadCount <= 0) {
+                                    $notice.hide();
+                                } else {
+                                    $notice.show();
+                                }
+
+                            }
+                        });
+                    }
+
+                    //setTimeout(getUserNotice, 1000);
+                    getUserNotice();
+
                 });
             </script>
         {/block}
