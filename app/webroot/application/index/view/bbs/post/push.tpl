@@ -10,6 +10,7 @@
         <form id="post_form" action="{:url('bbs.post/push')}" method="post">
             <input type="hidden" name="method" value="{$form.method|default='add'}">
             <input type="hidden" name="id" value="{$data.id|default=''}">
+            <input type="hidden" name="verify_code" value="">
             <div class="row" style="margin-top: 20px">
                 <div class="form-group col-xs-6 no-padding">
                     <input type="text" name="title" value="{$data.title|default=''}"
@@ -53,7 +54,7 @@
                                      class="post-verify-img"
                                      src="{:url('portal/getPostVerify')}" alt="">
                             </div>
-                            <input type="text" name="verify_code" class="form-control"
+                            <input type="text" id="show_v_code" name="verify_code" class="form-control"
                                    value=""
                                    placeholder="请输入验证码结果">
                         </div>
@@ -128,7 +129,7 @@
             });
             //
             $(".post-submit-btn").click(function () {
-                console.log("submit");
+                $('.post-submit-btn input[name=verify_code]').val($('#show_v_code').val());
                 $("#post_form").trigger("submit");
             });
             //发帖成功后，进入到详细页面

@@ -9,6 +9,7 @@ http://blog.oeynet.org
    
 
 ## Usage
+
 由于docker-compose up会默认得给项目加上一个前缀，在db-backup中links的必须要加上前缀才可以
 
 1.git clone https://github.com/zhaojunlike/php-simple-bbs.git docker-oeynet-bbs
@@ -17,15 +18,14 @@ http://blog.oeynet.org
 
 ## 第一次需要手动导入测试数据
 
-导入默认的测试数据
-```shell
-$  docker network ls
-$  docker run -it --link mysql-db:mysql --network client101vbbs_default -v `pwd`/data/backup:/data/backup:ro --rm mysql:5.7 sh -c 'exec mysql -h"mysql" -P"3306" -uroot -p"zhaojun" oeynet_client_bbs<./data/backup/oeynet_client_bbs.sql'
-```
-
-启用备份工具
+启用备份工具(会备份两次,一次备份到default.sql 一次备份到时间.sql)
 ```bash
 docker-compose -f db-backup.yml up 
+```
+
+启用反备份工具（会把data/default.sql数据覆盖到数据库）
+```bash
+docker-compose -f db-restore.yml up 
 ```
 
 ## Docker Containers
@@ -40,8 +40,10 @@ docker-compose -f db-backup.yml up
 
 ## Jenkins自动部署配置
 
-1.
+1.启动安装
 
-2.
+2.安装插件
 
-3.
+3.系统设定
+
+4.创建Job

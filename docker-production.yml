@@ -46,7 +46,6 @@ services:
       - ./dockerfiles/php/php-prod.ini:/usr/local/etc/php/php.ini:ro
       - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ./logs/php-fpm:/var/log/php-fpm:rw
-      - "/var/run/docker.sock:/var/run/docker.sock"
     links:
       - mysql:mysql-db
       - redis-db

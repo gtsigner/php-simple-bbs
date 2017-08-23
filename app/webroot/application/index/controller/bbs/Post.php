@@ -148,7 +148,7 @@ class Post extends Auth
         }
         if (request()->isPost()) {
             $cap = new CaptchaHelper();
-            if (!$cap->check($this->request->request('verify_code'), 10) && true !== \think\Config::get('app_debug')) {
+            if (!$cap->check(input('verify_code'), 10) && true !== config('app_debug')) {
                 $this->error("对不起,验证码不正确");
             }
             $title = input('title');

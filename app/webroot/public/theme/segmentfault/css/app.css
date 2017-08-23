@@ -220,7 +220,6 @@ body {
       margin: 0 0 15px; }
   .page-post-detail .post-detail .detail-box .content img {
     position: static !important;
-    width: 100%;
     border: 1px solid #d3d3d3;
     padding: 4px; }
   .page-post-detail .post-detail .article-content {
