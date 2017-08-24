@@ -130,9 +130,9 @@ class Post extends Auth
 
     public function delete($id)
     {
-        $bbsPost = BbsPost::get($id);
+        $bbsPost = BbsPost::get(['id' => $id, 'user_id' => $this->mUser['id']]);
         if ($bbsPost) {
-            $bbsPost->delete();
+            $bbsPost->delete(false);
         }
         $this->success("删除成功", url('/'));
     }

@@ -10,7 +10,7 @@
                     <th><label for="">作者</label></th>
                     <th><label for="">更新时间</label></th>
                     <th><label for="">访问量</label></th>
-                    <th><label for="">推荐</label></th>
+                    <th><label for="">评论</label></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
                         </td>
                         <td>{$vo.update_time|checkDateDefault|default='未有更新'}</td>
                         <td>{$vo.view_count}</td>
-                        <td>{$vo.re_count}</td>
+                        <td>{$vo.comments_count}</td>
                     </tr>
                 {/volist}
                 </tbody>
