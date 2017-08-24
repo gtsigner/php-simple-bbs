@@ -91,13 +91,13 @@
         {eq name="_user.id" value='-1'}
             <div class="row post-box well animated animated-quick slideInUp">
                 <div class="row text-center">
-                    <h1>想回复帖子,请您先 <a href="{:url('portal/login')}">登陆</a> 系统!!!</h1>
+                    <h1>想回复帖子,请您先 <a href="{:url('index/portal/login')}">登陆</a> 系统!!!</h1>
                 </div>
             </div>
         {else/}
             <div class="post-box  animated animated-quick slideInUp">
                 <h4>撰写评论</h4>
-                <form id="comment_form" class="form" action="{:url('bbs.comment/comment')}" method="post">
+                <form id="comment_form" class="form" action="{:url('index/bbs.comment/comment')}" method="post">
                     <input type="hidden" name="post_id" value="{$data.id}">
                     <div class="form-group">
                         <div class="" id="post_content">

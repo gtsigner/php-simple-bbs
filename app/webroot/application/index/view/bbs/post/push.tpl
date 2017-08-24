@@ -7,7 +7,7 @@
 {block name="category"}{/block}
 {block name="body"}
     <div class="post-box animated animated-quick slideInUp">
-        <form id="post_form" action="{:url('bbs.post/push')}" method="post">
+        <form id="post_form" action="{:url('index/bbs.post/push')}" method="post">
             <input type="hidden" name="method" value="{$form.method|default='add'}">
             <input type="hidden" name="id" value="{$data.id|default=''}">
             <input type="hidden" name="verify_code" value="">
@@ -116,10 +116,32 @@
             });
 
 
+            /*Press Down*/
+            $(window).bind('keydown', function (event) {
+                if (event.ctrlKey || event.metaKey) {
+                    switch (String.fromCharCode(event.which).toLowerCase()) {
+                        case 's':
+                            event.preventDefault();
+                            //alert('ctrl-s');
+                            //保存触发
+                            $(".post-submit-btn").trigger('click');
+                            break;
+                        case 'f':
+                            event.preventDefault();
+                            //alert('ctrl-f');
+                            break;
+                        case 'g':
+                            event.preventDefault();
+                            //alert('ctrl-g');
+                            break;
+                    }
+                }
+                //return false;
+            });
+            
         });
 
         seajs.use(['layer', 'ajaxForm'], function () {
-
 
             //验证码
             $(".post-verify-img").click(function (e) {
@@ -134,8 +156,11 @@
             });
             //发帖成功后，进入到详细页面
             $('#post_form').ajaxForm(function (ret) {
-                if (ret.code === 1) {
+                var method = $('#post_form').find('input[name=method]').val();
+                if (ret.code === 1 && method === 'add') {
                     window.location.href = ret.url;
+                } else if (method === 'edit') {
+                    layer.msg(ret.msg);
                 } else {
                     layer.msg(ret.msg);
                     $(".post-verify-img").trigger('click');

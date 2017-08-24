@@ -24,9 +24,9 @@ class Post extends Auth
         if ($this->request->isPost()) {
             $method = input('method');
             if ($method === 'add') {
-                $title = $this->request->request('title');
+                $title = input('title');
                 $markdownCode = input('md_content');
-                $category_id = $this->request->request('category_id', 0, 'intval');
+                $category_id = input('category_id', 0, 'intval');
                 if (false === BbsCategory::get(['id' => $category_id])) {
                     $this->error("对不起,请选择发表栏目");
                 }
@@ -43,8 +43,7 @@ class Post extends Auth
                     'status' => config('BBS_AUTH_STATUS_TRUE')
                 ]);
                 //发帖钩子
-                Hook::listen("user_bbs_comment", $this->mUser, $post);
-
+                Hook::listen("user_bbs_post", $this->mUser, $post);
                 if ($ret) {
                     $this->success("发帖成功", url("index/bbs.post/detail", ['id' => $post->getLastInsID()]));
                 } else {
@@ -60,7 +59,6 @@ class Post extends Auth
             return $this->fetch();
         }
     }
-
 
 
     public function editPost()
@@ -88,7 +86,7 @@ class Post extends Auth
                 'update_time' => time()
             ]);
             //评论钩子
-            Hook::listen("user_bbs_comment_update", $this->mUser, $data);
+            Hook::listen("user_bbs_post_update", $this->mUser, $data);
 
             if ($ret) {
                 $this->success("修改成功");

@@ -19,8 +19,7 @@ class UserNotice
     /**
      * 评论
      * @param $user
-     * @param $post
-     * @param $comment
+     * @param $data
      */
     public function userBbsComment(&$user, &$data)
     {

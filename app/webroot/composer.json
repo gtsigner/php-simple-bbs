@@ -26,7 +26,8 @@
     "voku/anti-xss": "^2.1",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "^1.6",
-    "docker-php/docker-php": "^1.24"
+    "docker-php/docker-php": "^1.24",
+    "topthink/think-migration": "^1.1"
   },
   "autoload": {
     "psr-4": {

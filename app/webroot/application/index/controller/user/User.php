@@ -24,6 +24,15 @@ class User extends Auth
         $this->success("注销成功", url('portal/login'));
     }
 
+    /**
+     * 显示用户资料信息
+     * @param $id
+     */
+    public function detail($id)
+    {
+
+    }
+
     public function getNotice()
     {
         $noticeList = model('user_notice')

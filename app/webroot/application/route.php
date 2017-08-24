@@ -17,6 +17,12 @@ return [
         'name' => '\w+',
     ],
     'post/:id' => 'index/bbs.post/detail',
+    #post/push
+    'post/push' => 'index/bbs.post/push',
+    
+    'comment' => 'index/bbs.comment/comment',
+    'user/home/:id' => 'index/user.user/detail',
+
 
     //分类
     '[category]' => [
