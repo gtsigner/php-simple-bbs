@@ -34,7 +34,7 @@ class AuthCache
             $map['module'] = $module;
         }
 
-        $rules = AuthRule::where($map)->field("*,pid as parent")->order('sort ASC')->select();
+        $rules = AuthRule::where($map)->field("*,pid as parent")->order('sort ASC,id DESC')->select();
         $rules = collection($rules)->toArray();
         return $rules;
     }

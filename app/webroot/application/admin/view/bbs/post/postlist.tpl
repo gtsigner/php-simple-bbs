@@ -50,6 +50,11 @@
                                                v-model="tmp_model.user_id">
                                     </div>
                                     <div class="form-group">
+                                        <label for="" class="control-label">定位(2.置顶,1.推荐)</label>
+                                        <input type="text" name="position" class="form-control"
+                                               v-model="tmp_model.position">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="" class="control-label">所属栏目</label>
                                         <select class="form-control" name="category_id" id=""
                                                 v-model="tmp_model.category_id">
@@ -85,6 +90,7 @@
                         <th>所属栏目</th>
                         <th>发表用户</th>
                         <th>发帖时间</th>
+                        <th>定位</th>
                         <th>回复量</th>
                         <th>访问量</th>
                         <th>状态</th>
@@ -104,6 +110,7 @@
                         </td>
                         <td><span v-if="vo.user" v-html="vo.user.nickname"></span></td>
                         <td><span v-html="vo.create_time"></span></td>
+                        <td><span v-html="vo.position_text"></span></td>
                         <td><span v-html="vo.comments_count"></span></td>
                         <td><span v-html="vo.view_count"></span></td>
                         <td><label class="label cursor-pointer"
