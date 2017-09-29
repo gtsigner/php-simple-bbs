@@ -38,14 +38,21 @@ class Post extends Auth
         $dataList = model('bbs_post')
             ->where($map)
             ->withCount(['comments' => function ($query) {
-                $query->where('status', 1);
+                //$query->where('status', 1);
             }])
+            ->force(false)
             ->with("category")
             ->with(['user' => function ($query) {
                 $query->field('id,username,nickname');
             }])
-            ->order('create_time DESC')
+            ->order('position DESC,sort ASC,create_time DESC')
             ->paginate($this->page_limit);
+
+        foreach ($dataList->getCollection() as &$item) {
+            //$item = $item->toArray();
+            $item['position_text'] = $item->position_text;
+            //echo $item->position_text;
+        }
         $data['data_list'] = $dataList;
         $this->result($data, 200, 'success', "JSON");
     }
@@ -60,6 +67,7 @@ class Post extends Auth
             $post['category_id'] = $this->request->request('category_id', 0, 'intval');
             $post['sort'] = $this->request->request('sort', 0, 'intval');
             $post['user_id'] = input('user_id', 0, 'intval');
+            $post['position'] = input('position', '', 'intval');
             $post->save();
             $this->success("保存成功");
         }
@@ -73,7 +81,7 @@ class Post extends Auth
         } else {
             $map['id'] = $id;
         }
-        $ret = model('bbs_post')->where($map)->delete();
+        $ret = BbsPost::destroy($map, true);
         if ($ret) {
             $this->result([], 200, "删除成功", "JSON");
         } else {

@@ -1,18 +1,14 @@
 version:  '3.0'
 services:
   nginx:
-    image: nginx:1.13.3
+    image: registry.cn-hangzhou.aliyuncs.com/zhaojunlike/simple-bbs-nginx:1.13.3
     ports:
       - "80:80"
       - "443:443"
     links:
       - "php-fpm"
     volumes:
-      - ./app:/app:rw
-      - ./dockerfiles/nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./dockerfiles/nginx/certs:/etc/nginx/certs:ro
-      - ./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./logs/nginx:/var/log/nginx:rw
+      - /var/log/nginx:rw
       - "/etc/localtime:/etc/localtime:ro"
 
     restart: always
@@ -20,37 +16,32 @@ services:
   mysql:
     image: mysql:5.7
     volumes:
-      - ./data/mysql:/var/lib/mysql:rw
-      - ./logs/mysql:/var/lib/mysql-logs:rw
+      - /var/lib/mysql:rw
+      - /var/lib/mysql-logs:rw
       - "/etc/localtime:/etc/localtime:ro"
-      - ./dockerfiles/mysql/conf.d:/etc/mysql/conf.d
     restart: always
     environment:
         MYSQL_ROOT_PASSWORD: zhaojun
         MYSQL_DATABASE: package_v1
         MYSQL_USER: zhaojun
         MYSQL_PASSWORD: zhaojun
-    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    command: "--character-set-server=utf8 --collation-server=utf8_unicode_ci"
   redis-db:
-    build: ./dockerfiles/redis
+    image: redis
     restart: always
     volumes:
+      - /data
       - "/etc/localtime:/etc/localtime:ro"
-      - ./data/redis:/data
   php-fpm:
-    build: ./dockerfiles/php/
-    image: zhaojunlike/php-fpm:5.6
+    image: registry.cn-hangzhou.aliyuncs.com/zhaojunlike/simple-bbs-php-fpm:5.6
     restart: always
     environment:
         DEV_APP_DEBUG: 0
         APP_DEBUG: 0
         APP_TRACE: 0
     volumes:
-      - ./app:/app:rw
+      - /var/log/php-fpm:rw
       - "/etc/localtime:/etc/localtime:ro"
-      - ./dockerfiles/php/php-prod.ini:/usr/local/etc/php/php.ini:ro
-      - ./dockerfiles/php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
-      - ./logs/php-fpm:/var/log/php-fpm:rw
     links:
       - mysql:mysql-db
       - redis-db

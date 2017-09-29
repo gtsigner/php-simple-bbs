@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="zh-cn"/>
     <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+    <meta name="robots" content="all"/>
+    <meta name="MSSmartTagsPreventParsing" content="true"/>
     <meta name="renderer" content="webkit">
     <meta name="keywords" content="{$_rule.keywords|default=config('WEB_SITE_KEYWORDS')}">
     <meta name="description" content="{$_rule.desc|default=config('WEB_SITE_DESC')}">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+
+
     <title>{$_rule.title|default=config('WEB_SITE_TITLE')}-首页</title>
 
     {block name="pre_head"}

@@ -23,7 +23,9 @@ class Index extends Auth
         if ($cate) {
             $map['category_id'] = $category;
         }
-        $data = model('bbs_post')->where($map)
+        $data = model('bbs_post')
+            ->where($map)
+            ->withCount("comments")
             ->order('position DESC,create_time DESC,sort ASC')
             ->paginate($this->page_limit);
         $this->assign('page', $data->render());

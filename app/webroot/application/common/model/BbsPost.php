@@ -30,4 +30,10 @@ class BbsPost extends Model
     {
         return $this->hasMany('BbsComment', 'post_id', 'id');
     }
+
+    public function getPositionTextAttr($val, $data)
+    {
+        $position = ['' => '无', 0 => 'X', 1 => '推荐', 2 => '置顶'];
+        return $position[$data['position']];
+    }
 }
