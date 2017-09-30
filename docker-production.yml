@@ -3,8 +3,8 @@ services:
   nginx:
     image: nginx:1.13.3
     ports:
-      - "80:80"
-      - "443:443"
+      - "10001:80"
+      - "10002:443"
     links:
       - "php-fpm"
     volumes:
@@ -14,7 +14,6 @@ services:
       - ./dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./logs/nginx:/var/log/nginx:rw
       - "/etc/localtime:/etc/localtime:ro"
-
     restart: always
     command: nginx -g 'daemon off;'
   mysql:
