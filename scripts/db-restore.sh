@@ -18,5 +18,5 @@
 containerName=phpsimplebbs_mysql_1
 network=phpsimplebbs_default
 docker run --rm --network=${network} -e MYSQL_HOST=mysql -e MYSQL_DATABASE=package_v1 -e MYSQL_USER=root -e MYSQL_PASSWORD=zhaojun \
--e MYSQL_DEFAULT_NAME=default --link ${containerName}:mysql -v $PWD/data/backup:/backup -v $PWD/dockerfiles/backup/:/app \
---entrypoint /bin/bash mysql:5.7 /app/backup-default.sh
+-e MYSQL_DEFAULT_NAME=default --link ${containerName}:mysql -v $PWD/data/backup:/backup -v $PWD/dockerfiles/backup:/app \
+--entrypoint /bin/bash mysql:5.7 /app/restore-default.sh
