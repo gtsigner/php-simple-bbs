@@ -10,7 +10,6 @@ services:
     volumes:
       - /var/log/nginx:rw
       - "/etc/localtime:/etc/localtime:ro"
-
     restart: always
     command: nginx -g 'daemon off;'
   mysql:

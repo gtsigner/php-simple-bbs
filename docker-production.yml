@@ -3,8 +3,8 @@ services:
   nginx:
     image: nginx:1.13.3
     ports:
-      - "80:80"
-      - "443:443"
+      - "10001:80"
+      - "10002:443"
     links:
       - "php-fpm"
     volumes:
