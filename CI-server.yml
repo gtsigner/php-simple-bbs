@@ -4,6 +4,7 @@ services:
     image: jenkins:latest
     environment:
        DOCKER_URL: ''
+    restart: always
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
 #备份数据
