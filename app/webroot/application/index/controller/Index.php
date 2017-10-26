@@ -25,6 +25,7 @@ class Index extends Auth
         }
         $data = model('bbs_post')
             ->where($map)
+            ->wherew(['status' => 1gi])
             ->withCount("comments")
             ->order('position DESC,create_time DESC,sort ASC')
             ->paginate($this->page_limit);
